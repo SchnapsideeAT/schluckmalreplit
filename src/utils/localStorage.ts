@@ -12,7 +12,6 @@ export interface GameState {
 const GAME_STATE_KEY = 'schluck-mal-game-state';
 const LAST_PLAYERS_KEY = 'schluck-mal-last-players';
 const LAST_CATEGORIES_KEY = 'schluck-mal-last-categories';
-const TUTORIAL_SHOWN_KEY = 'schluck-mal-tutorial-shown';
 const INTERACTIVE_TUTORIAL_SHOWN_KEY = 'schluck-mal-interactive-tutorial-shown';
 
 // Game State
@@ -91,31 +90,6 @@ export const loadLastCategories = (): any[] | null => {
   } catch (error) {
     console.error('Failed to load last categories:', error);
     return null;
-  }
-};
-
-// Tutorial
-export const hasShownTutorial = (): boolean => {
-  try {
-    return localStorage.getItem(TUTORIAL_SHOWN_KEY) === 'true';
-  } catch (error) {
-    return false;
-  }
-};
-
-export const markTutorialAsShown = (): void => {
-  try {
-    localStorage.setItem(TUTORIAL_SHOWN_KEY, 'true');
-  } catch (error) {
-    console.error('Failed to mark tutorial as shown:', error);
-  }
-};
-
-export const resetTutorial = (): void => {
-  try {
-    localStorage.removeItem(TUTORIAL_SHOWN_KEY);
-  } catch (error) {
-    console.error('Failed to reset tutorial:', error);
   }
 };
 

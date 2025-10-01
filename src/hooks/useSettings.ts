@@ -4,14 +4,12 @@ import { CapacitorStorage } from '@/utils/capacitorStorage';
 interface Settings {
   soundEnabled: boolean;
   hapticEnabled: boolean;
-  hasShownTutorial: boolean;
   hasShownInteractiveTutorial: boolean;
 }
 
 const DEFAULT_SETTINGS: Settings = {
   soundEnabled: true,
   hapticEnabled: true,
-  hasShownTutorial: false,
   hasShownInteractiveTutorial: false,
 };
 
@@ -27,13 +25,11 @@ export const useSettings = () => {
     try {
       const soundEnabled = await CapacitorStorage.get('soundEnabled', true);
       const hapticEnabled = await CapacitorStorage.get('hapticEnabled', true);
-      const hasShownTutorial = await CapacitorStorage.get('hasShownTutorial', false);
       const hasShownInteractiveTutorial = await CapacitorStorage.get('hasShownInteractiveTutorial', false);
 
       setSettings({
         soundEnabled,
         hapticEnabled,
-        hasShownTutorial,
         hasShownInteractiveTutorial,
       });
     } catch (error) {
@@ -57,11 +53,9 @@ export const useSettings = () => {
 
   const setSoundEnabled = (enabled: boolean) => updateSetting('soundEnabled', enabled);
   const setHapticEnabled = (enabled: boolean) => updateSetting('hapticEnabled', enabled);
-  const setHasShownTutorial = (shown: boolean) => updateSetting('hasShownTutorial', shown);
   const setHasShownInteractiveTutorial = (shown: boolean) => updateSetting('hasShownInteractiveTutorial', shown);
 
   const resetTutorials = async () => {
-    await updateSetting('hasShownTutorial', false);
     await updateSetting('hasShownInteractiveTutorial', false);
   };
 
@@ -70,7 +64,6 @@ export const useSettings = () => {
     isLoading,
     setSoundEnabled,
     setHapticEnabled,
-    setHasShownTutorial,
     setHasShownInteractiveTutorial,
     resetTutorials,
   };

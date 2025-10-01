@@ -44,6 +44,7 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 ## Recent Changes (Oct 1, 2025)
 - Imported from GitHub
 - Configured for Replit environment
-- Updated Vite config to use port 5000
+- Updated Vite config to use port 5000 and allow Replit hosts
 - Set up deployment configuration
 - Configured workflow for development server
+- Removed old dialog-based tutorial, kept only Interactive Tutorial with swipe gestures
