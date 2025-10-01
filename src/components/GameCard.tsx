@@ -52,7 +52,7 @@ export const GameCard = memo(({
 }: GameCardProps) => {
   const cardImageSrc = getCardImage(card.category, card.id);
   const categoryColor = categoryColorMap[card.category];
-  const { width } = useWindowSize();
+  const { width, height } = useWindowSize();
   const { flags } = useFeatureFlags();
   
   const shouldAnimateComplex = flags.enableComplexAnimations;
@@ -60,7 +60,7 @@ export const GameCard = memo(({
   // Animation state: 'entering' | 'visible'
   const [animationState, setAnimationState] = useState<'entering' | 'visible'>('entering');
   
-  // Handle card changes with animation
+  // Handle card changes with animation - ALWAYS animate
   useEffect(() => {
     setAnimationState('entering');
     
@@ -75,10 +75,14 @@ export const GameCard = memo(({
   const rotation = horizontalDistance * 0.1;
   const opacity = horizontalDistance !== 0 ? Math.max(0.5, 1 - Math.abs(horizontalDistance) / 300) : 1;
 
+  // Responsive card sizing - max 85vh height, 90vw width
+  const cardMaxHeight = height * 0.85;
+  const cardMaxWidth = width * 0.9;
+
   return (
     <div 
       className={`w-full relative touch-none flex items-center justify-center ${
-        shouldAnimateComplex && animationState === 'entering' ? 'animate-enter' : ''
+        animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{
         transform: horizontalDistance !== 0 
@@ -96,11 +100,13 @@ export const GameCard = memo(({
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
     >
-      {/* Card Container with optimized scale */}
+      {/* Card Container with responsive sizing */}
       <div 
         className="relative inline-block"
         style={{ 
-          transform: width < 768 ? 'scale(1.6) translateZ(0)' : 'scale(1) translateZ(0)',
+          maxHeight: `${cardMaxHeight}px`,
+          maxWidth: `${cardMaxWidth}px`,
+          transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
         }}
       >
