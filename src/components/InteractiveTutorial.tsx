@@ -9,6 +9,7 @@ import { triggerHaptic } from "@/utils/haptics";
 import { playSound } from "@/utils/sounds";
 import { markInteractiveTutorialAsShown } from "@/utils/localStorage";
 import { useSettings } from "@/hooks/useSettings";
+import { useWindowSize } from "@/hooks/useWindowSize";
 import cardBackSvg from "@/assets/card-back.svg";
 
 interface TutorialStep {
@@ -48,12 +49,31 @@ export const InteractiveTutorial = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { settings } = useSettings();
+  const { width, height } = useWindowSize();
   const [currentStep, setCurrentStep] = useState(0);
   const [showPlayerTransition, setShowPlayerTransition] = useState(false);
   const [canProceed, setCanProceed] = useState(false);
 
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
+  
+  // Responsive card sizing - same as in GameCard
+  let cardMaxHeight: number;
+  let cardMaxWidth: number;
+  
+  if (width < 375) {
+    cardMaxHeight = height * 0.75;
+    cardMaxWidth = width * 0.88;
+  } else if (width < 430) {
+    cardMaxHeight = height * 0.85;
+    cardMaxWidth = width * 0.92;
+  } else if (width < 768) {
+    cardMaxHeight = height * 0.92;
+    cardMaxWidth = width * 0.95;
+  } else {
+    cardMaxHeight = height * 0.85;
+    cardMaxWidth = Math.min(width * 0.6, 500);
+  }
 
   // Swipe handling for tutorial
   const handleSwipe = (direction: 'left' | 'right' | 'up') => {
@@ -129,12 +149,12 @@ export const InteractiveTutorial = () => {
 
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
@@ -153,26 +173,28 @@ export const InteractiveTutorial = () => {
       <Button
         onClick={handleSkip}
         variant="ghost"
-        className="absolute top-8 right-8 z-10 text-muted-foreground"
+        className="absolute top-4 sm:top-8 right-4 sm:right-8 z-10 text-muted-foreground text-sm sm:text-base"
       >
         Überspringen
       </Button>
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center gap-8 max-w-md w-full">
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2">
         {/* Icon/Visual */}
-        {step.icon && (
-          <div className="flex justify-center animate-scale-in">
+        {step.icon && !step.requiredSwipe && (
+          <div className="flex justify-center animate-scale-in mt-4">
             {step.icon}
           </div>
         )}
 
         {/* Tutorial card for swipe steps */}
         {step.requiredSwipe && (
-          <div className="w-full max-w-sm">
+          <div className="w-full flex flex-col items-center gap-3 sm:gap-6">
             <div 
               className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform"
               style={{
+                maxHeight: `${cardMaxHeight}px`,
+                maxWidth: `${cardMaxWidth}px`,
                 transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
                 transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
               }}
@@ -199,24 +221,24 @@ export const InteractiveTutorial = () => {
 
             {/* Direction hint below card */}
             {!canProceed && (
-              <div className="mt-6 flex justify-center">
-                <div className="inline-flex items-center gap-2 bg-background/80 backdrop-blur-sm rounded-full px-6 py-3 border border-border">
+              <div className="flex justify-center">
+                <div className="inline-flex items-center gap-2 bg-background/80 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 border border-border">
                   {step.requiredSwipe === 'right' && (
                     <>
-                      <ArrowRight className="w-6 h-6 text-green-500 animate-pulse" />
-                      <span className="text-sm font-medium">Wische nach rechts</span>
+                      <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 animate-pulse" />
+                      <span className="text-xs sm:text-sm font-medium">Wische nach rechts</span>
                     </>
                   )}
                   {step.requiredSwipe === 'left' && (
                     <>
-                      <ArrowLeft className="w-6 h-6 text-red-500 animate-pulse" />
-                      <span className="text-sm font-medium">Wische nach links</span>
+                      <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 animate-pulse" />
+                      <span className="text-xs sm:text-sm font-medium">Wische nach links</span>
                     </>
                   )}
                   {step.requiredSwipe === 'up' && (
                     <>
-                      <ArrowUp className="w-6 h-6 text-blue-500 animate-pulse" />
-                      <span className="text-sm font-medium">Wische nach oben</span>
+                      <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 animate-pulse" />
+                      <span className="text-xs sm:text-sm font-medium">Wische nach oben</span>
                     </>
                   )}
                 </div>
@@ -235,16 +257,16 @@ export const InteractiveTutorial = () => {
         )}
 
         {/* Text content */}
-        <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold text-foreground">{step.title}</h2>
-          <p className="text-lg text-muted-foreground">{step.description}</p>
+        <div className="text-center space-y-2 sm:space-y-4 px-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground">{step.title}</h2>
+          <p className="text-base sm:text-lg text-muted-foreground">{step.description}</p>
         </div>
 
         {/* Action buttons for non-swipe steps */}
         {!step.requiredSwipe && (
           <Button
             onClick={handleNext}
-            className="w-full bg-primary hover:bg-primary/90"
+            className="w-full bg-primary hover:bg-primary/90 mt-2 sm:mt-4"
             size="lg"
           >
             {isLastStep ? (
@@ -264,8 +286,8 @@ export const InteractiveTutorial = () => {
 
       {/* Bottom hint for swipe steps */}
       {step.requiredSwipe && !canProceed && (
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 text-center">
-          <p className="text-sm text-muted-foreground animate-pulse">
+        <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 text-center">
+          <p className="text-xs sm:text-sm text-muted-foreground animate-pulse">
             Versuche es jetzt!
           </p>
         </div>
