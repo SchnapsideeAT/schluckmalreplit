@@ -1,0 +1,49 @@
+# Schluck Mal - Game Application
+
+## Overview
+This is a React-based card game application called "Schluck Mal" (German drinking game). It's a frontend-only single-page application built with Vite, React, TypeScript, and shadcn/ui components.
+
+## Project Architecture
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite 5
+- **Routing**: React Router v6
+- **UI Components**: shadcn/ui with Radix UI primitives
+- **Styling**: Tailwind CSS
+- **Mobile Support**: Capacitor (for iOS/Android apps)
+- **State Management**: React Query (TanStack Query)
+- **Storage**: IndexedDB (idb) and Capacitor Preferences for mobile
+
+## Key Technologies
+- Vite with SWC for fast builds
+- React Router for client-side routing
+- Lazy loading for optimal performance
+- Canvas Confetti for animations
+- Lucide React icons
+- Form handling with react-hook-form
+- Zod for validation
+
+## Development Setup
+- Port: 5000 (configured for Replit)
+- Host: 0.0.0.0 (allows Replit proxy)
+- Dev command: `npm run dev`
+- Build command: `npm run build`
+
+## Deployment
+- Type: Autoscale (static site)
+- Build: `npm run build`
+- No backend server required
+
+## Project Structure
+- `/src/pages` - Route pages (Home, Game, Setup, Rules, etc.)
+- `/src/components` - Reusable components including UI library
+- `/src/hooks` - Custom React hooks
+- `/src/utils` - Utility functions
+- `/src/data` - Static data (cards.json)
+- `/public` - Static assets
+
+## Recent Changes (Oct 1, 2025)
+- Imported from GitHub
+- Configured for Replit environment
+- Updated Vite config to use port 5000
+- Set up deployment configuration
+- Configured workflow for development server
