@@ -97,7 +97,7 @@ export const InteractiveTutorial = () => {
     }
   };
 
-  const { swipeState, swipeHandlers } = useSwipe({
+  const { swipeState, swipeHandlers, resetSwipeState } = useSwipe({
     onSwipeLeft: () => handleSwipe('left'),
     onSwipeRight: () => handleSwipe('right'),
     onSwipeUp: () => handleSwipe('up'),
@@ -136,6 +136,11 @@ export const InteractiveTutorial = () => {
       navigate('/game', { state });
     }
   };
+
+  // Reset swipe state when tutorial step changes
+  useEffect(() => {
+    resetSwipeState();
+  }, [currentStep, resetSwipeState]);
 
   // Auto-proceed after correct swipe
   useEffect(() => {
