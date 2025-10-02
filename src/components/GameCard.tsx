@@ -99,57 +99,47 @@ export const GameCard = memo(({
 
   return (
     <div 
-      className={`absolute inset-0 flex items-center justify-center ${
+      className={`relative inline-block ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
-      style={{
+      style={{ 
+        width: `${cardMaxWidth}px`,
+        height: `${cardMaxHeight}px`,
+        maxHeight: `${cardMaxHeight}px`,
+        maxWidth: `${cardMaxWidth}px`,
         transform: horizontalDistance !== 0 
-          ? `translateX(${horizontalDistance}px) rotate(${rotation}deg)`
-          : undefined,
+          ? `translateX(${horizontalDistance}px) rotate(${rotation}deg) translateZ(0)`
+          : 'translateZ(0)',
         opacity: horizontalDistance !== 0 ? opacity : undefined,
+        backfaceVisibility: 'hidden',
+        cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
         transition: 'none',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
-        pointerEvents: 'none', // Allow clicks to pass through to buttons behind
       }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
     >
-      {/* Card Container with responsive sizing */}
-      <div 
-        className="relative inline-block"
-        style={{ 
-          width: `${cardMaxWidth}px`,
-          height: `${cardMaxHeight}px`,
-          maxHeight: `${cardMaxHeight}px`,
-          maxWidth: `${cardMaxWidth}px`,
-          transform: 'translateZ(0)',
-          backfaceVisibility: 'hidden',
-          cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
-          pointerEvents: 'auto', // Card itself captures events
+      {/* SVG Card Image */}
+      <img 
+        src={cardImageSrc} 
+        alt={`${card.category} Card ${card.id}`}
+        className="w-full h-auto object-contain rounded-2xl block"
+        draggable={false}
+        onContextMenu={(e) => e.preventDefault()}
+        onPointerDown={(e) => {
+          if (e.pointerType === 'touch') {
+            e.preventDefault();
+          }
         }}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-      >
-        {/* SVG Card Image */}
-        <img 
-          src={cardImageSrc} 
-          alt={`${card.category} Card ${card.id}`}
-          className="w-full h-auto object-contain rounded-2xl block"
-          draggable={false}
-          onContextMenu={(e) => e.preventDefault()}
-          onPointerDown={(e) => {
-            if (e.pointerType === 'touch') {
-              e.preventDefault();
-            }
-          }}
-          onError={(e) => {
-            console.error(`Failed to load ${card.category} card ${card.id}:`, cardImageSrc);
-            console.error('Image element:', e.currentTarget);
-          }}
-        />
-      </div>
+        onError={(e) => {
+          console.error(`Failed to load ${card.category} card ${card.id}:`, cardImageSrc);
+          console.error('Image element:', e.currentTarget);
+        }}
+      />
     </div>
   );
 });

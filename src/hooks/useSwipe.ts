@@ -66,6 +66,82 @@ export const useSwipe = (handlers: SwipeHandlers) => {
     });
   }, []);
 
+  // Document-level mouse event handlers for continuous tracking
+  useEffect(() => {
+    const handleMouseMoveGlobal = (e: MouseEvent) => {
+      if (!isMouseDown.current) return;
+
+      // Cancel previous RAF if still pending
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
+
+      touchCurrentX.current = e.clientX;
+      touchCurrentY.current = e.clientY;
+
+      // Use RAF to throttle state updates for smoother performance
+      rafId.current = requestAnimationFrame(() => {
+        const distanceX = touchCurrentX.current - touchStartX.current;
+        const distanceY = touchCurrentY.current - touchStartY.current;
+        const absDistanceX = Math.abs(distanceX);
+        const absDistanceY = Math.abs(distanceY);
+        
+        // Determine primary direction
+        let direction: 'left' | 'right' | 'up' | null = null;
+        if (absDistanceX > absDistanceY) {
+          direction = distanceX > 0 ? 'right' : 'left';
+        } else if (distanceY < 0) {
+          direction = 'up';
+        }
+
+        setSwipeState({
+          isSwiping: true,
+          swipeDirection: Math.max(absDistanceX, absDistanceY) > swipeThreshold ? direction : null,
+          horizontalDistance: distanceX, // Always horizontal for glow
+          absoluteDistance: absDistanceX > absDistanceY ? absDistanceX : absDistanceY,
+        });
+      });
+    };
+
+    const handleMouseUpGlobal = () => {
+      if (!isMouseDown.current) return;
+      
+      const distanceX = touchCurrentX.current - touchStartX.current;
+      const distanceY = touchCurrentY.current - touchStartY.current;
+      
+      // Determine primary swipe direction
+      if (Math.abs(distanceX) > Math.abs(distanceY)) {
+        // Horizontal swipe
+        if (Math.abs(distanceX) > minSwipeDistance) {
+          if (distanceX > 0) {
+            triggerHaptic('medium');
+            handlers.onSwipeRight?.();
+          } else {
+            triggerHaptic('medium');
+            handlers.onSwipeLeft?.();
+          }
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(distanceY) > minSwipeDistance && distanceY < 0) {
+          triggerHaptic('medium');
+          handlers.onSwipeUp?.();
+        }
+      }
+
+      isMouseDown.current = false;
+      resetSwipeState();
+      handlers.onSwipeEnd?.();
+    };
+
+    document.addEventListener('mousemove', handleMouseMoveGlobal);
+    document.addEventListener('mouseup', handleMouseUpGlobal);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMoveGlobal);
+      document.removeEventListener('mouseup', handleMouseUpGlobal);
+    };
+  }, [handlers, resetSwipeState]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -160,72 +236,6 @@ export const useSwipe = (handlers: SwipeHandlers) => {
     handlers.onSwipeStart?.();
   }, [handlers]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isMouseDown.current) return;
-
-    // Cancel previous RAF if still pending
-    if (rafId.current) {
-      cancelAnimationFrame(rafId.current);
-    }
-
-    touchCurrentX.current = e.clientX;
-    touchCurrentY.current = e.clientY;
-
-    // Use RAF to throttle state updates for smoother performance
-    rafId.current = requestAnimationFrame(() => {
-      const distanceX = touchCurrentX.current - touchStartX.current;
-      const distanceY = touchCurrentY.current - touchStartY.current;
-      const absDistanceX = Math.abs(distanceX);
-      const absDistanceY = Math.abs(distanceY);
-      
-      // Determine primary direction
-      let direction: 'left' | 'right' | 'up' | null = null;
-      if (absDistanceX > absDistanceY) {
-        direction = distanceX > 0 ? 'right' : 'left';
-      } else if (distanceY < 0) {
-        direction = 'up';
-      }
-
-      setSwipeState({
-        isSwiping: true,
-        swipeDirection: Math.max(absDistanceX, absDistanceY) > swipeThreshold ? direction : null,
-        horizontalDistance: distanceX, // Always horizontal for glow
-        absoluteDistance: absDistanceX > absDistanceY ? absDistanceX : absDistanceY,
-      });
-    });
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    if (!isMouseDown.current) return;
-    
-    const distanceX = touchCurrentX.current - touchStartX.current;
-    const distanceY = touchCurrentY.current - touchStartY.current;
-    
-    // Determine primary swipe direction
-    if (Math.abs(distanceX) > Math.abs(distanceY)) {
-      // Horizontal swipe
-      if (Math.abs(distanceX) > minSwipeDistance) {
-        if (distanceX > 0) {
-          triggerHaptic('medium');
-          handlers.onSwipeRight?.();
-        } else {
-          triggerHaptic('medium');
-          handlers.onSwipeLeft?.();
-        }
-      }
-    } else {
-      // Vertical swipe
-      if (Math.abs(distanceY) > minSwipeDistance && distanceY < 0) {
-        triggerHaptic('medium');
-        handlers.onSwipeUp?.();
-      }
-    }
-
-    isMouseDown.current = false;
-    resetSwipeState();
-    handlers.onSwipeEnd?.();
-  }, [handlers, resetSwipeState]);
-
   return {
     swipeState,
     swipeHandlers: {
@@ -233,8 +243,8 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       onTouchMove: handleTouchMove,
       onTouchEnd: handleTouchEnd,
       onMouseDown: handleMouseDown,
-      onMouseMove: handleMouseMove,
-      onMouseUp: handleMouseUp,
+      onMouseMove: () => {}, // Handled by document-level listener
+      onMouseUp: () => {}, // Handled by document-level listener
     },
     resetSwipeState,
     triggerHaptic,
