@@ -182,9 +182,9 @@ export const InteractiveTutorial = () => {
           </div>
 
           {/* Glowing yellow swipe area at bottom - full width */}
-          <div className="relative h-32 sm:h-40">
-            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent animate-pulse" />
-            <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative h-48 sm:h-56">
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/70 via-primary/40 via-primary/20 to-transparent" />
+            <div className="absolute bottom-8 left-0 right-0 flex items-center justify-center">
               <div className="text-center text-white drop-shadow-lg">
                 <ArrowUp className="w-12 h-12 mx-auto mb-2 animate-bounce" />
                 <p className="text-sm sm:text-base font-semibold">Wische hier nach oben</p>
