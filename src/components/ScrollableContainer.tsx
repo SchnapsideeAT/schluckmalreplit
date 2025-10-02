@@ -14,7 +14,11 @@ export const ScrollableContainer = ({ children, className }: ScrollableContainer
   return (
     <div
       ref={containerRef}
-      className={`scrollable-container ${needsScroll ? 'scrollable-enabled' : ''} ${className || ''}`}
+      className={cn(
+        'scrollable-container bg-background',
+        needsScroll ? 'scrollable-enabled' : '',
+        className
+      )}
     >
       {children}
     </div>
