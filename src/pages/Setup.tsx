@@ -37,8 +37,8 @@ const Setup = () => {
   }, []);
 
   return (
-    <ScrollableContainer className="min-h-screen">
-      <div className="flex flex-col items-center justify-center p-6">
+    <ScrollableContainer>
+      <div className="flex flex-col items-center justify-center p-6 min-h-dvh">
         <div className="slide-up max-w-lg w-full space-y-8 text-center">
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 border border-primary/50 mb-4">
