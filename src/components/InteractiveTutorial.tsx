@@ -223,36 +223,39 @@ export const InteractiveTutorial = () => {
 
         {/* Tutorial card for left/right swipe steps - EXACT GameCard structure */}
         {step.requiredSwipe && (
-          <div className="w-full flex items-center justify-center">
-            <div 
-              className="relative inline-block touch-none select-none"
-              style={{
-                width: `${cardMaxWidth}px`,
-                height: `${cardMaxHeight}px`,
-                maxHeight: `${cardMaxHeight}px`,
-                maxWidth: `${cardMaxWidth}px`,
-                transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
-                transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
-                cursor: swipeState.isSwiping ? 'grabbing' : 'grab',
-                backfaceVisibility: 'hidden',
-              }}
-              {...swipeHandlers}
-            >
-              <img 
-                src={cardBackSvg} 
-                alt="Tutorial Card" 
-                className="w-full h-full object-contain rounded-2xl"
-                draggable={false}
-              />
-              
-              {/* Success checkmark */}
-              {canProceed && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="bg-green-500 rounded-full p-4 animate-scale-in">
-                    <Check className="w-12 h-12 text-white" />
+          <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
+            {/* Card */}
+            <div className="w-full flex items-center justify-center">
+              <div 
+                className="relative inline-block touch-none select-none"
+                style={{
+                  width: `${cardMaxWidth}px`,
+                  height: `${cardMaxHeight}px`,
+                  maxHeight: `${cardMaxHeight}px`,
+                  maxWidth: `${cardMaxWidth}px`,
+                  transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
+                  transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
+                  cursor: swipeState.isSwiping ? 'grabbing' : 'grab',
+                  backfaceVisibility: 'hidden',
+                }}
+                {...swipeHandlers}
+              >
+                <img 
+                  src={cardBackSvg} 
+                  alt="Tutorial Card" 
+                  className="w-full h-full object-contain rounded-2xl"
+                  draggable={false}
+                />
+                
+                {/* Success checkmark */}
+                {canProceed && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="bg-green-500 rounded-full p-4 animate-scale-in">
+                      <Check className="w-12 h-12 text-white" />
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Direction icon hint below card with text */}
