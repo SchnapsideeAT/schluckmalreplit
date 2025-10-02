@@ -130,17 +130,6 @@ export const GameCard = memo(({
           backfaceVisibility: 'hidden',
         }}
       >
-        {/* Glow Effect Background - GPU optimized with opacity */}
-        <div 
-          className="absolute inset-0 rounded-2xl opacity-30"
-          style={{
-            background: `radial-gradient(circle at center, hsl(${categoryColor} / 0.4), transparent 70%)`,
-            animation: shouldAnimateComplex ? 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' : 'none',
-            zIndex: -1,
-            transform: 'translateZ(0)',
-          }}
-        />
-        
         {/* SVG Card Image */}
         <img 
           src={cardImageSrc} 
