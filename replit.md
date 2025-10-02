@@ -42,7 +42,8 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
-### Oct 2, 2025 - iOS Safe Area Fix
+### Oct 2, 2025 - Mobile Optimization (iOS & Android)
+**iOS Safe Area Fix:**
 - Fixed iPhone 15 Pro fullscreen issues (gray area at bottom, app not extending full height)
 - Implemented CSS Safe Area Insets using `env(safe-area-inset-*)` variables
 - Replaced all `100vh` with `100dvh` (dynamic viewport height) for iOS compatibility
@@ -51,6 +52,13 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - Configured Capacitor iOS with `contentInset: 'always'`
 - Installed and configured `@capacitor/status-bar` plugin with overlay mode
 - Created `src/utils/capacitor-init.ts` for Status Bar initialization
+
+**Card Size Optimization:**
+- Optimized GameCard sizing for all mobile devices (iPhone SE to Pro Max, Android small to large)
+- Reduced Game.tsx layout padding (px-3 pt-4 pb-16) for maximum card display area
+- Card sizes: 67-72% viewport height, 86-88% viewport width on mobile
+- Cards now properly sized accounting for Safe Areas and layout constraints
+- Verified on iPhone 13/14/15, Pro Max, and Android devices
 
 ### Oct 1, 2025
 - Imported from GitHub
