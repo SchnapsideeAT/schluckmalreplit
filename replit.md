@@ -42,6 +42,12 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 2, 2025 - iOS Compatibility Improvements
+- **Viewport Height Migration**: Changed all remaining `min-h-screen` (100vh) to `min-h-dvh` (100dvh) in Statistics.tsx, Index.tsx, NotFound.tsx, and ErrorBoundary.tsx for proper iOS viewport handling
+- **ScrollableContainer Fix**: Made overflow-y: auto always active (previously only when detected), preventing scroll issues on iOS
+- **Padding Optimization**: Removed duplicate padding (pb-20) from Rules.tsx and Settings.tsx to prevent gray areas at bottom on iOS
+- **Swipe Interaction Fix**: Fixed button accessibility (Home/Settings) by using pointer-events strategy on GameCard wrapper
+
 ### Oct 2, 2025 - iOS Safe Area Fix
 - Fixed iPhone 15 Pro fullscreen issues (gray area at bottom, app not extending full height)
 - Implemented CSS Safe Area Insets using `env(safe-area-inset-*)` variables
