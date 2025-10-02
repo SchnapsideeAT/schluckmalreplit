@@ -57,22 +57,26 @@ export const InteractiveTutorial = () => {
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
   
-  // Responsive card sizing - same as in GameCard
+  // Responsive card sizing - EXACT COPY from GameCard
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
-    cardMaxHeight = height * 0.75;
-    cardMaxWidth = width * 0.88;
+    // Compact phones (iPhone SE, small Android)
+    cardMaxHeight = height * 0.58;
+    cardMaxWidth = width * 0.75;
   } else if (width < 430) {
-    cardMaxHeight = height * 0.85;
-    cardMaxWidth = width * 0.92;
+    // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
+    cardMaxHeight = height * 0.60;
+    cardMaxWidth = width * 0.78;
   } else if (width < 768) {
-    cardMaxHeight = height * 0.92;
-    cardMaxWidth = width * 0.95;
+    // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
+    cardMaxHeight = height * 0.62;
+    cardMaxWidth = width * 0.80;
   } else {
-    cardMaxHeight = height * 0.85;
-    cardMaxWidth = Math.min(width * 0.6, 500);
+    // Tablets & Desktop
+    cardMaxHeight = height * 0.65;
+    cardMaxWidth = Math.min(width * 0.50, 400); // Max 400px on large screens
   }
 
   // Swipe handling for tutorial
@@ -217,36 +221,38 @@ export const InteractiveTutorial = () => {
           </div>
         )}
 
-        {/* Tutorial card for left/right swipe steps */}
+        {/* Tutorial card for left/right swipe steps - EXACT GameCard structure */}
         {step.requiredSwipe && (
-          <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
+          <div className="w-full flex items-center justify-center">
             <div 
-              className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform"
+              className="relative inline-block touch-none select-none"
               style={{
+                width: `${cardMaxWidth}px`,
+                height: `${cardMaxHeight}px`,
                 maxHeight: `${cardMaxHeight}px`,
                 maxWidth: `${cardMaxWidth}px`,
                 transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
                 transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
+                cursor: swipeState.isSwiping ? 'grabbing' : 'grab',
+                backfaceVisibility: 'hidden',
               }}
               {...swipeHandlers}
             >
-              <div className="relative">
-                <img 
-                  src={cardBackSvg} 
-                  alt="Tutorial Card" 
-                  className="w-full h-auto object-contain rounded-2xl"
-                  draggable={false}
-                />
-                
-                {/* Success checkmark */}
-                {canProceed && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-green-500 rounded-full p-4 animate-scale-in">
-                      <Check className="w-12 h-12 text-white" />
-                    </div>
+              <img 
+                src={cardBackSvg} 
+                alt="Tutorial Card" 
+                className="w-full h-full object-contain rounded-2xl"
+                draggable={false}
+              />
+              
+              {/* Success checkmark */}
+              {canProceed && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="bg-green-500 rounded-full p-4 animate-scale-in">
+                    <Check className="w-12 h-12 text-white" />
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             {/* Direction icon hint below card with text */}
