@@ -84,7 +84,7 @@ const Settings = () => {
 
   return (
     <>
-      <ScrollableContainer className="max-w-2xl mx-auto">
+      <ScrollableContainer className="max-w-2xl mx-auto pb-20">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 sm:mb-8">
             <Button

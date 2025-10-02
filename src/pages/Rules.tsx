@@ -8,7 +8,7 @@ const Rules = () => {
   const navigate = useNavigate();
 
   return (
-    <ScrollableContainer>
+    <ScrollableContainer className="pb-20">
       <div className="content-container">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 sm:mb-8">
