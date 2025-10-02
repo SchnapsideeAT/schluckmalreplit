@@ -37,7 +37,7 @@ const Rules = () => {
                 <AccordionTrigger className="hover:no-underline py-5 px-6 transition-all duration-1000">
                   <div className="flex items-center gap-3">
                     <Package className="w-6 h-6 text-primary" />
-                    <span className="text-xl font-bold text-foreground">Standard Deck</span>
+                    <span className="text-lg font-bold text-foreground">Standard Deck</span>
                     <span className="ml-2 text-sm bg-primary/20 text-primary px-2 py-1 rounded-full">5 Kategorien</span>
                   </div>
                 </AccordionTrigger>
