@@ -309,7 +309,11 @@ export const InteractiveTutorial = () => {
         <Button
           onClick={handleSkip}
           variant="ghost"
-          className="text-muted-foreground text-sm sm:text-base hover:bg-transparent hover:text-foreground"
+          className={`text-sm sm:text-base hover:bg-transparent ${
+            step.requiredSwipe === 'up'
+              ? 'text-white hover:text-white/90 font-bold'
+              : 'text-muted-foreground hover:text-foreground'
+          }`}
         >
           Überspringen
         </Button>
