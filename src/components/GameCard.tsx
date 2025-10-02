@@ -115,6 +115,7 @@ export const GameCard = memo(({
         cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
         transition: horizontalDistance !== 0 ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease-out',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
+        boxShadow: `0 0 20px hsl(${categoryColor} / 0.4), 0 0 40px hsl(${categoryColor} / 0.2)`,
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
