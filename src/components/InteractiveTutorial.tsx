@@ -304,18 +304,16 @@ export const InteractiveTutorial = () => {
         )}
       </div>
 
-      {/* Skip button at bottom center - hide for swipe up step */}
-      {step.requiredSwipe !== 'up' && (
-        <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-10">
-          <Button
-            onClick={handleSkip}
-            variant="ghost"
-            className="text-muted-foreground text-sm sm:text-base"
-          >
-            Überspringen
-          </Button>
-        </div>
-      )}
+      {/* Skip button at bottom center */}
+      <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-30">
+        <Button
+          onClick={handleSkip}
+          variant="ghost"
+          className="text-muted-foreground text-sm sm:text-base hover:bg-transparent hover:text-foreground"
+        >
+          Überspringen
+        </Button>
+      </div>
     </div>
   );
 };
