@@ -108,14 +108,9 @@ export const GameCard = memo(({
           : undefined,
         opacity: horizontalDistance !== 0 ? opacity : undefined,
         transition: 'none',
-        willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto'
+        willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
+        pointerEvents: 'none', // Allow clicks to pass through to buttons behind
       }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
     >
       {/* Card Container with responsive sizing */}
       <div 
@@ -128,7 +123,14 @@ export const GameCard = memo(({
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+          pointerEvents: 'auto', // Card itself captures events
         }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
       >
         {/* SVG Card Image */}
         <img 
