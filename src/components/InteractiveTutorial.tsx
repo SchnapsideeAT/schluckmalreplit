@@ -171,9 +171,9 @@ export const InteractiveTutorial = () => {
 
       {/* Special fullscreen layout for swipe up step */}
       {step.requiredSwipe === 'up' && (
-        <div className="absolute inset-0 flex flex-col z-20" {...swipeHandlers}>
-          {/* Text content in center */}
-          <div className="flex-1 flex items-center justify-center px-4">
+        <div className="absolute inset-0 z-20" {...swipeHandlers}>
+          {/* Text content in vertical center */}
+          <div className="absolute inset-0 flex items-center justify-center px-4">
             <div className="text-center space-y-6">
               <ArrowUp className="w-20 h-20 sm:w-24 sm:h-24 mx-auto text-primary animate-bounce" />
               <h2 className="text-3xl sm:text-4xl font-bold text-foreground">{step.title}</h2>
@@ -182,7 +182,7 @@ export const InteractiveTutorial = () => {
           </div>
 
           {/* Glowing yellow swipe area at bottom - full width */}
-          <div className="relative h-64 sm:h-72">
+          <div className="absolute bottom-0 left-0 right-0 h-64 sm:h-72">
             <div 
               className="absolute inset-0"
               style={{
