@@ -415,7 +415,6 @@ const Game = () => {
           player={players[nextPlayerIndex]}
           categoryColor={getCategoryColor(currentCard.category)}
           onTap={handlePlayerTransitionTap}
-          bottomSwipeHandlers={bottomSwipeHandlers}
         />
       )}
 
@@ -425,7 +424,6 @@ const Game = () => {
           player={players[currentPlayerIndex]}
           categoryColor="bg-primary"
           onTap={handleInitialTransitionTap}
-          bottomSwipeHandlers={bottomSwipeHandlers}
         />
       )}
 

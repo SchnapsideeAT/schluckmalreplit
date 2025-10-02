@@ -17,14 +17,12 @@ interface PlayerTransitionProps {
   player: Player;
   categoryColor: string;
   onTap: () => void;
-  bottomSwipeHandlers: any;
 }
 
 export const PlayerTransition = ({ 
   player, 
   categoryColor, 
-  onTap,
-  bottomSwipeHandlers 
+  onTap
 }: PlayerTransitionProps) => {
   const { settings } = useSettings();
   
@@ -38,7 +36,6 @@ export const PlayerTransition = ({
       className={`fixed inset-0 ${categoryColor} z-50 flex items-center justify-center cursor-pointer animate-fade-in`}
       onClick={handleInteraction}
       onTouchEnd={handleInteraction}
-      {...bottomSwipeHandlers}
     >
       <div className="text-center space-y-8 px-8">
         <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm border-4 border-white/40 shadow-2xl animate-scale-in">
