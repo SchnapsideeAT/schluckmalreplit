@@ -32,15 +32,11 @@ const Rules = () => {
           <div className="space-y-6 sm:space-y-8 slide-up">
           {/* Categories */}
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
-            
-            <Accordion type="single" collapsible defaultValue="standard-deck" className="w-full">
-              <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="kartenkategorien" className="bg-card border border-border/50 rounded-xl">
                 <AccordionTrigger className="hover:no-underline py-5 px-6 transition-all duration-1000">
                   <div className="flex items-center gap-3">
-                    <Package className="w-6 h-6 text-primary" />
-                    <span className="text-xl font-bold text-foreground">Standard Deck</span>
-                    <span className="ml-2 text-sm bg-primary/20 text-primary px-2 py-1 rounded-full">5 Kategorien</span>
+                    <span className="text-2xl font-bold text-primary">Kartenkategorien</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="transition-all duration-1000 ease-in-out data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
@@ -107,9 +103,9 @@ const Rules = () => {
 
           {/* Basic rules */}
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-primary text-center">Grundregeln</h2>
-            <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4 text-muted-foreground">
-              <div className="space-y-3">
+            <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
+              <h2 className="text-2xl font-bold text-primary text-center">Grundregeln</h2>
+              <div className="text-muted-foreground space-y-3">
                 <div>
                   <strong className="text-foreground">Karte ziehen</strong>
                   <p className="mt-1">• Lies die Karte laut vor.</p>
@@ -143,9 +139,9 @@ const Rules = () => {
 
           {/* Additional rules */}
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-primary text-center">Zusätzliche Regeln</h2>
-            <div className="bg-card border border-border/50 rounded-2xl p-6">
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
+              <h2 className="text-2xl font-bold text-primary text-center">Zusätzliche Regeln</h2>
+              <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold mt-1">•</span>
                 <span><strong className="text-foreground">Joker:</strong> Wild Cards dürfen jederzeit während des Spiels eingesetzt werden.</span>
@@ -154,7 +150,7 @@ const Rules = () => {
                 <span className="text-primary font-bold mt-1">•</span>
                 <span><strong className="text-foreground">No-Chill-Regel:</strong> Bei Unklarheiten entscheidet die Gruppe demokratisch.</span>
               </li>
-            </ul>
+              </ul>
             </div>
           </section>
 
