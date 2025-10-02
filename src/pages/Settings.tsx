@@ -136,7 +136,7 @@ const Settings = () => {
                 <div className="space-y-1">
                   <p className="font-semibold text-foreground">Soundeffekte</p>
                   <p className="text-sm text-muted-foreground">
-                    Aktiviere Sound-Feedback für Aktionen
+                    Spielgeräusche bei Aktionen ein-/ausschalten
                   </p>
                 </div>
                 <Switch
@@ -150,7 +150,7 @@ const Settings = () => {
                 <div className="space-y-1">
                   <p className="font-semibold text-foreground">Haptisches Feedback</p>
                   <p className="text-sm text-muted-foreground">
-                    Vibrationen bei Interaktionen
+                    Vibration bei Interaktionen
                   </p>
                 </div>
                 <Switch
@@ -164,7 +164,7 @@ const Settings = () => {
                 <div className="space-y-1">
                   <p className="font-semibold text-foreground">Tutorial wiederholen</p>
                   <p className="text-sm text-muted-foreground">
-                    Lerne die Swipe-Gesten erneut
+                    Swipe Gesten lernen
                   </p>
                 </div>
                 <Button
