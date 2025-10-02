@@ -7,17 +7,8 @@ interface WindowSize {
 
 export const useWindowSize = () => {
   const getSize = () => {
-    // Use #root element's actual size (accounts for safe area insets)
-    const rootElement = document.getElementById('root');
-    
-    if (rootElement) {
-      return {
-        width: rootElement.clientWidth,
-        height: rootElement.clientHeight,
-      };
-    }
-    
-    // Fallback to window.innerWidth/Height
+    // Use window dimensions directly for accurate viewport size
+    // This gives the full screen size before safe area insets are applied
     return {
       width: window.innerWidth,
       height: window.innerHeight,
