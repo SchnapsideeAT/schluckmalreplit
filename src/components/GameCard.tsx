@@ -57,10 +57,6 @@ export const GameCard = memo(({
   
   const shouldAnimateComplex = flags.enableComplexAnimations;
   
-  // Ref to card container
-  const cardContainerRef = useRef<HTMLDivElement>(null);
-  const [isSwiping, setIsSwiping] = useState(false);
-  
   // Animation state: 'entering' | 'visible'
   const [animationState, setAnimationState] = useState<'entering' | 'visible'>('entering');
   
@@ -74,121 +70,6 @@ export const GameCard = memo(({
     
     return () => clearTimeout(timer);
   }, [card.id]);
-
-  // Document-level listeners for tracking outside card during swipe
-  useEffect(() => {
-    if (!isSwiping) return;
-
-    const handleDocumentTouchMove = (e: TouchEvent) => {
-      // Create wrapper that looks like React.TouchEvent with essential properties
-      const syntheticEvent = {
-        touches: e.touches,
-        changedTouches: e.changedTouches,
-        targetTouches: e.targetTouches,
-        currentTarget: cardContainerRef.current,
-        target: e.target,
-        altKey: e.altKey,
-        ctrlKey: e.ctrlKey,
-        metaKey: e.metaKey,
-        shiftKey: e.shiftKey,
-        preventDefault: () => e.preventDefault(),
-        stopPropagation: () => e.stopPropagation(),
-        nativeEvent: e
-      } as unknown as React.TouchEvent;
-      onTouchMove?.(syntheticEvent);
-    };
-
-    const handleDocumentTouchEnd = (e: TouchEvent) => {
-      setIsSwiping(false);
-      const syntheticEvent = {
-        touches: e.touches,
-        changedTouches: e.changedTouches,
-        targetTouches: e.targetTouches,
-        currentTarget: cardContainerRef.current,
-        target: e.target,
-        altKey: e.altKey,
-        ctrlKey: e.ctrlKey,
-        metaKey: e.metaKey,
-        shiftKey: e.shiftKey,
-        preventDefault: () => e.preventDefault(),
-        stopPropagation: () => e.stopPropagation(),
-        nativeEvent: e
-      } as unknown as React.TouchEvent;
-      onTouchEnd?.(syntheticEvent);
-    };
-
-    const handleDocumentMouseMove = (e: MouseEvent) => {
-      const syntheticEvent = {
-        clientX: e.clientX,
-        clientY: e.clientY,
-        pageX: e.pageX,
-        pageY: e.pageY,
-        screenX: e.screenX,
-        screenY: e.screenY,
-        currentTarget: cardContainerRef.current,
-        target: e.target,
-        button: e.button,
-        buttons: e.buttons,
-        altKey: e.altKey,
-        ctrlKey: e.ctrlKey,
-        metaKey: e.metaKey,
-        shiftKey: e.shiftKey,
-        preventDefault: () => e.preventDefault(),
-        stopPropagation: () => e.stopPropagation(),
-        nativeEvent: e
-      } as unknown as React.MouseEvent;
-      onMouseMove?.(syntheticEvent);
-    };
-
-    const handleDocumentMouseUp = (e: MouseEvent) => {
-      setIsSwiping(false);
-      const syntheticEvent = {
-        clientX: e.clientX,
-        clientY: e.clientY,
-        pageX: e.pageX,
-        pageY: e.pageY,
-        screenX: e.screenX,
-        screenY: e.screenY,
-        currentTarget: cardContainerRef.current,
-        target: e.target,
-        button: e.button,
-        buttons: e.buttons,
-        altKey: e.altKey,
-        ctrlKey: e.ctrlKey,
-        metaKey: e.metaKey,
-        shiftKey: e.shiftKey,
-        preventDefault: () => e.preventDefault(),
-        stopPropagation: () => e.stopPropagation(),
-        nativeEvent: e
-      } as unknown as React.MouseEvent;
-      onMouseUp?.(syntheticEvent);
-    };
-
-    document.addEventListener('touchmove', handleDocumentTouchMove);
-    document.addEventListener('touchend', handleDocumentTouchEnd);
-    document.addEventListener('touchcancel', handleDocumentTouchEnd);
-    document.addEventListener('mousemove', handleDocumentMouseMove);
-    document.addEventListener('mouseup', handleDocumentMouseUp);
-
-    return () => {
-      document.removeEventListener('touchmove', handleDocumentTouchMove);
-      document.removeEventListener('touchend', handleDocumentTouchEnd);
-      document.removeEventListener('touchcancel', handleDocumentTouchEnd);
-      document.removeEventListener('mousemove', handleDocumentMouseMove);
-      document.removeEventListener('mouseup', handleDocumentMouseUp);
-    };
-  }, [isSwiping, onTouchMove, onTouchEnd, onMouseMove, onMouseUp]);
-
-  // Card-level start handlers
-  const handleCardTouchStart = (e: React.TouchEvent) => {
-    setIsSwiping(true);
-    onTouchStart?.(e);
-  };
-
-  const handleCardMouseDown = (e: React.MouseEvent) => {
-    setIsSwiping(true);
-    onMouseDown?.(e);
-  };
 
   // Calculate rotation and opacity based on horizontal swipe
   const rotation = horizontalDistance * 0.1;
@@ -218,7 +99,7 @@ export const GameCard = memo(({
 
   return (
     <div 
-      className={`absolute inset-0 touch-none flex items-center justify-center ${
+      className={`absolute inset-0 flex items-center justify-center ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{
@@ -229,11 +110,16 @@ export const GameCard = memo(({
         transition: 'none',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto'
       }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
     >
-      {/* Card Container with responsive sizing - swipe handlers on card only */}
+      {/* Card Container with responsive sizing */}
       <div 
-        ref={cardContainerRef}
-        className="relative inline-block touch-auto"
+        className="relative inline-block"
         style={{ 
           width: `${cardMaxWidth}px`,
           height: `${cardMaxHeight}px`,
@@ -241,10 +127,8 @@ export const GameCard = memo(({
           maxWidth: `${cardMaxWidth}px`,
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
-          cursor: isSwiping ? 'grabbing' : 'grab',
+          cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
         }}
-        onTouchStart={handleCardTouchStart}
-        onMouseDown={handleCardMouseDown}
       >
         {/* SVG Card Image */}
         <img 
