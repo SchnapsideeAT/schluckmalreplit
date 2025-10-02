@@ -122,6 +122,8 @@ export const GameCard = memo(({
       <div 
         className="relative inline-block"
         style={{ 
+          width: `${cardMaxWidth}px`,
+          height: `${cardMaxHeight}px`,
           maxHeight: `${cardMaxHeight}px`,
           maxWidth: `${cardMaxWidth}px`,
           transform: 'translateZ(0)',
