@@ -83,7 +83,7 @@ const Statistics = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-6">
+    <div className="min-h-dvh flex flex-col p-6">
       {/* Confetti Effect */}
       <Confetti trigger={sortedPlayers.length > 0 && sortedPlayers[0].totalDrinks > 0} />
       

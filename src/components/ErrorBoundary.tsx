@@ -66,7 +66,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // Default error UI
       return (
-        <div className="min-h-screen flex items-center justify-center p-6 bg-background">
+        <div className="min-h-dvh flex items-center justify-center p-6 bg-background">
           <div className="max-w-md w-full space-y-6 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-destructive/20 border border-destructive/50">
               <AlertCircle className="w-10 h-10 text-destructive" />

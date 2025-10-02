@@ -134,12 +134,16 @@ All colors MUST be HSL.
     @apply w-full max-w-2xl mx-auto;
   }
 
-  /* Scrollable System - Smart Scrolling */
+  /* Scrollable System - Always scrollable */
   .scrollable-container {
     height: 100dvh;
     width: 100%;
-    overflow-y: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior: contain; /* Prevent iOS bounce on boundaries */
     display: flex;
     flex-direction: column;
     padding: 12px;
@@ -148,18 +152,15 @@ All colors MUST be HSL.
     position: relative;
   }
 
-  .scrollable-enabled {
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    overscroll-behavior: contain; /* Prevent iOS bounce on boundaries */
-  }
-
-  .scrollable-enabled::-webkit-scrollbar {
+  .scrollable-container::-webkit-scrollbar {
     width: 0;
     height: 0;
     display: none;
+  }
+
+  /* Legacy scrollable-enabled class - no longer needed but kept for compatibility */
+  .scrollable-enabled {
+    /* All styles moved to .scrollable-container */
   }
 
   /* No Scroll for static pages */
