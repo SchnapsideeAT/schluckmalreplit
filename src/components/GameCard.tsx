@@ -84,15 +84,15 @@ export const GameCard = memo(({
   
   if (width < 375) {
     // Compact phones (iPhone SE, small Android)
-    cardMaxHeight = height * 0.62;
+    cardMaxHeight = height * 0.55;
     cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else if (width < 430) {
     // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
-    cardMaxHeight = height * 0.65;
+    cardMaxHeight = height * 0.58;
     cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else if (width < 768) {
     // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
-    cardMaxHeight = height * 0.68;
+    cardMaxHeight = height * 0.60;
     cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else {
     // Tablets & Desktop
