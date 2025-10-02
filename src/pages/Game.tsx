@@ -9,6 +9,7 @@ import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
 import { ArrowRight, Beer, Check, Home, Settings } from "lucide-react";
 import { useSwipe } from "@/hooks/useSwipe";
+import { useVerticalSwipe } from "@/hooks/useVerticalSwipe";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
 import { playSound, soundManager } from "@/utils/sounds";
@@ -282,8 +283,8 @@ const Game = () => {
     },
   });
 
-  // Swipe gesture handlers for bottom area (up only)
-  const { swipeHandlers: bottomSwipeHandlers } = useSwipe({
+  // Vertical swipe handlers for bottom area (up only) - ignores horizontal swipes
+  const verticalSwipeHandlers = useVerticalSwipe({
     onSwipeUp: () => {
       // Swipe up = show statistics
       showStatistics();
@@ -432,8 +433,8 @@ const Game = () => {
       {/* Invisible swipe area at bottom for statistics (only when card is shown) */}
       {currentCard && showCard && (
         <div 
-          className="fixed bottom-0 left-0 right-0 h-24 z-30 touch-none"
-          {...bottomSwipeHandlers}
+          className="fixed bottom-0 left-0 right-0 h-24"
+          {...verticalSwipeHandlers}
         />
       )}
 
