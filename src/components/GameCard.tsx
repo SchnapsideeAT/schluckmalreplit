@@ -110,7 +110,11 @@ export const GameCard = memo(({
         transform: horizontalDistance !== 0 
           ? `translateX(${horizontalDistance}px) rotate(${rotation}deg) translateZ(0)`
           : 'translateZ(0)',
- opacity' : 'auto',
+        opacity: horizontalDistance !== 0 ? opacity : undefined,
+        backfaceVisibility: 'hidden',
+        cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+        transition: 'none',
+        willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
