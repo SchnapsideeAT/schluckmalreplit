@@ -209,7 +209,7 @@ export const InteractiveTutorial = () => {
       )}
 
       {/* Main content - hidden for swipe up */}
-      <div className={`relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
+      <div className={`relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full px-2 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
         {/* Icon/Visual */}
         {step.icon && !step.requiredSwipe && (
           <div className="flex justify-center animate-scale-in mt-4">
