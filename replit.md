@@ -41,7 +41,18 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/src/data` - Static data (cards.json)
 - `/public` - Static assets
 
-## Recent Changes (Oct 1, 2025)
+## Recent Changes
+### Oct 2, 2025 - iOS Safe Area Fix
+- Fixed iPhone 15 Pro fullscreen issues (gray area at bottom, app not extending full height)
+- Implemented CSS Safe Area Insets using `env(safe-area-inset-*)` variables
+- Replaced all `100vh` with `100dvh` (dynamic viewport height) for iOS compatibility
+- Added custom Tailwind utilities: `.min-h-dvh` and `.h-dvh`
+- Updated critical components: Game, Home, InteractiveTutorial, Suspense fallback
+- Configured Capacitor iOS with `contentInset: 'always'`
+- Installed and configured `@capacitor/status-bar` plugin with overlay mode
+- Created `src/utils/capacitor-init.ts` for Status Bar initialization
+
+### Oct 1, 2025
 - Imported from GitHub
 - Configured for Replit environment
 - Updated Vite config to use port 5000 and allow Replit hosts
