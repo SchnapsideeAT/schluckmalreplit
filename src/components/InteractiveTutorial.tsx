@@ -154,16 +154,16 @@ export const InteractiveTutorial = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute top-4 sm:top-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
-            className={`h-2 rounded-full transition-all ${
+            className={`h-3 rounded-full transition-all ${
               index === currentStep
-                ? "w-8 bg-primary"
+                ? "w-10 bg-primary"
                 : index < currentStep
-                ? "w-2 bg-primary/50"
-                : "w-2 bg-muted"
+                ? "w-3 bg-primary/50"
+                : "w-3 bg-muted"
             }`}
           />
         ))}
