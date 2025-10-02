@@ -99,30 +99,39 @@ export const GameCard = memo(({
 
   return (
     <div 
-      className={`relative inline-block ${
+      className={`absolute inset-0 flex items-center justify-center ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
-      style={{ 
-        width: `${cardMaxWidth}px`,
-        height: `${cardMaxHeight}px`,
-        maxHeight: `${cardMaxHeight}px`,
-        maxWidth: `${cardMaxWidth}px`,
+      style={{
         transform: horizontalDistance !== 0 
-          ? `translateX(${horizontalDistance}px) rotate(${rotation}deg) translateZ(0)`
-          : 'translateZ(0)',
-        opacity: horizontalDistance !== 0 ? opacity : 1,
+          ? `translateX(${horizontalDistance}px) rotate(${rotation}deg)`
+          : undefined,
+        opacity: horizontalDistance !== 0 ? opacity : undefined,
         transition: 'none',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
-        backfaceVisibility: 'hidden',
-        cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+        pointerEvents: 'none', // Allow clicks to pass through to buttons behind
       }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
     >
+      {/* Card Container with responsive sizing */}
+      <div 
+        className="relative inline-block"
+        style={{ 
+          width: `${cardMaxWidth}px`,
+          height: `${cardMaxHeight}px`,
+          maxHeight: `${cardMaxHeight}px`,
+          maxWidth: `${cardMaxWidth}px`,
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
+          cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+          pointerEvents: 'auto', // Card itself captures events
+        }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+      >
         {/* SVG Card Image */}
         <img 
           src={cardImageSrc} 
@@ -145,6 +154,7 @@ export const GameCard = memo(({
             console.error('Image element:', e.currentTarget);
           }}
         />
+      </div>
     </div>
   );
 });
