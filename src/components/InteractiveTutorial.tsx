@@ -21,8 +21,8 @@ interface TutorialStep {
 
 const tutorialSteps: TutorialStep[] = [
   {
-    title: "Willkommen bei Schluck mal!",
-    description: "Lerne die Swipe-Gesten kennen. Wische nach rechts, links oder oben, um zu interagieren.",
+    title: "Los geht's mit Schluck mal!",
+    description: "Das einzige Trinkspiel das du brauchen wirst.",
     icon: <div className="text-6xl">👋</div>,
   },
   {
