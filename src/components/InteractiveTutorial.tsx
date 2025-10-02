@@ -169,8 +169,33 @@ export const InteractiveTutorial = () => {
         ))}
       </div>
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2">
+      {/* Special fullscreen layout for swipe up step */}
+      {step.requiredSwipe === 'up' && (
+        <div className="absolute inset-0 flex flex-col z-20" {...swipeHandlers}>
+          {/* Text content in center */}
+          <div className="flex-1 flex items-center justify-center px-4">
+            <div className="text-center space-y-6">
+              <ArrowUp className="w-20 h-20 sm:w-24 sm:h-24 mx-auto text-primary animate-bounce" />
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground">{step.title}</h2>
+              <p className="text-lg sm:text-xl text-muted-foreground max-w-md">{step.description}</p>
+            </div>
+          </div>
+
+          {/* Glowing yellow swipe area at bottom - full width */}
+          <div className="relative h-32 sm:h-40">
+            <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent animate-pulse" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center text-white drop-shadow-lg">
+                <ArrowUp className="w-12 h-12 mx-auto mb-2 animate-bounce" />
+                <p className="text-sm sm:text-base font-semibold">Wische hier nach oben</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main content - hidden for swipe up */}
+      <div className={`relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
         {/* Icon/Visual */}
         {step.icon && !step.requiredSwipe && (
           <div className="flex justify-center animate-scale-in mt-4">
@@ -178,7 +203,7 @@ export const InteractiveTutorial = () => {
           </div>
         )}
 
-        {/* Tutorial card for swipe steps */}
+        {/* Tutorial card for left/right swipe steps */}
         {step.requiredSwipe && (
           <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
             <div 
@@ -219,16 +244,13 @@ export const InteractiveTutorial = () => {
                 {step.requiredSwipe === 'left' && (
                   <ArrowLeft className="w-12 h-12 sm:w-16 sm:h-16 text-red-500" />
                 )}
-                {step.requiredSwipe === 'up' && (
-                  <ArrowUp className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />
-                )}
               </div>
             )}
           </div>
         )}
 
-        {/* Swipe overlay for visual feedback - only during active swipe */}
-        {step.requiredSwipe && swipeState.isSwiping && Math.abs(swipeState.horizontalDistance) > 20 && (
+        {/* Swipe overlay for visual feedback - only for horizontal swipes */}
+        {step.requiredSwipe && step.requiredSwipe !== 'up' && swipeState.isSwiping && Math.abs(swipeState.horizontalDistance) > 20 && (
           <SwipeOverlay
             horizontalDistance={swipeState.horizontalDistance}
             swipeDirection={swipeState.swipeDirection}
@@ -236,11 +258,13 @@ export const InteractiveTutorial = () => {
           />
         )}
 
-        {/* Text content */}
-        <div className="text-center space-y-2 sm:space-y-4 px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground">{step.title}</h2>
-          <p className="text-base sm:text-lg text-muted-foreground">{step.description}</p>
-        </div>
+        {/* Text content - only for non-swipe steps */}
+        {!step.requiredSwipe && (
+          <div className="text-center space-y-2 sm:space-y-4 px-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">{step.title}</h2>
+            <p className="text-base sm:text-lg text-muted-foreground">{step.description}</p>
+          </div>
+        )}
 
         {/* Action buttons for non-swipe steps */}
         {!step.requiredSwipe && (
@@ -264,16 +288,18 @@ export const InteractiveTutorial = () => {
         )}
       </div>
 
-      {/* Skip button at bottom center */}
-      <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-10">
-        <Button
-          onClick={handleSkip}
-          variant="ghost"
-          className="text-muted-foreground text-sm sm:text-base"
-        >
-          Überspringen
-        </Button>
-      </div>
+      {/* Skip button at bottom center - hide for swipe up step */}
+      {step.requiredSwipe !== 'up' && (
+        <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-10">
+          <Button
+            onClick={handleSkip}
+            variant="ghost"
+            className="text-muted-foreground text-sm sm:text-base"
+          >
+            Überspringen
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
