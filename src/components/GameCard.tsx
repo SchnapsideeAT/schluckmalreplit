@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import { Card, CardCategory } from "@/types/card";
 import { getCardImage } from "@/utils/cardImageMapper";
 import { useWindowSize } from "@/hooks/useWindowSize";
@@ -26,10 +26,10 @@ interface GameCardProps {
   horizontalDistance?: number;
   onTouchStart?: (e: React.TouchEvent) => void;
   onTouchMove?: (e: React.TouchEvent) => void;
-  onTouchEnd?: () => void;
+  onTouchEnd?: (e: React.TouchEvent) => void;
   onMouseDown?: (e: React.MouseEvent) => void;
   onMouseMove?: (e: React.MouseEvent) => void;
-  onMouseUp?: () => void;
+  onMouseUp?: (e: React.MouseEvent) => void;
 }
 
 const categoryColorMap: Record<CardCategory, string> = {
@@ -57,6 +57,10 @@ export const GameCard = memo(({
   
   const shouldAnimateComplex = flags.enableComplexAnimations;
   
+  // Ref to card container for hit testing
+  const cardContainerRef = useRef<HTMLDivElement>(null);
+  const [swipeStartedOnCard, setSwipeStartedOnCard] = useState(false);
+  
   // Animation state: 'entering' | 'visible'
   const [animationState, setAnimationState] = useState<'entering' | 'visible'>('entering');
   
@@ -70,6 +74,63 @@ export const GameCard = memo(({
     
     return () => clearTimeout(timer);
   }, [card.id]);
+
+  // Wrapped handlers with hit-testing: only allow swipe if started on card
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (cardContainerRef.current?.contains(e.target as Node)) {
+      setSwipeStartedOnCard(true);
+      onTouchStart?.(e);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (swipeStartedOnCard) {
+      onTouchMove?.(e);
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (swipeStartedOnCard) {
+      setSwipeStartedOnCard(false);
+      onTouchEnd?.(e);
+    }
+  };
+
+  const handleTouchCancel = (e: React.TouchEvent) => {
+    // Handle cancelled touches (e.g., incoming notification, multitouch conflict)
+    if (swipeStartedOnCard) {
+      setSwipeStartedOnCard(false);
+      onTouchEnd?.(e);
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (cardContainerRef.current?.contains(e.target as Node)) {
+      setSwipeStartedOnCard(true);
+      onMouseDown?.(e);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (swipeStartedOnCard) {
+      onMouseMove?.(e);
+    }
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (swipeStartedOnCard) {
+      setSwipeStartedOnCard(false);
+      onMouseUp?.(e);
+    }
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent) => {
+    // Handle mouse leaving the element while dragging
+    if (swipeStartedOnCard) {
+      setSwipeStartedOnCard(false);
+      onMouseUp?.(e);
+    }
+  };
 
   // Calculate rotation and opacity based on horizontal swipe
   const rotation = horizontalDistance * 0.1;
@@ -99,7 +160,7 @@ export const GameCard = memo(({
 
   return (
     <div 
-      className={`w-full relative touch-none flex items-center justify-center ${
+      className={`absolute inset-0 touch-none flex items-center justify-center ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{
@@ -108,18 +169,21 @@ export const GameCard = memo(({
           : undefined,
         opacity: horizontalDistance !== 0 ? opacity : undefined,
         transition: 'none',
-        cursor: 'grab',
+        cursor: swipeStartedOnCard ? 'grabbing' : 'auto',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto'
       }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={handleTouchCancel}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
-      {/* Card Container with responsive sizing */}
+      {/* Card Container with responsive sizing - swipe only on card */}
       <div 
+        ref={cardContainerRef}
         className="relative inline-block"
         style={{ 
           width: `${cardMaxWidth}px`,
@@ -128,6 +192,7 @@ export const GameCard = memo(({
           maxWidth: `${cardMaxWidth}px`,
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
+          cursor: 'grab',
         }}
       >
         {/* SVG Card Image */}
