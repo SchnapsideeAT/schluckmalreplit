@@ -53,18 +53,21 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - Installed and configured `@capacitor/status-bar` plugin with overlay mode
 - Created `src/utils/capacitor-init.ts` for Status Bar initialization
 
-**Card Size Optimization:**
-- Optimized GameCard sizing for all mobile devices (iPhone SE to Pro Max, Android small to large)
+**Card Size Optimization (HEIGHT-FIRST):**
+- Implemented HEIGHT-FIRST card sizing based on SVG aspect ratio (167.24:260.79 ≈ 0.641)
+- Cards now utilize full 75-80% viewport height on all devices
+- Width calculated from height: `cardMaxWidth = cardMaxHeight * 0.641`
+- Container uses `overflow-hidden` to allow cards wider than viewport (maintains aspect ratio)
 - Reduced Game.tsx layout padding (px-3 pt-4 pb-16) for maximum card display area
-- Card sizes: 75-80% viewport height, 86-88% viewport width on mobile
-- Cards properly sized accounting for Safe Areas and layout constraints
-- InteractiveTutorial card sizes synchronized with GameCard (same breakpoints)
+- InteractiveTutorial card sizes synchronized with GameCard
 
 **Safe Area Improvements:**
-- ScrollableContainer now includes safe-area-inset-top for proper content positioning
-- InteractiveTutorial progress indicator and skip button positioned with safe area offsets
-- All pages (Settings, Rules, Tutorial) now respect top and bottom safe areas
-- Verified on iPhone 13/14/15, Pro Max, and Android devices
+- ScrollableContainer: Fixed 12px top padding, 24px + safe-area bottom padding
+- InteractiveTutorial: Progress bar with safe-area offset, no double padding
+- Skip button positioned with safe-area-inset-bottom
+- Settings/Rules pages: Proper spacing top (12px) and bottom (24px + safe-area)
+- Tutorial: Fixed gray area at top by removing double safe-area application
+- Verified on iPhone 13/14/15 Pro/Pro Max and Android devices
 
 ### Oct 1, 2025
 - Imported from GitHub
