@@ -55,17 +55,18 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 
 **Card Size Optimization (HEIGHT-FIRST):**
 - Implemented HEIGHT-FIRST card sizing based on SVG aspect ratio (167.24:260.79 ≈ 0.641)
-- Cards now utilize full 75-80% viewport height on all devices
+- Cards now utilize 70-75% viewport height on all devices (optimized from initial 75-80%)
+- Card sizes: <375px (70%), <430px (72%), <768px (75%), Tablets (70%)
 - Width calculated from height: `cardMaxWidth = cardMaxHeight * 0.641`
 - Container uses `overflow-hidden` to allow cards wider than viewport (maintains aspect ratio)
 - Reduced Game.tsx layout padding (px-3 pt-4 pb-16) for maximum card display area
 - InteractiveTutorial card sizes synchronized with GameCard
 
 **Safe Area Improvements:**
-- ScrollableContainer: Fixed 12px top padding, 24px + safe-area bottom padding
+- ScrollableContainer: Fixed 12px top padding, 48px + safe-area bottom padding (increased for better scrolling)
 - InteractiveTutorial: Progress bar with safe-area offset, no double padding
 - Skip button positioned with safe-area-inset-bottom
-- Settings/Rules pages: Proper spacing top (12px) and bottom (24px + safe-area)
+- Settings/Rules pages: Proper spacing top (12px) and bottom (48px + safe-area) - prevents content cutoff
 - Tutorial: Fixed gray area at top by removing double safe-area application
 - Verified on iPhone 13/14/15 Pro/Pro Max and Android devices
 
