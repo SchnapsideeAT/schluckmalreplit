@@ -195,14 +195,11 @@ export const InteractiveTutorial = () => {
             </div>
           </div>
 
-          {/* Glowing yellow swipe area at bottom - full width */}
-          <div className="absolute bottom-0 left-0 right-0 h-64 sm:h-72">
-            <div 
-              className="absolute inset-0"
-              style={{
-                background: 'linear-gradient(to top, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 20%, hsl(var(--primary) / 0.4) 40%, hsl(var(--primary) / 0.2) 60%, hsl(var(--primary) / 0.05) 80%, transparent 100%)'
-              }}
-            />
+          {/* Swipe area indicator at bottom - no gradient */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 flex items-center justify-center">
+            <div className="text-center">
+              <ArrowUp className="w-12 h-12 sm:w-16 sm:h-16 text-primary animate-bounce mx-auto" />
+            </div>
           </div>
         </div>
       )}
