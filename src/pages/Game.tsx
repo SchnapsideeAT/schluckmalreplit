@@ -427,6 +427,14 @@ const Game = () => {
         />
       )}
 
+      {/* Invisible swipe area at bottom for statistics (only when card is shown) */}
+      {currentCard && showCard && (
+        <div 
+          className="fixed bottom-0 left-0 right-0 h-24 z-30 touch-none"
+          {...bottomSwipeHandlers}
+        />
+      )}
+
       {/* Exit Confirmation Dialog */}
       <AlertDialog open={showExitDialog} onOpenChange={setShowExitDialog}>
         <AlertDialogContent className="bg-card border-primary/30">
