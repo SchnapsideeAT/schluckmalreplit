@@ -57,29 +57,22 @@ export const InteractiveTutorial = () => {
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
   
-  // Card aspect ratio from SVG: 167.24 / 260.79 ≈ 0.641
-  const CARD_ASPECT_RATIO = 167.24 / 260.79;
-  
-  // Responsive card sizing - synchronized with GameCard (HEIGHT-FIRST)
+  // Responsive card sizing - same as in GameCard
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
-    // Compact phones (iPhone SE, small Android)
-    cardMaxHeight = height * 0.55;
-    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
+    cardMaxHeight = height * 0.75;
+    cardMaxWidth = width * 0.88;
   } else if (width < 430) {
-    // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
-    cardMaxHeight = height * 0.58;
-    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
+    cardMaxHeight = height * 0.85;
+    cardMaxWidth = width * 0.92;
   } else if (width < 768) {
-    // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
-    cardMaxHeight = height * 0.60;
-    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
+    cardMaxHeight = height * 0.92;
+    cardMaxWidth = width * 0.95;
   } else {
-    // Tablets & Desktop
-    cardMaxHeight = height * 0.65;
-    cardMaxWidth = Math.min(cardMaxHeight * CARD_ASPECT_RATIO, 480);
+    cardMaxHeight = height * 0.85;
+    cardMaxWidth = Math.min(width * 0.6, 500);
   }
 
   // Swipe handling for tutorial
@@ -161,12 +154,12 @@ export const InteractiveTutorial = () => {
 
 
   return (
-    <div className="min-h-dvh h-dvh bg-background flex flex-col items-center justify-start relative overflow-hidden">
-      {/* Background - solid gray */}
-      <div className="absolute inset-0 pointer-events-none" />
+    <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-50" style={{ top: 'max(12px, calc(12px + env(safe-area-inset-top, 0px)))' }}>
+      <div className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
@@ -195,17 +188,20 @@ export const InteractiveTutorial = () => {
             </div>
           </div>
 
-          {/* Swipe area indicator at bottom - no gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40 flex items-center justify-center">
-            <div className="text-center">
-              <ArrowUp className="w-12 h-12 sm:w-16 sm:h-16 text-primary animate-bounce mx-auto" />
-            </div>
+          {/* Glowing yellow swipe area at bottom - full width */}
+          <div className="absolute bottom-0 left-0 right-0 h-64 sm:h-72">
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: 'linear-gradient(to top, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 20%, hsl(var(--primary) / 0.4) 40%, hsl(var(--primary) / 0.2) 60%, hsl(var(--primary) / 0.05) 80%, transparent 100%)'
+              }}
+            />
           </div>
         </div>
       )}
 
       {/* Main content - hidden for swipe up */}
-      <div className={`relative z-10 flex flex-col items-center gap-3 sm:gap-4 w-full max-w-md px-4 mt-16 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
+      <div className={`relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
         {/* Icon/Visual */}
         {step.icon && !step.requiredSwipe && (
           <div className="flex justify-center animate-scale-in mt-4">
@@ -215,22 +211,22 @@ export const InteractiveTutorial = () => {
 
         {/* Tutorial card for left/right swipe steps */}
         {step.requiredSwipe && (
-          <div className="w-full flex flex-col items-center gap-2 sm:gap-3">
+          <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
             <div 
-              className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform flex items-center justify-center overflow-hidden"
+              className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform"
               style={{
-                height: `${cardMaxHeight}px`,
-                width: `${cardMaxWidth}px`,
+                maxHeight: `${cardMaxHeight}px`,
+                maxWidth: `${cardMaxWidth}px`,
                 transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
                 transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
               }}
               {...swipeHandlers}
             >
-              <div className="relative h-full flex items-center justify-center">
+              <div className="relative">
                 <img 
                   src={cardBackSvg} 
                   alt="Tutorial Card" 
-                  className="h-full w-auto max-w-full object-contain rounded-2xl mx-auto"
+                  className="w-full h-auto object-contain rounded-2xl"
                   draggable={false}
                 />
                 
@@ -306,7 +302,7 @@ export const InteractiveTutorial = () => {
       </div>
 
       {/* Skip button at bottom center */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-30" style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom, 0px))' }}>
+      <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-30">
         <Button
           onClick={handleSkip}
           variant="ghost"

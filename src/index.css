@@ -143,7 +143,7 @@ All colors MUST be HSL.
     display: flex;
     flex-direction: column;
     padding: 12px;
-    padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     box-sizing: border-box;
     position: relative;
   }

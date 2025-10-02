@@ -75,34 +75,31 @@ export const GameCard = memo(({
   const rotation = horizontalDistance * 0.1;
   const opacity = horizontalDistance !== 0 ? Math.max(0.5, 1 - Math.abs(horizontalDistance) / 300) : 1;
 
-  // Card aspect ratio from SVG: 167.24 / 260.79 ≈ 0.641
-  const CARD_ASPECT_RATIO = 167.24 / 260.79;
-  
-  // Responsive card sizing - HEIGHT-FIRST calculation (card may be wider than viewport)
+  // Responsive card sizing - optimized for all devices
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
     // Compact phones (iPhone SE, small Android)
-    cardMaxHeight = height * 0.55;
-    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
+    cardMaxHeight = height * 0.75;
+    cardMaxWidth = width * 0.88;
   } else if (width < 430) {
     // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
-    cardMaxHeight = height * 0.58;
-    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
+    cardMaxHeight = height * 0.85;
+    cardMaxWidth = width * 0.92;
   } else if (width < 768) {
     // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
-    cardMaxHeight = height * 0.60;
-    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
+    cardMaxHeight = height * 0.92;
+    cardMaxWidth = width * 0.95;
   } else {
     // Tablets & Desktop
-    cardMaxHeight = height * 0.65;
-    cardMaxWidth = Math.min(cardMaxHeight * CARD_ASPECT_RATIO, 480);
+    cardMaxHeight = height * 0.85;
+    cardMaxWidth = Math.min(width * 0.6, 500); // Max 500px on large screens
   }
 
   return (
     <div 
-      className={`w-full relative touch-none flex items-center justify-center overflow-hidden ${
+      className={`w-full relative touch-none flex items-center justify-center ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{
@@ -123,10 +120,10 @@ export const GameCard = memo(({
     >
       {/* Card Container with responsive sizing */}
       <div 
-        className="relative flex items-center justify-center"
+        className="relative inline-block"
         style={{ 
-          height: `${cardMaxHeight}px`,
-          width: `${cardMaxWidth}px`,
+          maxHeight: `${cardMaxHeight}px`,
+          maxWidth: `${cardMaxWidth}px`,
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
         }}
@@ -146,7 +143,7 @@ export const GameCard = memo(({
         <img 
           src={cardImageSrc} 
           alt={`${card.category} Card ${card.id}`}
-          className="h-full w-auto max-w-full object-contain rounded-2xl block select-none mx-auto"
+          className="w-full h-auto object-contain rounded-2xl block select-none"
           draggable={false}
           onContextMenu={(e) => e.preventDefault()}
           onPointerDown={(e) => {
