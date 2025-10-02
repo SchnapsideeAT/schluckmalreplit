@@ -71,16 +71,16 @@ const Rules = () => {
             <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
             
             <Accordion type="single" collapsible defaultValue="standard-deck" className="w-full">
-              <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl px-6">
-                <AccordionTrigger className="hover:no-underline py-5">
+              <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl">
+                <AccordionTrigger className="hover:no-underline py-5 px-6 transition-all duration-300">
                   <div className="flex items-center gap-3">
                     <Package className="w-6 h-6 text-primary" />
                     <span className="text-xl font-bold text-foreground">Standard Deck</span>
                     <span className="ml-2 text-sm bg-primary/20 text-primary px-2 py-1 rounded-full">5 Kategorien</span>
                   </div>
                 </AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid gap-4 md:grid-cols-2 pt-4 pb-2">
+                <AccordionContent className="transition-all duration-300 ease-in-out data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+                  <div className="grid gap-4 md:grid-cols-2 px-6 pb-6">
                     <div className="bg-background border border-category-task/50 rounded-xl p-5 space-y-2">
                       <div className="flex items-center gap-3 mb-2">
                         <CategoryIcon category="Aufgabe" className="w-6 h-6" />
