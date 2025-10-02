@@ -75,26 +75,25 @@ export const GameCard = memo(({
   const rotation = horizontalDistance * 0.1;
   const opacity = horizontalDistance !== 0 ? Math.max(0.5, 1 - Math.abs(horizontalDistance) / 300) : 1;
 
-  // Responsive card sizing - optimized for all devices
-  // Calculated to fit actual container space after safe areas and layout constraints
+  // Responsive card sizing - optimized for maximum visibility on all devices
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
     // Compact phones (iPhone SE, small Android)
-    cardMaxHeight = height * 0.67;
+    cardMaxHeight = height * 0.75;
     cardMaxWidth = width * 0.88;
   } else if (width < 430) {
     // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
-    cardMaxHeight = height * 0.70;
+    cardMaxHeight = height * 0.78;
     cardMaxWidth = width * 0.86;
   } else if (width < 768) {
     // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
-    cardMaxHeight = height * 0.72;
+    cardMaxHeight = height * 0.80;
     cardMaxWidth = width * 0.88;
   } else {
     // Tablets & Desktop
-    cardMaxHeight = height * 0.70;
+    cardMaxHeight = height * 0.75;
     cardMaxWidth = Math.min(width * 0.55, 480);
   }
 

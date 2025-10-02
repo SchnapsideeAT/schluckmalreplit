@@ -57,22 +57,26 @@ export const InteractiveTutorial = () => {
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
   
-  // Responsive card sizing - same as in GameCard
+  // Responsive card sizing - synchronized with GameCard
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
+    // Compact phones (iPhone SE, small Android)
     cardMaxHeight = height * 0.75;
     cardMaxWidth = width * 0.88;
   } else if (width < 430) {
-    cardMaxHeight = height * 0.85;
-    cardMaxWidth = width * 0.92;
+    // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
+    cardMaxHeight = height * 0.78;
+    cardMaxWidth = width * 0.86;
   } else if (width < 768) {
-    cardMaxHeight = height * 0.92;
-    cardMaxWidth = width * 0.95;
+    // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
+    cardMaxHeight = height * 0.80;
+    cardMaxWidth = width * 0.88;
   } else {
-    cardMaxHeight = height * 0.85;
-    cardMaxWidth = Math.min(width * 0.6, 500);
+    // Tablets & Desktop
+    cardMaxHeight = height * 0.75;
+    cardMaxWidth = Math.min(width * 0.55, 480);
   }
 
   // Swipe handling for tutorial
@@ -154,12 +158,12 @@ export const InteractiveTutorial = () => {
 
 
   return (
-    <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+    <div className="min-h-dvh h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden" style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-10" style={{ top: 'calc(2rem + env(safe-area-inset-top, 0px))' }}>
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
@@ -302,7 +306,7 @@ export const InteractiveTutorial = () => {
       </div>
 
       {/* Skip button at bottom center */}
-      <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-30">
+      <div className="absolute left-1/2 -translate-x-1/2 z-30" style={{ bottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}>
         <Button
           onClick={handleSkip}
           variant="ghost"
