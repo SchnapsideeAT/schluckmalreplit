@@ -99,7 +99,7 @@ export const GameCard = memo(({
 
   return (
     <div 
-      className={`relative inline-block ${
+      className={`relative inline-block pointer-events-auto ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{ 
