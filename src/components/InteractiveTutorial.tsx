@@ -178,7 +178,17 @@ export const InteractiveTutorial = () => {
           {/* Text content in vertical center */}
           <div className="absolute inset-0 flex items-center justify-center px-4">
             <div className="flex flex-col items-center gap-4">
-              <ArrowUp className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-primary animate-bounce" />
+              <div className={`${canProceed ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
+                <ArrowUp className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-primary animate-bounce" />
+              </div>
+              
+              {/* Success checkmark for swipe up */}
+              {canProceed && (
+                <div className="bg-green-500 rounded-full p-4 animate-scale-in">
+                  <Check className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
+                </div>
+              )}
+              
               <div className="text-center space-y-2">
                 <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
