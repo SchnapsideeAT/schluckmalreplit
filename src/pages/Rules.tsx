@@ -1,8 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Package } from "lucide-react";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ScrollableContainer } from "@/components/ScrollableContainer";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Rules = () => {
   const navigate = useNavigate();
@@ -64,62 +70,75 @@ const Rules = () => {
           <section className="space-y-4">
             <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
             
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="bg-card border border-category-task/50 rounded-xl p-5 space-y-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <CategoryIcon category="Aufgabe" className="w-6 h-6" />
-                  <h3 className="text-xl font-semibold text-category-task">Aufgabe</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Der Spieler muss eine Herausforderung meistern oder trinken.
-                </p>
-              </div>
+            <Accordion type="single" collapsible defaultValue="standard-deck" className="w-full">
+              <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl px-6">
+                <AccordionTrigger className="hover:no-underline py-5">
+                  <div className="flex items-center gap-3">
+                    <Package className="w-6 h-6 text-primary" />
+                    <span className="text-xl font-bold text-foreground">Standard Deck</span>
+                    <span className="ml-2 text-sm bg-primary/20 text-primary px-2 py-1 rounded-full">5 Kategorien</span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid gap-4 md:grid-cols-2 pt-4 pb-2">
+                    <div className="bg-background border border-category-task/50 rounded-xl p-5 space-y-2">
+                      <div className="flex items-center gap-3 mb-2">
+                        <CategoryIcon category="Aufgabe" className="w-6 h-6" />
+                        <h3 className="text-xl font-semibold text-category-task">Aufgabe</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Der Spieler muss eine Herausforderung meistern oder trinken.
+                      </p>
+                    </div>
 
-              <div className="bg-card border border-category-group/50 rounded-xl p-5 space-y-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <CategoryIcon category="Gruppe" className="w-6 h-6" />
-                  <h3 className="text-xl font-semibold text-category-group">Gruppe</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Alle Spieler sind betroffen und müssen gemeinsam Aufgaben bewältigen.
-                </p>
-              </div>
+                    <div className="bg-background border border-category-group/50 rounded-xl p-5 space-y-2">
+                      <div className="flex items-center gap-3 mb-2">
+                        <CategoryIcon category="Gruppe" className="w-6 h-6" />
+                        <h3 className="text-xl font-semibold text-category-group">Gruppe</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Alle Spieler sind betroffen und müssen gemeinsam Aufgaben bewältigen.
+                      </p>
+                    </div>
 
-              <div className="bg-card border border-category-duel/50 rounded-xl p-5 space-y-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <CategoryIcon category="Duell" className="w-6 h-6" />
-                  <h3 className="text-xl font-semibold text-category-duel">Duell</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Der Spieler wählt einen Gegner für einen Wettkampf. Der Verlierer trinkt.
-                </p>
-              </div>
+                    <div className="bg-background border border-category-duel/50 rounded-xl p-5 space-y-2">
+                      <div className="flex items-center gap-3 mb-2">
+                        <CategoryIcon category="Duell" className="w-6 h-6" />
+                        <h3 className="text-xl font-semibold text-category-duel">Duell</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Der Spieler wählt einen Gegner für einen Wettkampf. Der Verlierer trinkt.
+                      </p>
+                    </div>
 
-              <div className="bg-card border border-category-wildcard/50 rounded-xl p-5 space-y-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <CategoryIcon category="Wildcard" className="w-6 h-6" />
-                  <h3 className="text-xl font-semibold text-category-wildcard">Wild Cards</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Spezialkarten mit einzigartigen Effekten, die das Spiel beeinflussen können.
-                </p>
-              </div>
+                    <div className="bg-background border border-category-wildcard/50 rounded-xl p-5 space-y-2">
+                      <div className="flex items-center gap-3 mb-2">
+                        <CategoryIcon category="Wildcard" className="w-6 h-6" />
+                        <h3 className="text-xl font-semibold text-category-wildcard">Wild Cards</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Spezialkarten mit einzigartigen Effekten, die das Spiel beeinflussen können.
+                      </p>
+                    </div>
 
-              <div className="bg-card border border-category-truth/50 rounded-xl p-5 space-y-2 md:col-span-2">
-                <div className="flex items-center gap-3 mb-2">
-                  <CategoryIcon category="Wahrheit" className="w-6 h-6" />
-                  <h3 className="text-xl font-semibold text-category-truth">Wahrheit</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Der Spieler muss eine Frage ehrlich beantworten oder trinken.
-                </p>
-                <div className="text-sm text-muted-foreground space-y-1">
-                  <p><strong className="text-foreground">Unterkategorie:</strong></p>
-                  <p>• „Ich habe noch nie": Wer die genannte Aktion bereits gemacht hat, muss trinken.</p>
-                  <p>• „Wählt den": Die Gruppe wählt eine Person, die trinken muss.</p>
-                </div>
-              </div>
-            </div>
+                    <div className="bg-background border border-category-truth/50 rounded-xl p-5 space-y-2 md:col-span-2">
+                      <div className="flex items-center gap-3 mb-2">
+                        <CategoryIcon category="Wahrheit" className="w-6 h-6" />
+                        <h3 className="text-xl font-semibold text-category-truth">Wahrheit</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Der Spieler muss eine Frage ehrlich beantworten oder trinken.
+                      </p>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        <p><strong className="text-foreground">Unterkategorie:</strong></p>
+                        <p>• „Ich habe noch nie": Wer die genannte Aktion bereits gemacht hat, muss trinken.</p>
+                        <p>• „Wählt den": Die Gruppe wählt eine Person, die trinken muss.</p>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </section>
 
           {/* Additional rules */}
