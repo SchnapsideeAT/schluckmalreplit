@@ -2,13 +2,11 @@ import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { GameCard } from "@/components/GameCard";
-import { SwipeOverlay } from "@/components/SwipeOverlay";
 import { CardBack } from "@/components/CardBack";
 import { PlayerTransition } from "@/components/PlayerTransition";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
 import { ArrowRight, Beer, Check, Home, Settings } from "lucide-react";
-import { useSwipe } from "@/hooks/useSwipe";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
 import { playSound, soundManager } from "@/utils/sounds";
@@ -266,33 +264,15 @@ const Game = () => {
     });
   };
 
-  // Swipe gesture handlers for card (left/right only)
-  const { swipeState: cardSwipeState, swipeHandlers: cardSwipeHandlers, resetSwipeState } = useSwipe({
-    onSwipeLeft: () => {
-      // Swipe left = drink (skip task)
-      if (currentIndex >= 0) {
-        handleDrink();
-      }
-    },
-    onSwipeRight: () => {
-      // Swipe right = complete task
-      if (currentIndex >= 0) {
-        handleComplete();
-      }
-    },
-  });
-
   const handlePlayerTransitionTap = useCallback(() => {
     setShowPlayerTransition(false);
     setCurrentPlayerIndex(nextPlayerIndex);
-    resetSwipeState(); // Reset swipe state BEFORE drawing card
     setShowCard(true);
     drawCard();
-  }, [nextPlayerIndex, drawCard, resetSwipeState]);
+  }, [nextPlayerIndex, drawCard]);
 
   const handleInitialTransitionTap = useCallback(() => {
     setShowInitialTransition(false);
-    resetSwipeState(); // Reset swipe state BEFORE showing card
     setShowCard(true);
     
     // If we're loading a saved game (currentIndex >= 0), show current card
@@ -302,7 +282,7 @@ const Game = () => {
     } else {
       drawCard();
     }
-  }, [currentIndex, drawCard, showCurrentCard, resetSwipeState]);
+  }, [currentIndex, drawCard, showCurrentCard]);
 
   const currentCard = useMemo(() => deck[currentIndex], [deck, currentIndex]);
   const cardsRemaining = useMemo(() => deck.length - currentIndex - 1, [deck.length, currentIndex]);
@@ -388,18 +368,21 @@ const Game = () => {
             </div>
           </div>
         ) : currentCard && showCard ? (
-          <>
-            <GameCard 
-              card={currentCard}
-              horizontalDistance={cardSwipeState.horizontalDistance}
-              {...cardSwipeHandlers}
-            />
-            <SwipeOverlay 
-              horizontalDistance={cardSwipeState.horizontalDistance}
-              swipeDirection={cardSwipeState.swipeDirection}
-              isSwiping={cardSwipeState.isSwiping}
-            />
-          </>
+          <GameCard 
+            card={currentCard}
+            onSwipeLeft={() => {
+              // Swipe left = drink (skip task)
+              if (currentIndex >= 0) {
+                handleDrink();
+              }
+            }}
+            onSwipeRight={() => {
+              // Swipe right = complete task
+              if (currentIndex >= 0) {
+                handleComplete();
+              }
+            }}
+          />
         ) : null}
       </div>
 
