@@ -38,7 +38,6 @@ const Rules = () => {
                   <div className="flex items-center gap-3">
                     <Package className="w-6 h-6 text-primary" />
                     <span className="text-xl font-bold text-foreground">Standard Deck</span>
-                    <span className="ml-2 text-sm bg-primary/20 text-primary px-2 py-1 rounded-full">5 Kategorien</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="transition-all duration-1000 ease-in-out data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
