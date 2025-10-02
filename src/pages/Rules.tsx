@@ -25,9 +25,9 @@ const Rules = () => {
 
           <div className="space-y-6 sm:space-y-8 slide-up">
           {/* Basic rules */}
-          <section className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
-            <h2 className="text-2xl font-bold text-primary">Grundregeln</h2>
-            <div className="space-y-4 text-muted-foreground">
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-primary text-center">Grundregeln</h2>
+            <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4 text-muted-foreground">
               <div className="space-y-3">
                 <div>
                   <strong className="text-foreground">Karte ziehen</strong>
@@ -62,7 +62,7 @@ const Rules = () => {
 
           {/* Categories */}
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-primary">Kartenkategorien</h2>
+            <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
             
             <div className="grid gap-4 md:grid-cols-2">
               <div className="bg-card border border-category-task/50 rounded-xl p-5 space-y-2">
@@ -123,8 +123,9 @@ const Rules = () => {
           </section>
 
           {/* Additional rules */}
-          <section className="bg-card border border-border/50 rounded-2xl p-6 space-y-3">
-            <h2 className="text-2xl font-bold text-primary">Zusätzliche Regeln</h2>
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-primary text-center">Zusätzliche Regeln</h2>
+            <div className="bg-card border border-border/50 rounded-2xl p-6">
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold mt-1">•</span>
@@ -135,11 +136,12 @@ const Rules = () => {
                 <span><strong className="text-foreground">No-Chill-Regel:</strong> Bei Unklarheiten entscheidet die Gruppe demokratisch.</span>
               </li>
             </ul>
+            </div>
           </section>
 
           {/* Important notes */}
           <section className="bg-destructive/10 border border-destructive/30 rounded-2xl p-6 space-y-3">
-            <h2 className="text-2xl font-bold text-destructive">Wichtige Hinweise</h2>
+            <h2 className="text-2xl font-bold text-destructive text-center">Wichtige Hinweise</h2>
             <ul className="space-y-2 text-sm text-foreground/90">
               <li className="flex items-start gap-2">
                 <span className="text-destructive font-bold mt-1">⚠</span>
