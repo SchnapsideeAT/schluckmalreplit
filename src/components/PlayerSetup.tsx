@@ -71,7 +71,7 @@ export const PlayerSetup = ({
 
         {/* Name Input */}
         <div className="flex gap-2">
-          <Input placeholder="Spielername..." value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} onKeyPress={handleKeyPress} maxLength={8} className="flex-1 uppercase" />
+          <Input placeholder="Spielername..." value={newPlayerName} onChange={e => setNewPlayerName(e.target.value)} onKeyPress={handleKeyPress} maxLength={8} className="flex-1" />
           <Button onClick={addPlayer} size="icon" className="shrink-0">
             <Plus className="w-5 h-5" />
           </Button>
