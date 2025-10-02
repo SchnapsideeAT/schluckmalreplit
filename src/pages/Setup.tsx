@@ -38,8 +38,7 @@ const Setup = () => {
 
   return (
     <ScrollableContainer>
-      <div className="flex flex-col items-center px-6 py-16 min-h-dvh">
-        <div className="slide-up max-w-lg w-full space-y-8 text-center">
+      <div className="max-w-lg mx-auto space-y-8 text-center slide-up">
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 border border-primary/50 mb-4">
               <Users className="w-10 h-10 text-primary" />
@@ -91,7 +90,6 @@ const Setup = () => {
           >
             Zurück
           </Button>
-        </div>
       </div>
     </ScrollableContainer>
   );
