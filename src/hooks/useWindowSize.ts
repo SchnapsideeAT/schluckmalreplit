@@ -6,10 +6,25 @@ interface WindowSize {
 }
 
 export const useWindowSize = () => {
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  const getSize = () => {
+    // Use #root element's actual size (accounts for safe area insets)
+    const rootElement = document.getElementById('root');
+    
+    if (rootElement) {
+      return {
+        width: rootElement.clientWidth,
+        height: rootElement.clientHeight,
+      };
+    }
+    
+    // Fallback to window.innerWidth/Height
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  };
+
+  const [windowSize, setWindowSize] = useState<WindowSize>(getSize());
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -18,10 +33,7 @@ export const useWindowSize = () => {
       // Debounce resize events for better performance
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        setWindowSize({
-          width: window.innerWidth,
-          height: window.innerHeight,
-        });
+        setWindowSize(getSize());
       }, 150);
     };
 
