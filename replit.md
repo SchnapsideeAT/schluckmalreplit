@@ -48,6 +48,7 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - **Padding Optimization**: Removed duplicate padding (pb-20) from Rules.tsx and Settings.tsx to prevent gray areas at bottom on iOS
 - **Swipe Interaction Fix**: Fixed button accessibility (Home/Settings) by using pointer-events strategy on GameCard wrapper
 - **Safe Area Insets for ScrollableContainer**: Added Safe Area support for top/bottom (Notch, Dynamic Island, Home Indicator) with negative margin strategy to prevent double-padding from #root. Left/right intentionally without Safe Areas as requested.
+- **Tutorial Card Size Fix**: Rebuilt tutorial card system with exact GameCard sizing logic (58%×75%, 60%×78%, 62%×80%, 65%×50%) to ensure identical card dimensions between tutorial and game. Uses same responsive breakpoints and inline-block structure as GameCard.
 
 ### Oct 2, 2025 - iOS Safe Area Fix
 - Fixed iPhone 15 Pro fullscreen issues (gray area at bottom, app not extending full height)
