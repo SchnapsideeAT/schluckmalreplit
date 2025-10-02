@@ -161,12 +161,12 @@ export const InteractiveTutorial = () => {
 
 
   return (
-    <div className="min-h-dvh h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+    <div className="min-h-dvh h-dvh bg-background flex flex-col items-center justify-start relative overflow-hidden">
       {/* Background - solid gray */}
       <div className="absolute inset-0 pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-50" style={{ top: 'max(2rem, calc(2rem + env(safe-area-inset-top, 0px)))' }}>
+      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-50" style={{ top: 'max(12px, calc(12px + env(safe-area-inset-top, 0px)))' }}>
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
@@ -205,7 +205,7 @@ export const InteractiveTutorial = () => {
       )}
 
       {/* Main content - hidden for swipe up */}
-      <div className={`relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
+      <div className={`relative z-10 flex flex-col items-center gap-3 sm:gap-4 w-full max-w-md px-4 mt-16 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
         {/* Icon/Visual */}
         {step.icon && !step.requiredSwipe && (
           <div className="flex justify-center animate-scale-in mt-4">
@@ -215,7 +215,7 @@ export const InteractiveTutorial = () => {
 
         {/* Tutorial card for left/right swipe steps */}
         {step.requiredSwipe && (
-          <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
+          <div className="w-full flex flex-col items-center gap-2 sm:gap-3">
             <div 
               className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform flex items-center justify-center overflow-hidden"
               style={{
