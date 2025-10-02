@@ -355,7 +355,7 @@ const Game = () => {
   };
 
   return (
-    <div className="no-scroll min-h-dvh h-dvh flex flex-col page-container pt-8 pb-32 relative">
+    <div className="no-scroll min-h-dvh h-dvh flex flex-col page-container pt-2 pb-32 relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <Button
