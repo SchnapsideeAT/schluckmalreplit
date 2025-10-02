@@ -86,7 +86,7 @@ const Setup = () => {
           <Button
             onClick={() => navigate("/")}
             variant="ghost"
-            className="w-full hover:text-primary"
+            className="w-full hover:text-primary hover:bg-transparent"
           >
             Zurück
           </Button>
