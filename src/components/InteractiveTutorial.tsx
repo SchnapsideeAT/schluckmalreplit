@@ -234,7 +234,7 @@ export const InteractiveTutorial = () => {
                   maxHeight: `${cardMaxHeight}px`,
                   maxWidth: `${cardMaxWidth}px`,
                   transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
-                  transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
+                  transition: swipeState.isSwiping ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                   cursor: swipeState.isSwiping ? 'grabbing' : 'grab',
                   backfaceVisibility: 'hidden',
                 }}
