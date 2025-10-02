@@ -33,12 +33,12 @@ export const PlayerTransition = ({
 
   return (
     <div 
-      className={`fixed inset-0 ${categoryColor} z-50 flex items-center justify-center cursor-pointer animate-fade-in`}
+      className={`fixed inset-0 ${categoryColor} z-50 flex items-center justify-center cursor-pointer animate-fade-in-smooth`}
       onClick={handleInteraction}
       onTouchEnd={handleInteraction}
     >
-      <div className="text-center space-y-8 px-8">
-        <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm border-4 border-white/40 shadow-2xl animate-scale-in">
+      <div className="text-center space-y-8 px-8 animate-scale-in-smooth">
+        <div className="inline-flex items-center justify-center w-32 h-32 rounded-full bg-white/20 backdrop-blur-sm border-4 border-white/40 shadow-2xl">
           <span className="text-7xl drop-shadow-2xl">{player.avatar}</span>
         </div>
         
