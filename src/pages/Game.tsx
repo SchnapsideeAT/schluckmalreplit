@@ -105,6 +105,7 @@ const Game = () => {
         setCurrentIndex(savedState.currentIndex);
         setCurrentPlayerIndex(savedState.currentPlayerIndex);
         setCardAccepted(savedState.cardAccepted);
+        setShowCard(false);
         setShowInitialTransition(true);
         return;
       }
@@ -122,6 +123,7 @@ const Game = () => {
     
     // Show initial transition when loading a saved game
     if (state?.currentIndex !== undefined && state.currentIndex >= 0) {
+      setShowCard(false);
       setShowInitialTransition(true);
     }
   }, []);
