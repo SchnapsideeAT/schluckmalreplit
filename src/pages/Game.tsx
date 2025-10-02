@@ -353,9 +353,9 @@ const Game = () => {
   };
 
   return (
-    <div className="no-scroll min-h-dvh h-dvh flex flex-col page-container pt-8 pb-32 relative">
+    <div className="no-scroll min-h-dvh h-dvh flex flex-col px-3 pt-4 pb-16 relative">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
+      <div className="flex items-center justify-between mb-2 sm:mb-4">
         <Button
           onClick={handleExitGame}
           variant="ghost"
@@ -378,7 +378,7 @@ const Game = () => {
       </div>
 
       {/* Card display area */}
-      <div className="flex-1 flex items-center justify-center py-4 sm:py-6">
+      <div className="flex-1 flex items-center justify-center">
         {currentIndex === -1 ? (
           <div 
             className="text-center space-y-6 slide-up cursor-pointer"
