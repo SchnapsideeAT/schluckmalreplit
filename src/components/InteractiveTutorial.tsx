@@ -166,7 +166,7 @@ export const InteractiveTutorial = () => {
       <div className="absolute inset-0 pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-10" style={{ top: 'max(2rem, calc(2rem + env(safe-area-inset-top, 0px)))' }}>
+      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-50" style={{ top: 'max(2rem, calc(2rem + env(safe-area-inset-top, 0px)))' }}>
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
@@ -306,7 +306,7 @@ export const InteractiveTutorial = () => {
       </div>
 
       {/* Skip button at bottom center */}
-      <div className="absolute left-1/2 -translate-x-1/2 z-30" style={{ bottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}>
+      <div className="absolute left-1/2 -translate-x-1/2 z-30" style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom, 0px))' }}>
         <Button
           onClick={handleSkip}
           variant="ghost"
