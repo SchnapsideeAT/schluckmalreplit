@@ -295,10 +295,7 @@ export const InteractiveTutorial = () => {
                 <Check className="w-5 h-5 ml-2" />
               </>
             ) : (
-              <>
-                Weiter
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </>
+              "Weiter"
             )}
           </Button>
         )}
