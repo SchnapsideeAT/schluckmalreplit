@@ -179,10 +179,12 @@ export const InteractiveTutorial = () => {
         <div className="absolute inset-0 z-20" {...swipeHandlers}>
           {/* Text content in vertical center */}
           <div className="absolute inset-0 flex items-center justify-center px-4">
-            <div className="text-center space-y-6">
+            <div className="flex flex-col items-center gap-4">
               <ArrowUp className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-primary animate-bounce" />
-              <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
+              <div className="text-center space-y-2">
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
+              </div>
             </div>
           </div>
 
