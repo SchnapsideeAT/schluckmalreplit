@@ -136,18 +136,13 @@ export const GameCard = memo(({
         <img 
           src={cardImageSrc} 
           alt={`${card.category} Card ${card.id}`}
-          className="w-full h-auto object-contain rounded-2xl block select-none"
+          className="w-full h-auto object-contain rounded-2xl block"
           draggable={false}
           onContextMenu={(e) => e.preventDefault()}
           onPointerDown={(e) => {
             if (e.pointerType === 'touch') {
               e.preventDefault();
             }
-          }}
-          style={{
-            WebkitTouchCallout: 'none',
-            WebkitUserSelect: 'none',
-            userSelect: 'none'
           }}
           onError={(e) => {
             console.error(`Failed to load ${card.category} card ${card.id}:`, cardImageSrc);
