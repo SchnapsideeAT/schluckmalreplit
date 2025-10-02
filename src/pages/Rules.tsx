@@ -32,8 +32,6 @@ const Rules = () => {
           <div className="space-y-6 sm:space-y-8 slide-up">
           {/* Categories */}
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
-            
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl">
                 <AccordionTrigger className="hover:no-underline py-5 px-6 transition-all duration-1000">
@@ -108,7 +106,7 @@ const Rules = () => {
           {/* Basic rules */}
           <section className="space-y-4">
             <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
-              <h2 className="text-2xl font-bold text-primary text-center">Grundregeln</h2>
+              <h2 className="text-2xl font-bold text-primary">Grundregeln</h2>
               <div className="text-muted-foreground space-y-3">
                 <div>
                   <strong className="text-foreground">Karte ziehen</strong>
@@ -144,7 +142,7 @@ const Rules = () => {
           {/* Additional rules */}
           <section className="space-y-4">
             <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
-              <h2 className="text-2xl font-bold text-primary text-center">Zusätzliche Regeln</h2>
+              <h2 className="text-2xl font-bold text-primary">Zusätzliche Regeln</h2>
               <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <span className="text-primary font-bold mt-1">•</span>
@@ -160,7 +158,7 @@ const Rules = () => {
 
           {/* Important notes */}
           <section className="bg-destructive/10 border border-destructive/30 rounded-2xl p-6 space-y-3">
-            <h2 className="text-2xl font-bold text-destructive text-center">Wichtige Hinweise</h2>
+            <h2 className="text-2xl font-bold text-destructive">Wichtige Hinweise</h2>
             <ul className="space-y-2 text-sm text-foreground/90">
               <li className="flex items-start gap-2">
                 <span className="text-destructive font-bold mt-1">⚠</span>
