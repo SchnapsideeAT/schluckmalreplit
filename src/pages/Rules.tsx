@@ -30,42 +30,6 @@ const Rules = () => {
           </div>
 
           <div className="space-y-6 sm:space-y-8 slide-up">
-          {/* Basic rules */}
-          <section className="space-y-4">
-            <h2 className="text-2xl font-bold text-primary text-center">Grundregeln</h2>
-            <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4 text-muted-foreground">
-              <div className="space-y-3">
-                <div>
-                  <strong className="text-foreground">Karte ziehen</strong>
-                  <p className="mt-1">• Lies die Karte laut vor.</p>
-                  <p className="mt-1">• Entscheide dich für eine Option.</p>
-                  
-                  <div className="mt-2 space-y-2">
-                    <div>
-                      <strong className="text-foreground">Option 1 – Aufgabe annehmen</strong>
-                      <p className="mt-1">• Schaffst du die Aufgabe nicht, trinke die angegebene Anzahl an Schlücke.</p>
-                    </div>
-
-                    <div>
-                      <strong className="text-foreground">Option 2 – Aufgabe verweigern</strong>
-                      <p className="mt-1">• Trinke die angegebene Anzahl an Schlücke (oben und unten in der Ecke angegeben).</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <strong className="text-foreground">Weitergeben</strong>
-                  <p className="mt-1">• Nach Abschluss der Aufgabe oder des Trinkens wird das Handy an den nächsten Spieler weitergegeben, der dann eine Karte zieht.</p>
-                </div>
-
-                <div>
-                  <strong className="text-foreground">Ende des Spiels</strong>
-                  <p className="mt-1">• Das Spiel endet, wenn alle Karten gespielt wurden oder die Gruppe keine Lust mehr hat.</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
           {/* Categories */}
           <section className="space-y-4">
             <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
@@ -139,6 +103,42 @@ const Rules = () => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+          </section>
+
+          {/* Basic rules */}
+          <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-primary text-center">Grundregeln</h2>
+            <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4 text-muted-foreground">
+              <div className="space-y-3">
+                <div>
+                  <strong className="text-foreground">Karte ziehen</strong>
+                  <p className="mt-1">• Lies die Karte laut vor.</p>
+                  <p className="mt-1">• Entscheide dich für eine Option.</p>
+                  
+                  <div className="mt-2 space-y-2">
+                    <div>
+                      <strong className="text-foreground">Option 1 – Aufgabe annehmen</strong>
+                      <p className="mt-1">• Schaffst du die Aufgabe nicht, trinke die angegebene Anzahl an Schlücke.</p>
+                    </div>
+
+                    <div>
+                      <strong className="text-foreground">Option 2 – Aufgabe verweigern</strong>
+                      <p className="mt-1">• Trinke die angegebene Anzahl an Schlücke (oben und unten in der Ecke angegeben).</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <strong className="text-foreground">Weitergeben</strong>
+                  <p className="mt-1">• Nach Abschluss der Aufgabe oder des Trinkens wird das Handy an den nächsten Spieler weitergegeben, der dann eine Karte zieht.</p>
+                </div>
+
+                <div>
+                  <strong className="text-foreground">Ende des Spiels</strong>
+                  <p className="mt-1">• Das Spiel endet, wenn alle Karten gespielt wurden oder die Gruppe keine Lust mehr hat.</p>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Additional rules */}
