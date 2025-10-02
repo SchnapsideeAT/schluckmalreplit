@@ -57,9 +57,9 @@ export const GameCard = memo(({
   
   const shouldAnimateComplex = flags.enableComplexAnimations;
   
-  // Ref to card container for hit testing
+  // Ref to card container
   const cardContainerRef = useRef<HTMLDivElement>(null);
-  const [swipeStartedOnCard, setSwipeStartedOnCard] = useState(false);
+  const [isSwiping, setIsSwiping] = useState(false);
   
   // Animation state: 'entering' | 'visible'
   const [animationState, setAnimationState] = useState<'entering' | 'visible'>('entering');
@@ -75,61 +75,119 @@ export const GameCard = memo(({
     return () => clearTimeout(timer);
   }, [card.id]);
 
-  // Wrapped handlers with hit-testing: only allow swipe if started on card
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (cardContainerRef.current?.contains(e.target as Node)) {
-      setSwipeStartedOnCard(true);
-      onTouchStart?.(e);
-    }
+  // Document-level listeners for tracking outside card during swipe
+  useEffect(() => {
+    if (!isSwiping) return;
+
+    const handleDocumentTouchMove = (e: TouchEvent) => {
+      // Create wrapper that looks like React.TouchEvent with essential properties
+      const syntheticEvent = {
+        touches: e.touches,
+        changedTouches: e.changedTouches,
+        targetTouches: e.targetTouches,
+        currentTarget: cardContainerRef.current,
+        target: e.target,
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        metaKey: e.metaKey,
+        shiftKey: e.shiftKey,
+        preventDefault: () => e.preventDefault(),
+        stopPropagation: () => e.stopPropagation(),
+        nativeEvent: e
+      } as unknown as React.TouchEvent;
+      onTouchMove?.(syntheticEvent);
+    };
+
+    const handleDocumentTouchEnd = (e: TouchEvent) => {
+      setIsSwiping(false);
+      const syntheticEvent = {
+        touches: e.touches,
+        changedTouches: e.changedTouches,
+        targetTouches: e.targetTouches,
+        currentTarget: cardContainerRef.current,
+        target: e.target,
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        metaKey: e.metaKey,
+        shiftKey: e.shiftKey,
+        preventDefault: () => e.preventDefault(),
+        stopPropagation: () => e.stopPropagation(),
+        nativeEvent: e
+      } as unknown as React.TouchEvent;
+      onTouchEnd?.(syntheticEvent);
+    };
+
+    const handleDocumentMouseMove = (e: MouseEvent) => {
+      const syntheticEvent = {
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pageX: e.pageX,
+        pageY: e.pageY,
+        screenX: e.screenX,
+        screenY: e.screenY,
+        currentTarget: cardContainerRef.current,
+        target: e.target,
+        button: e.button,
+        buttons: e.buttons,
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        metaKey: e.metaKey,
+        shiftKey: e.shiftKey,
+        preventDefault: () => e.preventDefault(),
+        stopPropagation: () => e.stopPropagation(),
+        nativeEvent: e
+      } as unknown as React.MouseEvent;
+      onMouseMove?.(syntheticEvent);
+    };
+
+    const handleDocumentMouseUp = (e: MouseEvent) => {
+      setIsSwiping(false);
+      const syntheticEvent = {
+        clientX: e.clientX,
+        clientY: e.clientY,
+        pageX: e.pageX,
+        pageY: e.pageY,
+        screenX: e.screenX,
+        screenY: e.screenY,
+        currentTarget: cardContainerRef.current,
+        target: e.target,
+        button: e.button,
+        buttons: e.buttons,
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        metaKey: e.metaKey,
+        shiftKey: e.shiftKey,
+        preventDefault: () => e.preventDefault(),
+        stopPropagation: () => e.stopPropagation(),
+        nativeEvent: e
+      } as unknown as React.MouseEvent;
+      onMouseUp?.(syntheticEvent);
+    };
+
+    document.addEventListener('touchmove', handleDocumentTouchMove);
+    document.addEventListener('touchend', handleDocumentTouchEnd);
+    document.addEventListener('touchcancel', handleDocumentTouchEnd);
+    document.addEventListener('mousemove', handleDocumentMouseMove);
+    document.addEventListener('mouseup', handleDocumentMouseUp);
+
+    return () => {
+      document.removeEventListener('touchmove', handleDocumentTouchMove);
+      document.removeEventListener('touchend', handleDocumentTouchEnd);
+      document.removeEventListener('touchcancel', handleDocumentTouchEnd);
+      document.removeEventListener('mousemove', handleDocumentMouseMove);
+      document.removeEventListener('mouseup', handleDocumentMouseUp);
+    };
+  }, [isSwiping, onTouchMove, onTouchEnd, onMouseMove, onMouseUp]);
+
+  // Card-level start handlers
+  const handleCardTouchStart = (e: React.TouchEvent) => {
+    setIsSwiping(true);
+    onTouchStart?.(e);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (swipeStartedOnCard) {
-      onTouchMove?.(e);
-    }
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (swipeStartedOnCard) {
-      setSwipeStartedOnCard(false);
-      onTouchEnd?.(e);
-    }
-  };
-
-  const handleTouchCancel = (e: React.TouchEvent) => {
-    // Handle cancelled touches (e.g., incoming notification, multitouch conflict)
-    if (swipeStartedOnCard) {
-      setSwipeStartedOnCard(false);
-      onTouchEnd?.(e);
-    }
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (cardContainerRef.current?.contains(e.target as Node)) {
-      setSwipeStartedOnCard(true);
-      onMouseDown?.(e);
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (swipeStartedOnCard) {
-      onMouseMove?.(e);
-    }
-  };
-
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (swipeStartedOnCard) {
-      setSwipeStartedOnCard(false);
-      onMouseUp?.(e);
-    }
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent) => {
-    // Handle mouse leaving the element while dragging
-    if (swipeStartedOnCard) {
-      setSwipeStartedOnCard(false);
-      onMouseUp?.(e);
-    }
+  const handleCardMouseDown = (e: React.MouseEvent) => {
+    setIsSwiping(true);
+    onMouseDown?.(e);
   };
 
   // Calculate rotation and opacity based on horizontal swipe
@@ -169,22 +227,13 @@ export const GameCard = memo(({
           : undefined,
         opacity: horizontalDistance !== 0 ? opacity : undefined,
         transition: 'none',
-        cursor: swipeStartedOnCard ? 'grabbing' : 'auto',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto'
       }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onTouchCancel={handleTouchCancel}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseLeave}
     >
-      {/* Card Container with responsive sizing - swipe only on card */}
+      {/* Card Container with responsive sizing - swipe handlers on card only */}
       <div 
         ref={cardContainerRef}
-        className="relative inline-block"
+        className="relative inline-block touch-auto"
         style={{ 
           width: `${cardMaxWidth}px`,
           height: `${cardMaxHeight}px`,
@@ -192,8 +241,10 @@ export const GameCard = memo(({
           maxWidth: `${cardMaxWidth}px`,
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
-          cursor: 'grab',
+          cursor: isSwiping ? 'grabbing' : 'grab',
         }}
+        onTouchStart={handleCardTouchStart}
+        onMouseDown={handleCardMouseDown}
       >
         {/* SVG Card Image */}
         <img 
