@@ -88,19 +88,8 @@ const Statistics = () => {
       <Confetti trigger={sortedPlayers.length > 0 && sortedPlayers[0].totalDrinks > 0} />
       
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <Button
-          onClick={() => navigate("/game", { state })}
-          variant="ghost"
-          size="icon"
-          className="hover:bg-muted/50"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        
+      <div className="flex items-center justify-center mb-6">
         <h1 className="text-2xl font-bold text-foreground">Statistiken</h1>
-        
-        <div className="w-10" /> {/* Spacer for centering */}
       </div>
 
       <div className="max-w-2xl mx-auto w-full space-y-6 slide-up">
@@ -206,7 +195,6 @@ const Statistics = () => {
               size="lg"
               className="w-full h-14 text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300"
             >
-              <ArrowLeft className="w-5 h-5 mr-2" />
               Zurück zum Spiel
             </Button>
           )}
