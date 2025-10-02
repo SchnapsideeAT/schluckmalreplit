@@ -155,8 +155,6 @@ export const InteractiveTutorial = () => {
 
   return (
     <div className="min-h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
       {/* Progress indicator */}
       <div className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
