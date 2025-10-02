@@ -66,19 +66,19 @@ export const InteractiveTutorial = () => {
   
   if (width < 375) {
     // Compact phones (iPhone SE, small Android)
-    cardMaxHeight = height * 0.75;
+    cardMaxHeight = height * 0.70;
     cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else if (width < 430) {
     // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
-    cardMaxHeight = height * 0.78;
+    cardMaxHeight = height * 0.72;
     cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else if (width < 768) {
     // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
-    cardMaxHeight = height * 0.80;
+    cardMaxHeight = height * 0.75;
     cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else {
     // Tablets & Desktop
-    cardMaxHeight = height * 0.75;
+    cardMaxHeight = height * 0.70;
     cardMaxWidth = Math.min(cardMaxHeight * CARD_ASPECT_RATIO, 480);
   }
 
