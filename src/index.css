@@ -306,3 +306,29 @@ All colors MUST be HSL.
     opacity: 1;
   }
 }
+
+@keyframes bounceLeft {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-25%);
+  }
+}
+
+@keyframes bounceRight {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(25%);
+  }
+}
+
+.animate-bounce-left {
+  animation: bounceLeft 1s ease-in-out infinite;
+}
+
+.animate-bounce-right {
+  animation: bounceRight 1s ease-in-out infinite;
+}

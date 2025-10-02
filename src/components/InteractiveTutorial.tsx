@@ -175,7 +175,7 @@ export const InteractiveTutorial = () => {
           {/* Text content in vertical center */}
           <div className="absolute inset-0 flex items-center justify-center px-4">
             <div className="text-center space-y-6">
-              <ArrowUp className="w-20 h-20 sm:w-24 sm:h-24 mx-auto text-primary animate-bounce" />
+              <ArrowUp className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-primary animate-bounce" />
               <h2 className="text-3xl sm:text-4xl font-bold text-foreground">{step.title}</h2>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-md">{step.description}</p>
             </div>
@@ -234,14 +234,26 @@ export const InteractiveTutorial = () => {
               </div>
             </div>
 
-            {/* Direction icon hint below card */}
+            {/* Direction icon hint below card with text */}
             {!canProceed && (
-              <div className="flex justify-center animate-pulse">
+              <div className="flex flex-col items-center gap-4">
                 {step.requiredSwipe === 'right' && (
-                  <ArrowRight className="w-12 h-12 sm:w-16 sm:h-16 text-green-500" />
+                  <>
+                    <ArrowRight className="w-16 h-16 sm:w-20 sm:h-20 text-green-500 animate-bounce-right" />
+                    <div className="text-center space-y-2">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
+                      <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
+                    </div>
+                  </>
                 )}
                 {step.requiredSwipe === 'left' && (
-                  <ArrowLeft className="w-12 h-12 sm:w-16 sm:h-16 text-red-500" />
+                  <>
+                    <ArrowLeft className="w-16 h-16 sm:w-20 sm:h-20 text-red-500 animate-bounce-left" />
+                    <div className="text-center space-y-2">
+                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
+                      <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
+                    </div>
+                  </>
                 )}
               </div>
             )}
