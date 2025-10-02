@@ -23,7 +23,7 @@ const tutorialSteps: TutorialStep[] = [
   {
     title: "Los geht's mit Schluck mal!",
     description: "Das einzige Trinkspiel das du brauchen wirst.",
-    icon: <div className="text-6xl">👋</div>,
+    icon: <div className="text-6xl animate-wave">👋</div>,
   },
   {
     title: "Swipe nach rechts",
