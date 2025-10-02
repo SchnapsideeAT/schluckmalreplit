@@ -31,11 +31,6 @@ const Rules = () => {
               <div className="space-y-3">
                 <div>
                   <strong className="text-foreground">Karte ziehen</strong>
-                  <p className="mt-1">• Der jüngste Spieler beginnt.</p>
-                </div>
-
-                <div>
-                  <strong className="text-foreground">Vorlesen</strong>
                   <p className="mt-1">• Lies die Karte laut vor.</p>
                   <p className="mt-1">• Entscheide dich für eine Option.</p>
                   
