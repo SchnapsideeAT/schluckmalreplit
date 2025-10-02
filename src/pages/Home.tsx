@@ -73,7 +73,7 @@ const Home = () => {
   };
 
   return (
-      <div className="no-scroll min-h-screen flex flex-col items-center justify-center page-container relative">
+      <div className="no-scroll min-h-dvh flex flex-col items-center justify-center page-container relative">
         
         {/* Logo - Animated from center */}
         <div className={`${logoPhase === 'final' ? 'responsive-container' : ''} ${logoPhase === 'final' ? 'space-y-6 mb-8' : ''}`}>
