@@ -182,8 +182,13 @@ export const InteractiveTutorial = () => {
           </div>
 
           {/* Glowing yellow swipe area at bottom - full width */}
-          <div className="relative h-48 sm:h-56">
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/50 via-primary/25 via-primary/10 to-transparent" />
+          <div className="relative h-64 sm:h-72">
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: 'linear-gradient(to top, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 20%, hsl(var(--primary) / 0.4) 40%, hsl(var(--primary) / 0.2) 60%, hsl(var(--primary) / 0.05) 80%, transparent 100%)'
+              }}
+            />
           </div>
         </div>
       )}
