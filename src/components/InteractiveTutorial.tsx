@@ -169,15 +169,6 @@ export const InteractiveTutorial = () => {
         ))}
       </div>
 
-      {/* Skip button */}
-      <Button
-        onClick={handleSkip}
-        variant="ghost"
-        className="absolute top-4 sm:top-8 right-4 sm:right-8 z-10 text-muted-foreground text-sm sm:text-base"
-      >
-        Überspringen
-      </Button>
-
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full max-w-md px-2">
         {/* Icon/Visual */}
@@ -189,7 +180,7 @@ export const InteractiveTutorial = () => {
 
         {/* Tutorial card for swipe steps */}
         {step.requiredSwipe && (
-          <div className="w-full flex flex-col items-center gap-3 sm:gap-6">
+          <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
             <div 
               className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform"
               style={{
@@ -219,29 +210,18 @@ export const InteractiveTutorial = () => {
               </div>
             </div>
 
-            {/* Direction hint below card */}
+            {/* Direction icon hint below card */}
             {!canProceed && (
-              <div className="flex justify-center">
-                <div className="inline-flex items-center gap-2 bg-background/80 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 border border-border">
-                  {step.requiredSwipe === 'right' && (
-                    <>
-                      <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-green-500 animate-pulse" />
-                      <span className="text-xs sm:text-sm font-medium">Wische nach rechts</span>
-                    </>
-                  )}
-                  {step.requiredSwipe === 'left' && (
-                    <>
-                      <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-red-500 animate-pulse" />
-                      <span className="text-xs sm:text-sm font-medium">Wische nach links</span>
-                    </>
-                  )}
-                  {step.requiredSwipe === 'up' && (
-                    <>
-                      <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 animate-pulse" />
-                      <span className="text-xs sm:text-sm font-medium">Wische nach oben</span>
-                    </>
-                  )}
-                </div>
+              <div className="flex justify-center animate-pulse">
+                {step.requiredSwipe === 'right' && (
+                  <ArrowRight className="w-12 h-12 sm:w-16 sm:h-16 text-green-500" />
+                )}
+                {step.requiredSwipe === 'left' && (
+                  <ArrowLeft className="w-12 h-12 sm:w-16 sm:h-16 text-red-500" />
+                )}
+                {step.requiredSwipe === 'up' && (
+                  <ArrowUp className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />
+                )}
               </div>
             )}
           </div>
@@ -284,14 +264,16 @@ export const InteractiveTutorial = () => {
         )}
       </div>
 
-      {/* Bottom hint for swipe steps */}
-      {step.requiredSwipe && !canProceed && (
-        <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 text-center">
-          <p className="text-xs sm:text-sm text-muted-foreground animate-pulse">
-            Versuche es jetzt!
-          </p>
-        </div>
-      )}
+      {/* Skip button at bottom center */}
+      <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-10">
+        <Button
+          onClick={handleSkip}
+          variant="ghost"
+          className="text-muted-foreground text-sm sm:text-base"
+        >
+          Überspringen
+        </Button>
+      </div>
     </div>
   );
 };
