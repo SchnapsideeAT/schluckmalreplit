@@ -57,26 +57,29 @@ export const InteractiveTutorial = () => {
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
   
-  // Responsive card sizing - synchronized with GameCard
+  // Card aspect ratio from SVG: 167.24 / 260.79 ≈ 0.641
+  const CARD_ASPECT_RATIO = 167.24 / 260.79;
+  
+  // Responsive card sizing - synchronized with GameCard (HEIGHT-FIRST)
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
     // Compact phones (iPhone SE, small Android)
     cardMaxHeight = height * 0.75;
-    cardMaxWidth = width * 0.88;
+    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else if (width < 430) {
     // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
     cardMaxHeight = height * 0.78;
-    cardMaxWidth = width * 0.86;
+    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else if (width < 768) {
     // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
     cardMaxHeight = height * 0.80;
-    cardMaxWidth = width * 0.88;
+    cardMaxWidth = cardMaxHeight * CARD_ASPECT_RATIO;
   } else {
     // Tablets & Desktop
     cardMaxHeight = height * 0.75;
-    cardMaxWidth = Math.min(width * 0.55, 480);
+    cardMaxWidth = Math.min(cardMaxHeight * CARD_ASPECT_RATIO, 480);
   }
 
   // Swipe handling for tutorial
@@ -158,12 +161,12 @@ export const InteractiveTutorial = () => {
 
 
   return (
-    <div className="min-h-dvh h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden" style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}>
+    <div className="min-h-dvh h-dvh bg-background flex flex-col items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
 
       {/* Progress indicator */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-10" style={{ top: 'calc(2rem + env(safe-area-inset-top, 0px))' }}>
+      <div className="absolute left-1/2 -translate-x-1/2 flex gap-2 z-10" style={{ top: 'max(2rem, calc(2rem + env(safe-area-inset-top, 0px)))' }}>
         {tutorialSteps.map((_, index) => (
           <div
             key={index}
@@ -217,20 +220,20 @@ export const InteractiveTutorial = () => {
         {step.requiredSwipe && (
           <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
             <div 
-              className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform"
+              className="relative touch-none select-none cursor-grab active:cursor-grabbing transition-transform flex items-center justify-center overflow-hidden"
               style={{
-                maxHeight: `${cardMaxHeight}px`,
-                maxWidth: `${cardMaxWidth}px`,
+                height: `${cardMaxHeight}px`,
+                width: `${cardMaxWidth}px`,
                 transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
                 transition: swipeState.isSwiping ? 'none' : 'transform 0.3s ease-out',
               }}
               {...swipeHandlers}
             >
-              <div className="relative">
+              <div className="relative h-full flex items-center justify-center">
                 <img 
                   src={cardBackSvg} 
                   alt="Tutorial Card" 
-                  className="w-full h-auto object-contain rounded-2xl"
+                  className="h-full w-auto max-w-full object-contain rounded-2xl mx-auto"
                   draggable={false}
                 />
                 
