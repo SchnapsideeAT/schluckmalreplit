@@ -1,25 +1,35 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef } from "react";
 import { Card, CardCategory } from "@/types/card";
 import { getCardImage } from "@/utils/cardImageMapper";
 import { useWindowSize } from "@/hooks/useWindowSize";
-import { useCardSwipe } from "@/hooks/useCardSwipe";
+import { useFeatureFlags } from "@/utils/featureFlags";
 
 /**
- * GameCard Component - Rebuilt with precise horizontal swipe system
+ * GameCard Component
  * 
- * Features:
- * - Only horizontal swipes (left/right)
- * - Touch only valid on card itself
- * - Threshold-based (35% screen width)
- * - Smooth snap-back animation
- * - Swipe-out animation when threshold met
- * - Responsive sizing for all devices
+ * Optimized card display with:
+ * - GPU-accelerated animations (transform, opacity)
+ * - Feature flag support for low-end devices
+ * - Lazy-loaded card images
+ * - Swipe gesture feedback
+ * - Responsive scaling
+ * 
+ * Performance optimizations:
+ * - Uses `memo` to prevent unnecessary re-renders
+ * - `will-change` for GPU acceleration
+ * - RAF-throttled swipe updates via parent
+ * - Cached window size via custom hook
  */
 
 interface GameCardProps {
   card: Card;
-  onSwipeLeft: () => void;
-  onSwipeRight: () => void;
+  horizontalDistance?: number;
+  onTouchStart?: (e: React.TouchEvent) => void;
+  onTouchMove?: (e: React.TouchEvent) => void;
+  onTouchEnd?: (e: React.TouchEvent) => void;
+  onMouseDown?: (e: React.MouseEvent) => void;
+  onMouseMove?: (e: React.MouseEvent) => void;
+  onMouseUp?: (e: React.MouseEvent) => void;
 }
 
 const categoryColorMap: Record<CardCategory, string> = {
@@ -31,88 +41,103 @@ const categoryColorMap: Record<CardCategory, string> = {
 };
 
 export const GameCard = memo(({ 
-  card,
-  onSwipeLeft,
-  onSwipeRight,
+  card, 
+  horizontalDistance = 0,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  onMouseDown,
+  onMouseMove,
+  onMouseUp,
 }: GameCardProps) => {
   const cardImageSrc = getCardImage(card.category, card.id);
   const categoryColor = categoryColorMap[card.category];
   const { width, height } = useWindowSize();
+  const { flags } = useFeatureFlags();
   
-  // Card entrance animation
-  const [isEntering, setIsEntering] = useState(true);
+  const shouldAnimateComplex = flags.enableComplexAnimations;
   
+  // Animation state: 'entering' | 'visible'
+  const [animationState, setAnimationState] = useState<'entering' | 'visible'>('entering');
+  
+  // Handle card changes with animation - ALWAYS animate
   useEffect(() => {
-    setIsEntering(true);
-    const timer = setTimeout(() => setIsEntering(false), 600);
+    setAnimationState('entering');
+    
+    const timer = setTimeout(() => {
+      setAnimationState('visible');
+    }, 600); // Match CSS animation duration
+    
     return () => clearTimeout(timer);
   }, [card.id]);
 
-  // New swipe system
-  const { swipeState, handlers, detachMouseListeners } = useCardSwipe({
-    onSwipeLeft,
-    onSwipeRight,
-    threshold: 0.35, // 35% of screen width
-  });
+  // Calculate rotation and opacity based on horizontal swipe
+  const rotation = horizontalDistance * 0.1;
+  const opacity = horizontalDistance !== 0 ? Math.max(0.5, 1 - Math.abs(horizontalDistance) / 300) : 1;
 
-  // Cleanup mouse listeners on unmount
-  useEffect(() => {
-    return () => detachMouseListeners();
-  }, [detachMouseListeners]);
-
-  // Responsive card sizing
+  // Responsive card sizing - optimized for all devices
   let cardMaxHeight: number;
   let cardMaxWidth: number;
   
   if (width < 375) {
+    // Compact phones (iPhone SE, small Android)
     cardMaxHeight = height * 0.58;
     cardMaxWidth = width * 0.75;
   } else if (width < 430) {
+    // Standard phones (iPhone 13/14/15, Galaxy S23/24, Pixel 7/8)
     cardMaxHeight = height * 0.60;
     cardMaxWidth = width * 0.78;
   } else if (width < 768) {
+    // Large phones & phablets (iPhone Pro Max, Galaxy Ultra, Pixel Pro)
     cardMaxHeight = height * 0.62;
     cardMaxWidth = width * 0.80;
   } else {
+    // Tablets & Desktop
     cardMaxHeight = height * 0.65;
-    cardMaxWidth = Math.min(width * 0.50, 400);
+    cardMaxWidth = Math.min(width * 0.50, 400); // Max 400px on large screens
   }
-
-  const { isDragging, translateX, rotation, isAnimating } = swipeState;
-
-  // Calculate opacity during swipe
-  const opacity = translateX !== 0 ? Math.max(0.7, 1 - Math.abs(translateX) / 400) : 1;
 
   return (
     <div 
       className={`relative inline-block pointer-events-auto ${
-        isEntering ? 'animate-enter' : ''
+        animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{ 
         width: `${cardMaxWidth}px`,
         height: `${cardMaxHeight}px`,
-        transform: `translateX(${translateX}px) rotate(${rotation}deg) translateZ(0)`,
-        opacity,
+        maxHeight: `${cardMaxHeight}px`,
+        maxWidth: `${cardMaxWidth}px`,
+        transform: horizontalDistance !== 0 
+          ? `translateX(${horizontalDistance}px) rotate(${rotation}deg) translateZ(0)`
+          : 'translateZ(0)',
+        opacity: horizontalDistance !== 0 ? opacity : undefined,
         backfaceVisibility: 'hidden',
-        cursor: isDragging ? 'grabbing' : 'grab',
-        transition: isAnimating ? 'transform 0.3s ease-out, opacity 0.3s ease-out' : 'none',
-        willChange: isDragging ? 'transform, opacity' : 'auto',
-        touchAction: 'none', // Prevent browser default touch behaviors
+        cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+        transition: 'none',
+        willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
       }}
-      {...handlers}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
     >
-      {/* Card Image */}
+      {/* SVG Card Image */}
       <img 
         src={cardImageSrc} 
         alt={`${card.category} Card ${card.id}`}
-        className="w-full h-full object-contain rounded-2xl block select-none"
+        className="w-full h-auto object-contain rounded-2xl block"
         draggable={false}
         onContextMenu={(e) => e.preventDefault()}
-        style={{ 
-          pointerEvents: 'none', // Image doesn't interfere with touch events
+        onPointerDown={(e) => {
+          if (e.pointerType === 'touch') {
+            e.preventDefault();
+          }
         }}
         onError={(e) => {
           console.error(`Failed to load ${card.category} card ${card.id}:`, cardImageSrc);
+          console.error('Image element:', e.currentTarget);
         }}
       />
     </div>
