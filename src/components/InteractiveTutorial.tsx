@@ -242,28 +242,26 @@ export const InteractiveTutorial = () => {
             </div>
 
             {/* Direction icon hint below card with text */}
-            {!canProceed && (
-              <div className="flex flex-col items-center gap-4">
-                {step.requiredSwipe === 'right' && (
-                  <>
-                    <ArrowRight className="w-16 h-16 sm:w-20 sm:h-20 text-green-500 animate-bounce-right" />
-                    <div className="text-center space-y-2">
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
-                      <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
-                    </div>
-                  </>
-                )}
-                {step.requiredSwipe === 'left' && (
-                  <>
-                    <ArrowLeft className="w-16 h-16 sm:w-20 sm:h-20 text-red-500 animate-bounce-left" />
-                    <div className="text-center space-y-2">
-                      <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
-                      <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
+            <div className={`flex flex-col items-center gap-4 ${canProceed ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
+              {step.requiredSwipe === 'right' && (
+                <>
+                  <ArrowRight className="w-16 h-16 sm:w-20 sm:h-20 text-green-500 animate-bounce-right" />
+                  <div className="text-center space-y-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
+                  </div>
+                </>
+              )}
+              {step.requiredSwipe === 'left' && (
+                <>
+                  <ArrowLeft className="w-16 h-16 sm:w-20 sm:h-20 text-red-500 animate-bounce-left" />
+                  <div className="text-center space-y-2">
+                    <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         )}
 
