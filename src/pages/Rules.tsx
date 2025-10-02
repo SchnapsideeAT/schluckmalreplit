@@ -32,11 +32,15 @@ const Rules = () => {
           <div className="space-y-6 sm:space-y-8 slide-up">
           {/* Categories */}
           <section className="space-y-4">
+            <h2 className="text-2xl font-bold text-primary text-center">Kartenkategorien</h2>
+            
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="kartenkategorien" className="bg-card border border-border/50 rounded-xl">
+              <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl">
                 <AccordionTrigger className="hover:no-underline py-5 px-6 transition-all duration-1000">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl font-bold text-primary">Kartenkategorien</span>
+                    <Package className="w-6 h-6 text-primary" />
+                    <span className="text-xl font-bold text-foreground">Standard Deck</span>
+                    <span className="ml-2 text-sm bg-primary/20 text-primary px-2 py-1 rounded-full">5 Kategorien</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="transition-all duration-1000 ease-in-out data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
