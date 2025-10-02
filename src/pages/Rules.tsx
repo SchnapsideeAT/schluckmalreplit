@@ -31,35 +31,30 @@ const Rules = () => {
               <div className="space-y-3">
                 <div>
                   <strong className="text-foreground">Karte ziehen</strong>
-                  <p className="mt-1">• Der jüngste Spieler beginnt und zieht eine Karte vom Stapel.</p>
+                  <p className="mt-1">• Der jüngste Spieler beginnt.</p>
                 </div>
 
                 <div>
                   <strong className="text-foreground">Vorlesen</strong>
-                  <p className="mt-1">• Der Spieler liest die Karte laut vor und entscheidet sich für eine der folgenden Optionen:</p>
+                  <p className="mt-1">• Lies die Karte laut vor.</p>
+                  <p className="mt-1">• Entscheide dich für eine Option.</p>
                   
                   <div className="mt-2 space-y-2">
                     <div>
                       <strong className="text-foreground">Option 1 – Aufgabe annehmen</strong>
-                      <p className="mt-1">• Der Spieler führt die auf der Karte beschriebene Aufgabe aus.</p>
-                      <p>• Schafft der Spieler die Aufgabe nicht, muss er die angegebene Anzahl an Schlücken trinken.</p>
+                      <p className="mt-1">• Schaffst du die Aufgabe nicht, trinke die angegebene Anzahl an Schlücke.</p>
                     </div>
 
                     <div>
                       <strong className="text-foreground">Option 2 – Aufgabe verweigern</strong>
-                      <p className="mt-1">• Der Spieler lehnt die Aufgabe ab und trinkt die angegebene Anzahl an Schlücken.</p>
-                    </div>
-
-                    <div>
-                      <strong className="text-foreground">Option 3 – Wild Card (falls gezogen):</strong>
-                      <p className="mt-1">• Wild Cards dürfen behalten und später zu einem passenden Zeitpunkt ausgespielt werden.</p>
+                      <p className="mt-1">• Trinke die angegebene Anzahl an Schlücke (oben und unten in der Ecke angegeben).</p>
                     </div>
                   </div>
                 </div>
 
                 <div>
                   <strong className="text-foreground">Weitergeben</strong>
-                  <p className="mt-1">• Nach Abschluss der Aufgabe oder des Trinkens zieht der nächste Spieler eine Karte.</p>
+                  <p className="mt-1">• Nach Abschluss der Aufgabe oder des Trinkens wird das Handy an den nächsten Spieler weitergegeben, der dann eine Karte zieht.</p>
                 </div>
 
                 <div>
