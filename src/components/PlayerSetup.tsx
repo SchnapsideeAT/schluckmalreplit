@@ -70,12 +70,21 @@ export const PlayerSetup = ({
         </div>
 
         {/* Name Input */}
-        <div className="flex gap-2">
-          <Input placeholder="Spielername..." value={newPlayerName} onChange={e => setNewPlayerName(e.target.value.toUpperCase())} onKeyPress={handleKeyPress} maxLength={8} className="flex-1" />
-          <Button onClick={addPlayer} size="icon" className="shrink-0">
+        <form onSubmit={(e) => { e.preventDefault(); addPlayer(); }} action="#" className="flex gap-2">
+          <Input 
+            placeholder="Spielername..." 
+            value={newPlayerName} 
+            onChange={e => setNewPlayerName(e.target.value.toUpperCase())} 
+            onKeyPress={handleKeyPress} 
+            maxLength={8} 
+            className="flex-1"
+            enterKeyHint="done"
+            data-testid="input-player-name"
+          />
+          <Button onClick={addPlayer} size="icon" className="shrink-0" type="button" data-testid="button-add-player">
             <Plus className="w-5 h-5" />
           </Button>
-        </div>
+        </form>
       </div>
 
       {/* Players List */}
