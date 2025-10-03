@@ -10,12 +10,10 @@ import { loadLastPlayers, loadLastCategories, hasShownInteractiveTutorial } from
 import { useSettings } from "@/hooks/useSettings";
 import { ScrollableContainer } from "@/components/ScrollableContainer";
 import { SafeAreaDebugger } from "@/components/SafeAreaDebugger";
-import { useKeyboardFix } from "@/hooks/useKeyboardFix";
 
 const Setup = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  useKeyboardFix();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<CardCategory[]>([
     "Wahrheit",
