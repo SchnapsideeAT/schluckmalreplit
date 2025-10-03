@@ -227,24 +227,24 @@ export const InteractiveTutorial = () => {
             {/* Card */}
             <div className="w-full flex items-center justify-center">
               <div 
-                className="relative inline-block touch-none select-none"
+                className="relative inline-block touch-none select-none pointer-events-none"
                 style={{
-                  width: `${cardMaxWidth}px`,
-                  height: `${cardMaxHeight}px`,
-                  maxHeight: `${cardMaxHeight}px`,
                   maxWidth: `${cardMaxWidth}px`,
+                  maxHeight: `${cardMaxHeight}px`,
                   transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
                   transition: swipeState.isSwiping ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  cursor: swipeState.isSwiping ? 'grabbing' : 'grab',
                   backfaceVisibility: 'hidden',
                 }}
-                {...swipeHandlers}
               >
                 <img 
                   src={cardBackSvg} 
                   alt="Tutorial Card" 
-                  className="w-full h-full object-contain rounded-2xl"
+                  className="w-full h-auto object-contain rounded-2xl block pointer-events-auto"
                   draggable={false}
+                  style={{
+                    cursor: swipeState.isSwiping ? 'grabbing' : 'grab',
+                  }}
+                  {...swipeHandlers}
                 />
                 
                 {/* Success checkmark */}
