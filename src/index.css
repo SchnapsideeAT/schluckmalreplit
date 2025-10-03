@@ -423,18 +423,18 @@ All colors MUST be HSL.
 
 @keyframes cardGlowPulse {
   0%, 100% { 
-    filter: drop-shadow(0 0 15px var(--glow-color-25)) drop-shadow(0 0 30px var(--glow-color-15));
+    filter: drop-shadow(0 0 10px var(--glow-color-10)) drop-shadow(0 0 20px var(--glow-color-05));
   }
   12.5%, 87.5% {
-    filter: drop-shadow(0 0 17px var(--glow-color-35)) drop-shadow(0 0 34px var(--glow-color-25));
+    filter: drop-shadow(0 0 12px var(--glow-color-15)) drop-shadow(0 0 24px var(--glow-color-08));
   }
   25%, 75% {
-    filter: drop-shadow(0 0 20px var(--glow-color-50)) drop-shadow(0 0 40px var(--glow-color-35));
+    filter: drop-shadow(0 0 15px var(--glow-color-20)) drop-shadow(0 0 30px var(--glow-color-10));
   }
   37.5%, 62.5% {
-    filter: drop-shadow(0 0 22px var(--glow-color-60)) drop-shadow(0 0 44px var(--glow-color-45));
+    filter: drop-shadow(0 0 17px var(--glow-color-25)) drop-shadow(0 0 34px var(--glow-color-13));
   }
   50% {
-    filter: drop-shadow(0 0 25px var(--glow-color-75)) drop-shadow(0 0 50px var(--glow-color-55));
+    filter: drop-shadow(0 0 20px var(--glow-color-30)) drop-shadow(0 0 40px var(--glow-color-15));
   }
 }

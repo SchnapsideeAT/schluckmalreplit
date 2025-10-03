@@ -124,14 +124,14 @@ export const GameCard = memo(({
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
           animation: 'cardGlowPulse 3s linear infinite',
           willChange: 'filter',
-          ['--glow-color-25' as string]: `hsl(${categoryColor} / 0.25)`,
+          ['--glow-color-10' as string]: `hsl(${categoryColor} / 0.1)`,
+          ['--glow-color-05' as string]: `hsl(${categoryColor} / 0.05)`,
           ['--glow-color-15' as string]: `hsl(${categoryColor} / 0.15)`,
-          ['--glow-color-35' as string]: `hsl(${categoryColor} / 0.35)`,
-          ['--glow-color-50' as string]: `hsl(${categoryColor} / 0.5)`,
-          ['--glow-color-45' as string]: `hsl(${categoryColor} / 0.45)`,
-          ['--glow-color-60' as string]: `hsl(${categoryColor} / 0.6)`,
-          ['--glow-color-75' as string]: `hsl(${categoryColor} / 0.75)`,
-          ['--glow-color-55' as string]: `hsl(${categoryColor} / 0.55)`,
+          ['--glow-color-08' as string]: `hsl(${categoryColor} / 0.08)`,
+          ['--glow-color-20' as string]: `hsl(${categoryColor} / 0.2)`,
+          ['--glow-color-25' as string]: `hsl(${categoryColor} / 0.25)`,
+          ['--glow-color-13' as string]: `hsl(${categoryColor} / 0.13)`,
+          ['--glow-color-30' as string]: `hsl(${categoryColor} / 0.3)`,
         }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
