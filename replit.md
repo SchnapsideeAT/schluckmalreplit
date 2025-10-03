@@ -42,6 +42,16 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 3, 2025 - iOS Keyboard Fix (Capacitor Native Config)
+- **Critical Fix**: Removed `useKeyboardFix` hook that caused keyboard to freeze and not close
+- **Issue**: Previous approach with `scrollTo(0,0)` and manual resize events blocked iOS keyboard from closing normally
+- **Solution**: Configured native Capacitor Keyboard plugin in `capacitor.config.ts`:
+  - `resize: 'body'` - Let Capacitor handle viewport resizing natively
+  - `style: 'dark'` - Dark keyboard theme
+  - `resizeOnFullScreen: true` - Handle fullscreen mode correctly
+- **Removed**: `src/hooks/useKeyboardFix.ts` (caused more problems than it solved)
+- **Status**: Testing on iOS to verify keyboard opens/closes properly without black bar
+
 ### Oct 3, 2025 - JavaScript-Based Safe Area System (iOS 26 Fix)
 - **Critical Fix**: Replaced CSS `env(safe-area-inset-*)` with JavaScript-based detection due to iOS 26 bug where CSS env() returns empty values
 - **Created useSafeAreaInsets Hook**: Progressive enhancement approach - tests CSS env() first, falls back to JS calculations on iOS when needed
