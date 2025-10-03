@@ -99,7 +99,7 @@ export const GameCard = memo(({
 
   return (
     <div 
-      className={`relative inline-block pointer-events-auto ${
+      className={`relative inline-block pointer-events-none ${
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{ 
@@ -112,24 +112,26 @@ export const GameCard = memo(({
           : 'translateZ(0)',
         opacity: horizontalDistance !== 0 ? opacity : undefined,
         backfaceVisibility: 'hidden',
-        cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
         transition: horizontalDistance !== 0 ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease-out',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
-        boxShadow: `0 0 20px hsl(${categoryColor} / 0.4), 0 0 40px hsl(${categoryColor} / 0.2)`,
       }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
     >
       {/* SVG Card Image */}
       <img 
         src={cardImageSrc} 
         alt={`${card.category} Card ${card.id}`}
-        className="w-full h-auto object-contain rounded-2xl block"
+        className="w-full h-auto object-contain rounded-2xl block pointer-events-auto"
         draggable={false}
+        style={{
+          boxShadow: `0 0 20px hsl(${categoryColor} / 0.4), 0 0 40px hsl(${categoryColor} / 0.2)`,
+          cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+        }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
         onContextMenu={(e) => e.preventDefault()}
         onPointerDown={(e) => {
           if (e.pointerType === 'touch') {
