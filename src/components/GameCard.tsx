@@ -116,25 +116,15 @@ export const GameCard = memo(({
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
       }}
     >
-      {/* Pulsating Glow Layer */}
-      <div 
-        className="absolute inset-0 rounded-2xl pointer-events-none"
-        style={{
-          boxShadow: `0 0 20px hsl(${categoryColor} / 1), 0 0 40px hsl(${categoryColor} / 0.8)`,
-          animation: 'cardGlowPulse 3s ease-in-out infinite',
-          zIndex: -1,
-        }}
-      />
-      
-      {/* SVG Card Image */}
+      {/* SVG Card Image with Pulsating Glow */}
       <img 
         src={cardImageSrc} 
         alt={`${card.category} Card ${card.id}`}
-        className="w-full h-auto object-contain rounded-2xl block pointer-events-auto relative"
+        className="w-full h-auto object-contain rounded-2xl block pointer-events-auto card-glow-pulse"
         draggable={false}
         style={{
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
-          zIndex: 1,
+          ['--category-color' as string]: categoryColor,
         }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
