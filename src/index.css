@@ -212,14 +212,10 @@ All colors MUST be HSL.
 
   /* Logo Animations - Sequential */
   .logo-start-center {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.3);
+    transform: translateY(calc(50vh - 50%)) scale(0.3);
     opacity: 0;
     animation: logoPopInCenter 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     will-change: transform, opacity;
-    z-index: 50;
   }
 
   .logo-slide-to-position {
@@ -228,8 +224,7 @@ All colors MUST be HSL.
   }
 
   .logo-final-position {
-    position: relative;
-    transform: translate(0, 0) scale(1);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 
@@ -329,26 +324,26 @@ All colors MUST be HSL.
 
 @keyframes logoPopInCenter {
   0% {
-    transform: translate(-50%, -50%) scale(0.3);
+    transform: translateY(calc(50vh - 50%)) scale(0.3);
     opacity: 0;
   }
   60% {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translateY(calc(50vh - 50%)) scale(1.1);
     opacity: 1;
   }
   100% {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateY(calc(50vh - 50%)) scale(1);
     opacity: 1;
   }
 }
 
 @keyframes logoSlideUp {
   0% {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateY(calc(50vh - 50%)) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translate(-50%, -200%) scale(0.9);
+    transform: translateY(0) scale(1);
     opacity: 1;
   }
 }

@@ -86,8 +86,8 @@ const Home = () => {
         }}
       >
         {/* Logo - Animated from center */}
-        <div className={`${logoPhase === 'final' ? 'responsive-container' : ''} ${logoPhase === 'final' ? 'space-y-6 mb-8' : ''}`}>
-          <div className="flex justify-center px-4">
+        <div className="responsive-container space-y-6 mb-8">
+          <div className="flex justify-center">
             <img 
               src={logo} 
               alt="Schluck mal!" 
