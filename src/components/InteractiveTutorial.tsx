@@ -187,7 +187,7 @@ export const InteractiveTutorial = () => {
               <div 
                 className="relative inline-block touch-none select-none pointer-events-none"
                 style={{
-                  maxWidth: `${cardMaxWidth}px`,
+                  width: `${cardMaxWidth}px`,
                   maxHeight: `${cardMaxHeight}px`,
                   transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
                   transition: swipeState.isSwiping ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',

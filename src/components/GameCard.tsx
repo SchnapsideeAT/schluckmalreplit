@@ -103,7 +103,7 @@ export const GameCard = memo(({
         animationState === 'entering' ? 'animate-enter' : ''
       }`}
       style={{ 
-        maxWidth: `${cardMaxWidth}px`,
+        width: `${cardMaxWidth}px`,
         maxHeight: `${cardMaxHeight}px`,
         transform: horizontalDistance !== 0 
           ? `translateX(${horizontalDistance}px) rotate(${rotation}deg) translateZ(0)`
