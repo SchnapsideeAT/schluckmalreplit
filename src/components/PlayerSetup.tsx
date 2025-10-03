@@ -72,9 +72,17 @@ export const PlayerSetup = ({
             maxLength={8} 
             className="flex-1"
             enterKeyHint="done"
+            disabled={players.length >= 10}
             data-testid="input-player-name"
           />
-          <Button onClick={addPlayer} size="icon" className="shrink-0" type="button" data-testid="button-add-player">
+          <Button 
+            onClick={addPlayer} 
+            size="icon" 
+            className="shrink-0" 
+            type="button" 
+            disabled={players.length >= 10}
+            data-testid="button-add-player"
+          >
             <Plus className="w-5 h-5" />
           </Button>
         </form>
