@@ -1,29 +1,66 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export const useSmartHeight = () => {
-  const calculateSmartHeight = () => {
-    const innerHeight = window.innerHeight;
-    const screenHeight = window.screen.height;
-    return Math.max(innerHeight, screenHeight);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  
+  const calculateInitialHeight = () => {
+    return window.innerHeight;
   };
 
-  const [height, setHeight] = useState(calculateSmartHeight());
+  const [height, setHeight] = useState(calculateInitialHeight());
+  const baselineHeightRef = useRef(window.innerHeight);
 
   useEffect(() => {
     const updateHeight = () => {
-      setHeight(calculateSmartHeight());
+      const currentInnerHeight = window.innerHeight;
+      const screenHeight = window.screen.height;
+
+      if (!isIOS) {
+        setHeight(currentInnerHeight);
+        return;
+      }
+
+      if (currentInnerHeight > baselineHeightRef.current) {
+        baselineHeightRef.current = currentInnerHeight;
+      }
+
+      const heightDifference = baselineHeightRef.current - currentInnerHeight;
+      const isSuspiciouslyShrunk = heightDifference > 50;
+
+      if (isSuspiciouslyShrunk && currentInnerHeight < screenHeight) {
+        setHeight(screenHeight);
+      } else {
+        setHeight(currentInnerHeight);
+      }
     };
 
-    window.addEventListener('resize', updateHeight);
-    window.addEventListener('orientationchange', updateHeight);
-    window.visualViewport?.addEventListener('resize', updateHeight);
+    const onResize = () => {
+      updateHeight();
+    };
+
+    const onOrientationChange = () => {
+      setTimeout(() => {
+        baselineHeightRef.current = window.innerHeight;
+        updateHeight();
+      }, 300);
+    };
+
+    const onVisualViewportResize = () => {
+      updateHeight();
+    };
+
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onOrientationChange);
+    window.visualViewport?.addEventListener('resize', onVisualViewportResize);
+
+    updateHeight();
 
     return () => {
-      window.removeEventListener('resize', updateHeight);
-      window.removeEventListener('orientationchange', updateHeight);
-      window.visualViewport?.removeEventListener('resize', updateHeight);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('orientationchange', onOrientationChange);
+      window.visualViewport?.removeEventListener('resize', onVisualViewportResize);
     };
-  }, []);
+  }, [isIOS]);
 
   return height;
 };
