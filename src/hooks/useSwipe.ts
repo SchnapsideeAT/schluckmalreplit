@@ -42,27 +42,17 @@ export const useSwipe = (handlers: SwipeHandlers) => {
   const touchCurrentX = useRef<number>(0);
   const touchStartY = useRef<number>(0);
   const touchCurrentY = useRef<number>(0);
-  const touchIdentifier = useRef<number | null>(null); // Track the initial touch ID
   const isMouseDown = useRef<boolean>(false);
   const rafId = useRef<number | null>(null);
-  const handlersRef = useRef(handlers); // Stable reference to prevent listener re-registration
   const minSwipeDistance = 100; // Minimum distance for a swipe
   const swipeThreshold = 30; // Distance to show visual feedback (schneller trigger)
 
-  // Update handlers ref when they change
-  useEffect(() => {
-    handlersRef.current = handlers;
-  }, [handlers]);
-
-  // Cleanup RAF and reset refs on unmount to prevent memory leaks
+  // Cleanup RAF on unmount to prevent memory leaks
   useEffect(() => {
     return () => {
       if (rafId.current !== null) {
         cancelAnimationFrame(rafId.current);
       }
-      // Reset all refs to prevent stale state
-      touchIdentifier.current = null;
-      isMouseDown.current = false;
     };
   }, []);
 
@@ -125,23 +115,23 @@ export const useSwipe = (handlers: SwipeHandlers) => {
         if (Math.abs(distanceX) > minSwipeDistance) {
           if (distanceX > 0) {
             triggerHaptic('medium');
-            handlersRef.current.onSwipeRight?.();
+            handlers.onSwipeRight?.();
           } else {
             triggerHaptic('medium');
-            handlersRef.current.onSwipeLeft?.();
+            handlers.onSwipeLeft?.();
           }
         }
       } else {
         // Vertical swipe
         if (Math.abs(distanceY) > minSwipeDistance && distanceY < 0) {
           triggerHaptic('medium');
-          handlersRef.current.onSwipeUp?.();
+          handlers.onSwipeUp?.();
         }
       }
 
       isMouseDown.current = false;
       resetSwipeState();
-      handlersRef.current.onSwipeEnd?.();
+      handlers.onSwipeEnd?.();
     };
 
     document.addEventListener('mousemove', handleMouseMoveGlobal);
@@ -151,61 +141,35 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       document.removeEventListener('mousemove', handleMouseMoveGlobal);
       document.removeEventListener('mouseup', handleMouseUpGlobal);
     };
-  }, [resetSwipeState]);
+  }, [handlers, resetSwipeState]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    // Lock onto the first touch and ignore all others (multi-touch protection)
-    const touch = e.touches[0];
-    touchIdentifier.current = touch.identifier;
-    touchStartX.current = touch.clientX;
-    touchCurrentX.current = touch.clientX;
-    touchStartY.current = touch.clientY;
-    touchCurrentY.current = touch.clientY;
+    touchStartX.current = e.touches[0].clientX;
+    touchCurrentX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+    touchCurrentY.current = e.touches[0].clientY;
     setSwipeState({ 
       isSwiping: true, 
       swipeDirection: null, 
       horizontalDistance: 0,
       absoluteDistance: 0
     });
-    handlersRef.current.onSwipeStart?.();
-  }, []);
+    handlers.onSwipeStart?.();
+  }, [handlers]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!swipeState.isSwiping || touchIdentifier.current === null) return;
-
-    // Prevent iOS Safari back/forward navigation gestures (MUST be before any early returns)
-    e.preventDefault();
-
-    // Find the touch that matches our tracked identifier (multi-touch protection)
-    const touch = Array.from(e.touches).find(t => t.identifier === touchIdentifier.current);
-    if (!touch) {
-      // Our tracked touch is gone but others remain - cancel swipe
-      // CRITICAL: Cancel RAF first to prevent stuck state
-      if (rafId.current !== null) {
-        cancelAnimationFrame(rafId.current);
-        rafId.current = null;
-      }
-      touchIdentifier.current = null;
-      resetSwipeState();
-      handlersRef.current.onSwipeEnd?.();
-      return;
-    }
+    if (!swipeState.isSwiping) return;
 
     // Cancel previous RAF if still pending
     if (rafId.current) {
       cancelAnimationFrame(rafId.current);
     }
 
-    touchCurrentX.current = touch.clientX;
-    touchCurrentY.current = touch.clientY;
+    touchCurrentX.current = e.touches[0].clientX;
+    touchCurrentY.current = e.touches[0].clientY;
 
     // Use RAF to throttle state updates for smoother performance
     rafId.current = requestAnimationFrame(() => {
-      // Guard: Exit if swipe was cancelled while RAF was pending
-      if (touchIdentifier.current === null) {
-        return;
-      }
-
       const distanceX = touchCurrentX.current - touchStartX.current;
       const distanceY = touchCurrentY.current - touchStartY.current;
       const absDistanceX = Math.abs(distanceX);
@@ -226,15 +190,9 @@ export const useSwipe = (handlers: SwipeHandlers) => {
         absoluteDistance: absDistanceX > absDistanceY ? absDistanceX : absDistanceY,
       });
     });
-  }, [swipeState.isSwiping, resetSwipeState]);
+  }, [swipeState.isSwiping]);
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    // Only process if this is our tracked touch (multi-touch protection)
-    const wasOurTouch = touchIdentifier.current !== null && 
-      Array.from(e.changedTouches).some(t => t.identifier === touchIdentifier.current);
-    
-    if (!wasOurTouch) return;
-
+  const handleTouchEnd = useCallback(() => {
     // Cancel any pending RAF to prevent stuck card position
     if (rafId.current !== null) {
       cancelAnimationFrame(rafId.current);
@@ -250,27 +208,24 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       if (Math.abs(distanceX) > minSwipeDistance) {
         if (distanceX > 0) {
           triggerHaptic('medium');
-          handlersRef.current.onSwipeRight?.();
+          handlers.onSwipeRight?.();
         } else {
           triggerHaptic('medium');
-          handlersRef.current.onSwipeLeft?.();
+          handlers.onSwipeLeft?.();
         }
       }
     } else {
       // Vertical swipe
       if (Math.abs(distanceY) > minSwipeDistance && distanceY < 0) {
         triggerHaptic('medium');
-        handlersRef.current.onSwipeUp?.();
+        handlers.onSwipeUp?.();
       }
     }
 
-    // Reset touch identifier
-    touchIdentifier.current = null;
-    
     // Reset state
     resetSwipeState();
-    handlersRef.current.onSwipeEnd?.();
-  }, [resetSwipeState]);
+    handlers.onSwipeEnd?.();
+  }, [handlers, resetSwipeState]);
 
   const handleTouchCancel = useCallback(() => {
     // Cancel any pending RAF to prevent stuck card position
@@ -279,13 +234,10 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       rafId.current = null;
     }
 
-    // Reset touch identifier
-    touchIdentifier.current = null;
-
     // Reset state without triggering swipe actions
     resetSwipeState();
-    handlersRef.current.onSwipeEnd?.();
-  }, [resetSwipeState]);
+    handlers.onSwipeEnd?.();
+  }, [handlers, resetSwipeState]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     isMouseDown.current = true;
@@ -299,8 +251,8 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       horizontalDistance: 0,
       absoluteDistance: 0
     });
-    handlersRef.current.onSwipeStart?.();
-  }, []);
+    handlers.onSwipeStart?.();
+  }, [handlers]);
 
   return {
     swipeState,
