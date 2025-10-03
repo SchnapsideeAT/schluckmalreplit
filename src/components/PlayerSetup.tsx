@@ -48,12 +48,6 @@ export const PlayerSetup = ({
     onPlayersChange(updatedPlayers);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      addPlayer();
-    }
-  };
-
   return <div className="space-y-8">
       {/* Add Player Section */}
       <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
@@ -75,7 +69,6 @@ export const PlayerSetup = ({
             placeholder="Spielername..." 
             value={newPlayerName} 
             onChange={e => setNewPlayerName(e.target.value.toUpperCase())} 
-            onKeyPress={handleKeyPress} 
             maxLength={8} 
             className="flex-1"
             enterKeyHint="done"

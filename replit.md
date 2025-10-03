@@ -42,6 +42,16 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 3, 2025 - iOS Keyboard "Done" Button Fix
+- **Issue**: iOS keyboard was missing the "Fertig" (Done) button, showing only generic "return" key
+- **Root Cause**: Safari/iOS requires proper HTML structure to show custom return key labels
+- **Solution**: 
+  - Wrapped player name input in `<form>` tag with `action="#"` (required by iOS)
+  - Added `enterKeyHint="done"` attribute to input field
+  - Removed duplicate `onKeyPress` handler to prevent double-submission
+  - Form submission now properly closes keyboard on iOS
+- **Files Changed**: `src/components/PlayerSetup.tsx`
+
 ### Oct 3, 2025 - iOS Keyboard Fix (Capacitor Native Config)
 - **Critical Fix**: Removed `useKeyboardFix` hook that caused keyboard to freeze and not close
 - **Issue**: Previous approach with `scrollTo(0,0)` and manual resize events blocked iOS keyboard from closing normally
