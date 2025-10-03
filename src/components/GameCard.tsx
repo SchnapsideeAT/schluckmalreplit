@@ -134,6 +134,7 @@ export const GameCard = memo(({
         draggable={false}
         style={{
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+          touchAction: 'none', // Prevent iOS Safari navigation gestures
         }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
