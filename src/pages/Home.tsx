@@ -7,7 +7,6 @@ import { loadGameState } from "@/utils/localStorage";
 import { useState, useEffect } from "react";
 import { useSettings } from "@/hooks/useSettings";
 import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
-import { SafeAreaDebugger } from "@/components/SafeAreaDebugger";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ const Home = () => {
   const [hasSavedGame, setHasSavedGame] = useState(false);
   const [logoPhase, setLogoPhase] = useState<'center' | 'sliding' | 'final'>('final');
   const [showButtons, setShowButtons] = useState(true);
-  const [showDebug, setShowDebug] = useState(false);
   
   useEffect(() => {
     const savedState = loadGameState();
@@ -105,27 +103,6 @@ const Home = () => {
           paddingRight: insets.right,
         }}
       >
-        {showDebug && <SafeAreaDebugger />}
-
-        {/* Debug Toggle Button */}
-        <button
-          onClick={() => {
-            setShowDebug(prev => {
-              const newValue = !prev;
-              if (newValue) {
-                document.body.classList.add('debug-mode');
-              } else {
-                document.body.classList.remove('debug-mode');
-              }
-              return newValue;
-            });
-          }}
-          className="fixed top-2 right-2 z-[10000] bg-yellow-500 text-black px-3 py-1 rounded text-xs font-bold"
-          data-testid="button-debug-toggle"
-        >
-          🐛 {showDebug ? 'Hide' : 'Show'} Debug
-        </button>
-        
         {/* Logo - Animated from center */}
         <div className={`${logoPhase === 'final' ? 'responsive-container' : ''} ${logoPhase === 'final' ? 'space-y-6 mb-8' : ''}`}>
           <div className="flex justify-center px-4">
