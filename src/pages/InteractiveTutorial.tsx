@@ -12,6 +12,7 @@ const InteractiveTutorialPage = () => {
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
+        boxSizing: 'border-box',
       }}
     >
       <InteractiveTutorial />

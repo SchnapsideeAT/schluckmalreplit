@@ -17,7 +17,7 @@ export const ScrollableContainer = ({ children, className }: ScrollableContainer
     <div
       ref={containerRef}
       className={cn(
-        'scrollable-container bg-background',
+        'scrollable-container bg-background h-dvh',
         needsScroll ? 'scrollable-enabled' : '',
         className
       )}
@@ -26,6 +26,7 @@ export const ScrollableContainer = ({ children, className }: ScrollableContainer
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
+        boxSizing: 'border-box',
       }}
     >
       {children}

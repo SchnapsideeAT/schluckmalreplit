@@ -84,6 +84,7 @@ const Home = () => {
           paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right,
+          boxSizing: 'border-box',
         }}
       >
         {/* Debug Tool */}

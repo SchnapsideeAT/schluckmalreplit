@@ -350,12 +350,13 @@ const Game = () => {
 
   return (
     <div 
-      className="no-scroll min-h-dvh h-dvh flex flex-col relative"
+      className="no-scroll h-dvh flex flex-col relative"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
+        boxSizing: 'border-box',
       }}
     >
       {/* Header */}

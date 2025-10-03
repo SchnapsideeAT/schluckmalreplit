@@ -18,6 +18,7 @@ const NotFound = () => {
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
+        boxSizing: 'border-box',
       }}
     >
       <div className="text-center">
