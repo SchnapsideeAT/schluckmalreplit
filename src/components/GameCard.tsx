@@ -114,24 +114,24 @@ export const GameCard = memo(({
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
       }}
     >
-      {/* Pulsating Glow Layer - positioned behind card */}
-      <div 
-        className="absolute inset-0 rounded-2xl pointer-events-none"
-        style={{
-          boxShadow: `0 0 20px hsl(${categoryColor} / 1), 0 0 40px hsl(${categoryColor} / 0.8)`,
-          animation: 'cardGlowPulse 3s linear infinite',
-          willChange: 'opacity',
-        }}
-      />
-      
-      {/* SVG Card Image */}
+      {/* SVG Card Image with Pulsating Glow */}
       <img 
         src={cardImageSrc} 
         alt={`${card.category} Card ${card.id}`}
-        className="w-full h-auto object-contain rounded-2xl block pointer-events-auto relative"
+        className="w-full h-auto object-contain rounded-2xl block pointer-events-auto"
         draggable={false}
         style={{
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
+          animation: 'cardGlowPulse 3s linear infinite',
+          willChange: 'filter',
+          ['--glow-color-25' as string]: `hsl(${categoryColor} / 0.25)`,
+          ['--glow-color-15' as string]: `hsl(${categoryColor} / 0.15)`,
+          ['--glow-color-35' as string]: `hsl(${categoryColor} / 0.35)`,
+          ['--glow-color-50' as string]: `hsl(${categoryColor} / 0.5)`,
+          ['--glow-color-45' as string]: `hsl(${categoryColor} / 0.45)`,
+          ['--glow-color-60' as string]: `hsl(${categoryColor} / 0.6)`,
+          ['--glow-color-75' as string]: `hsl(${categoryColor} / 0.75)`,
+          ['--glow-color-55' as string]: `hsl(${categoryColor} / 0.55)`,
         }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
