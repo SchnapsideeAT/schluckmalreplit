@@ -132,6 +132,12 @@ All colors MUST be HSL.
     min-height: 100dvh;
   }
 
+  /* No-scroll page container - minimal padding, #root handles safe areas */
+  .page-container-no-scroll {
+    @apply px-4 py-2;
+    min-height: 100dvh;
+  }
+
   .content-container {
     @apply max-w-2xl mx-auto;
   }

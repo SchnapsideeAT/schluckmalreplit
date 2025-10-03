@@ -347,7 +347,7 @@ const Game = () => {
   };
 
   return (
-    <div className="no-scroll min-h-dvh h-dvh flex flex-col page-container pt-2 relative">
+    <div className="no-scroll min-h-dvh h-dvh flex flex-col page-container-no-scroll relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <Button
@@ -372,13 +372,7 @@ const Game = () => {
       </div>
 
       {/* Card display area */}
-      <div 
-        className="flex-1 flex items-center justify-center pointer-events-none"
-        style={{
-          paddingTop: 'max(1rem, env(safe-area-inset-top))',
-          paddingBottom: 'max(1rem, calc(env(safe-area-inset-bottom) + 1rem))',
-        }}
-      >
+      <div className="flex-1 flex items-center justify-center pointer-events-none">
         {currentIndex === -1 ? (
           <div 
             className="text-center space-y-6 slide-up cursor-pointer pointer-events-auto"
