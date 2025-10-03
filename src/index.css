@@ -422,19 +422,13 @@ All colors MUST be HSL.
 }
 
 @keyframes cardGlowPulse {
-  0%, 100% { 
-    filter: drop-shadow(0 0 10px var(--glow-color-10)) drop-shadow(0 0 20px var(--glow-color-05));
-  }
-  12.5%, 87.5% {
-    filter: drop-shadow(0 0 12px var(--glow-color-15)) drop-shadow(0 0 24px var(--glow-color-08));
-  }
-  25%, 75% {
-    filter: drop-shadow(0 0 15px var(--glow-color-20)) drop-shadow(0 0 30px var(--glow-color-10));
-  }
-  37.5%, 62.5% {
-    filter: drop-shadow(0 0 17px var(--glow-color-25)) drop-shadow(0 0 34px var(--glow-color-13));
-  }
-  50% {
-    filter: drop-shadow(0 0 20px var(--glow-color-30)) drop-shadow(0 0 40px var(--glow-color-15));
-  }
+  0% { opacity: 0.25; }
+  12.5% { opacity: 0.375; }
+  25% { opacity: 0.5; }
+  37.5% { opacity: 0.625; }
+  50% { opacity: 0.75; }
+  62.5% { opacity: 0.625; }
+  75% { opacity: 0.5; }
+  87.5% { opacity: 0.375; }
+  100% { opacity: 0.25; }
 }
