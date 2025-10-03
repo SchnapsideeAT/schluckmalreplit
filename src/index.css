@@ -109,7 +109,6 @@ All colors MUST be HSL.
     min-height: 100dvh;
     background: hsl(0 0% 10%);
     overflow: hidden;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     box-sizing: border-box;
   }
 
@@ -129,12 +128,6 @@ All colors MUST be HSL.
   /* Container System - Einheitliches Padding */
   .page-container {
     @apply px-4 py-6;
-    min-height: 100dvh;
-  }
-
-  /* No-scroll page container - minimal padding, #root handles safe areas */
-  .page-container-no-scroll {
-    @apply px-4 py-2;
     min-height: 100dvh;
   }
 

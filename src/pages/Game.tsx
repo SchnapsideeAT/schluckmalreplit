@@ -347,9 +347,17 @@ const Game = () => {
   };
 
   return (
-    <div className="no-scroll min-h-dvh h-dvh flex flex-col page-container-no-scroll relative">
+    <div 
+      className="no-scroll min-h-dvh h-dvh flex flex-col relative"
+      style={{
+        paddingTop: `max(0.5rem, env(safe-area-inset-top))`,
+        paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))`,
+        paddingLeft: '1rem',
+        paddingRight: '1rem',
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6" style={{ paddingTop: '0.5rem' }}>
         <Button
           onClick={handleExitGame}
           variant="ghost"

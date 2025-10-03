@@ -152,7 +152,15 @@ export const InteractiveTutorial = () => {
 
 
   return (
-    <div className="min-h-dvh bg-background flex flex-col items-center justify-center page-container-no-scroll relative overflow-hidden">
+    <div 
+      className="min-h-dvh bg-background flex flex-col items-center justify-center relative overflow-hidden"
+      style={{
+        paddingTop: `max(1rem, env(safe-area-inset-top))`,
+        paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
+        paddingLeft: '1rem',
+        paddingRight: '1rem',
+      }}
+    >
 
       {/* Progress indicator */}
       <div className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 flex gap-2 z-10">
