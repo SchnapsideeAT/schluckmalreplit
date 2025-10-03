@@ -13,12 +13,8 @@ const Home = () => {
   const { settings } = useSettings();
   const { insets } = useSafeAreaInsets();
   const [hasSavedGame, setHasSavedGame] = useState(false);
-  
-  const hasAnimated = sessionStorage.getItem('home-animation-played');
-  const [logoPhase, setLogoPhase] = useState<'center' | 'sliding' | 'final'>(
-    hasAnimated ? 'final' : 'center'
-  );
-  const [showButtons, setShowButtons] = useState(!!hasAnimated);
+  const [logoPhase, setLogoPhase] = useState<'center' | 'sliding' | 'final'>('final');
+  const [showButtons, setShowButtons] = useState(true);
   
   useEffect(() => {
     const savedState = loadGameState();
@@ -29,6 +25,8 @@ const Home = () => {
     
     if (!hasAnimated) {
       // First time loading the app - play animation
+      setLogoPhase('center');
+      setShowButtons(false);
       sessionStorage.setItem('home-animation-played', 'true');
 
       // Animation sequence
@@ -88,27 +86,13 @@ const Home = () => {
         }}
       >
         {/* Logo - Animated from center */}
-        {logoPhase !== 'final' && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-            <div className="w-full max-w-[280px] sm:max-w-md px-4">
-              <img 
-                src={logo} 
-                alt="Schluck mal!" 
-                className={`${getLogoClass()} w-full h-auto`}
-              />
-            </div>
-          </div>
-        )}
-        
-        <div className="responsive-container mb-8">
-          <div className="flex justify-center">
-            {logoPhase === 'final' && (
-              <img 
-                src={logo} 
-                alt="Schluck mal!" 
-                className="w-full max-w-[280px] sm:max-w-md h-auto"
-              />
-            )}
+        <div className={`${logoPhase === 'final' ? 'responsive-container' : ''} ${logoPhase === 'final' ? 'space-y-6 mb-8' : ''}`}>
+          <div className="flex justify-center px-4">
+            <img 
+              src={logo} 
+              alt="Schluck mal!" 
+              className={`${getLogoClass()} w-full max-w-[280px] sm:max-w-md h-auto`}
+            />
           </div>
         </div>
 
@@ -121,7 +105,6 @@ const Home = () => {
                   onClick={handleLoadGame} 
                   size="lg" 
                   className="buttons-hidden buttons-appear button-stagger-1 w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-accent hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation"
-                  data-testid="button-load-game"
                 >
                   <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                   Spiel laden
@@ -132,7 +115,6 @@ const Home = () => {
                 onClick={handleStartGame} 
                 size="lg" 
                 className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-2' : 'button-stagger-1'} w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation`}
-                data-testid="button-start-game"
               >
                 <Play className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                 Spiel starten
@@ -143,7 +125,6 @@ const Home = () => {
                 variant="outline" 
                 size="lg" 
                 className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-3' : 'button-stagger-2'} w-full min-h-[52px] sm:h-14 text-base sm:text-lg border-2 border-primary/50 hover:bg-primary/10 hover:border-primary hover:text-primary transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation`}
-                data-testid="button-rules"
               >
                 <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
                 Regeln
@@ -154,7 +135,6 @@ const Home = () => {
                 variant="outline" 
                 size="lg" 
                 className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-4' : 'button-stagger-3'} w-full min-h-[52px] sm:h-14 text-base sm:text-lg border-2 border-secondary/50 hover:bg-secondary/10 hover:border-secondary hover:text-foreground transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation`}
-                data-testid="button-settings"
               >
                 <Settings className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
                 Einstellungen

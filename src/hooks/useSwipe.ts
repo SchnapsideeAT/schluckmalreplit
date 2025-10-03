@@ -193,12 +193,6 @@ export const useSwipe = (handlers: SwipeHandlers) => {
   }, [swipeState.isSwiping]);
 
   const handleTouchEnd = useCallback(() => {
-    // Cancel any pending RAF to prevent stuck card position
-    if (rafId.current !== null) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
-    }
-
     const distanceX = touchCurrentX.current - touchStartX.current;
     const distanceY = touchCurrentY.current - touchStartY.current;
     
@@ -227,18 +221,6 @@ export const useSwipe = (handlers: SwipeHandlers) => {
     handlers.onSwipeEnd?.();
   }, [handlers, resetSwipeState]);
 
-  const handleTouchCancel = useCallback(() => {
-    // Cancel any pending RAF to prevent stuck card position
-    if (rafId.current !== null) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
-    }
-
-    // Reset state without triggering swipe actions
-    resetSwipeState();
-    handlers.onSwipeEnd?.();
-  }, [handlers, resetSwipeState]);
-
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     isMouseDown.current = true;
     touchStartX.current = e.clientX;
@@ -260,7 +242,6 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       onTouchStart: handleTouchStart,
       onTouchMove: handleTouchMove,
       onTouchEnd: handleTouchEnd,
-      onTouchCancel: handleTouchCancel,
       onMouseDown: handleMouseDown,
       onMouseMove: () => {}, // Handled by document-level listener
       onMouseUp: () => {}, // Handled by document-level listener

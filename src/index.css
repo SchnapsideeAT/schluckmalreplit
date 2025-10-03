@@ -212,15 +212,25 @@ All colors MUST be HSL.
 
   /* Logo Animations - Sequential */
   .logo-start-center {
-    transform: scale(0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.3);
     opacity: 0;
     animation: logoPopInCenter 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
     will-change: transform, opacity;
+    z-index: 50;
   }
 
   .logo-slide-to-position {
-    animation: logoSlideToTop 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: logoSlideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     will-change: transform, opacity;
+  }
+
+  .logo-final-position {
+    position: relative;
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
   }
 
   /* Button Animations - Staggered */
@@ -319,27 +329,27 @@ All colors MUST be HSL.
 
 @keyframes logoPopInCenter {
   0% {
-    transform: scale(0.3);
+    transform: translate(-50%, -50%) scale(0.3);
     opacity: 0;
   }
   60% {
-    transform: scale(1.1);
+    transform: translate(-50%, -50%) scale(1.1);
     opacity: 1;
   }
   100% {
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
 }
 
-@keyframes logoSlideToTop {
+@keyframes logoSlideUp {
   0% {
-    transform: translateY(0) scale(1);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
   }
   100% {
-    transform: translateY(-35vh) scale(1);
-    opacity: 0;
+    transform: translate(-50%, -200%) scale(0.9);
+    opacity: 1;
   }
 }
 
