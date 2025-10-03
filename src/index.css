@@ -156,23 +156,11 @@ All colors MUST be HSL.
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    overscroll-behavior: contain; /* Prevent iOS bounce on boundaries */
+    overscroll-behavior: contain;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     position: relative;
-    
-    /* Neutralize ALL #root safe areas with negative margins */
-    margin-top: calc(-1 * env(safe-area-inset-top, 0px));
-    margin-right: calc(-1 * env(safe-area-inset-right, 0px));
-    margin-bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
-    margin-left: calc(-1 * env(safe-area-inset-left, 0px));
-    
-    /* Add proper padding with safe areas ONLY for top/bottom (as requested) */
-    padding-top: calc(12px + env(safe-area-inset-top, 0px));
-    padding-left: 12px;
-    padding-right: 12px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   }
 
   .scrollable-container::-webkit-scrollbar {

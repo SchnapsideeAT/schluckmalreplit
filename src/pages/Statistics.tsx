@@ -83,7 +83,15 @@ const Statistics = () => {
   };
 
   return (
-    <div className="min-h-dvh flex flex-col p-6">
+    <div 
+      className="min-h-dvh flex flex-col"
+      style={{
+        paddingTop: `max(1.5rem, env(safe-area-inset-top))`,
+        paddingBottom: `max(1.5rem, env(safe-area-inset-bottom))`,
+        paddingLeft: '1.5rem',
+        paddingRight: '1.5rem',
+      }}
+    >
       {/* Confetti Effect */}
       <Confetti trigger={sortedPlayers.length > 0 && sortedPlayers[0].totalDrinks > 0} />
       

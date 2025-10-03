@@ -19,6 +19,12 @@ export const ScrollableContainer = ({ children, className }: ScrollableContainer
         needsScroll ? 'scrollable-enabled' : '',
         className
       )}
+      style={{
+        paddingTop: `max(1rem, env(safe-area-inset-top))`,
+        paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
+        paddingLeft: '1rem',
+        paddingRight: '1rem',
+      }}
     >
       {children}
     </div>

@@ -73,7 +73,15 @@ const Home = () => {
   };
 
   return (
-      <div className="no-scroll min-h-dvh flex flex-col items-center justify-center page-container relative">
+      <div 
+        className="no-scroll min-h-dvh flex flex-col items-center justify-center relative"
+        style={{
+          paddingTop: `max(1rem, env(safe-area-inset-top))`,
+          paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
+          paddingLeft: '1rem',
+          paddingRight: '1rem',
+        }}
+      >
         
         {/* Logo - Animated from center */}
         <div className={`${logoPhase === 'final' ? 'responsive-container' : ''} ${logoPhase === 'final' ? 'space-y-6 mb-8' : ''}`}>
