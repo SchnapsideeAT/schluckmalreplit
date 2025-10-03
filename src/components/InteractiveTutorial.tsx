@@ -37,12 +37,6 @@ const tutorialSteps: TutorialStep[] = [
     requiredSwipe: 'left',
     icon: <ArrowLeft className="w-16 h-16 text-red-500" />,
   },
-  {
-    title: "Swipe nach oben",
-    description: "Wische nach oben, um die Statistik der Runde zu sehen.",
-    requiredSwipe: 'up',
-    icon: <ArrowUp className="w-16 h-16 text-primary" />,
-  },
 ];
 
 export const InteractiveTutorial = () => {
@@ -176,44 +170,8 @@ export const InteractiveTutorial = () => {
         ))}
       </div>
 
-      {/* Special fullscreen layout for swipe up step */}
-      {step.requiredSwipe === 'up' && (
-        <div className="absolute inset-0 z-20" {...swipeHandlers}>
-          {/* Text content in vertical center */}
-          <div className="absolute inset-0 flex items-center justify-center px-4">
-            <div className="flex flex-col items-center gap-4">
-              <div className={`${canProceed ? 'opacity-0' : 'opacity-100'} transition-opacity`}>
-                <ArrowUp className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-primary animate-bounce" />
-              </div>
-              
-              {/* Success checkmark for swipe up */}
-              {canProceed && (
-                <div className="bg-green-500 rounded-full p-4 animate-scale-in">
-                  <Check className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
-                </div>
-              )}
-              
-              <div className="text-center space-y-2">
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
-                <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Glowing yellow swipe area at bottom - full width */}
-          <div className="absolute bottom-0 left-0 right-0 h-64 sm:h-72">
-            <div 
-              className="absolute inset-0"
-              style={{
-                background: 'linear-gradient(to top, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.7) 20%, hsl(var(--primary) / 0.4) 40%, hsl(var(--primary) / 0.2) 60%, hsl(var(--primary) / 0.05) 80%, transparent 100%)'
-              }}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Main content - hidden for swipe up */}
-      <div className={`relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full px-2 ${step.requiredSwipe === 'up' ? 'invisible' : ''}`}>
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-8 w-full px-2">
         {/* Icon/Visual */}
         {step.icon && !step.requiredSwipe && (
           <div className="flex justify-center animate-scale-in mt-4">
@@ -323,11 +281,7 @@ export const InteractiveTutorial = () => {
         <Button
           onClick={handleSkip}
           variant="ghost"
-          className={`text-sm sm:text-base hover:bg-transparent hover:text-primary ${
-            step.requiredSwipe === 'up'
-              ? 'text-white font-bold'
-              : 'text-muted-foreground'
-          }`}
+          className="text-sm sm:text-base hover:bg-transparent hover:text-primary text-muted-foreground"
         >
           Überspringen
         </Button>
