@@ -54,12 +54,15 @@ export const useSwipe = (handlers: SwipeHandlers) => {
     handlersRef.current = handlers;
   }, [handlers]);
 
-  // Cleanup RAF on unmount to prevent memory leaks
+  // Cleanup RAF and reset refs on unmount to prevent memory leaks
   useEffect(() => {
     return () => {
       if (rafId.current !== null) {
         cancelAnimationFrame(rafId.current);
       }
+      // Reset all refs to prevent stale state
+      touchIdentifier.current = null;
+      isMouseDown.current = false;
     };
   }, []);
 
@@ -170,9 +173,23 @@ export const useSwipe = (handlers: SwipeHandlers) => {
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!swipeState.isSwiping || touchIdentifier.current === null) return;
 
+    // Prevent iOS Safari back/forward navigation gestures (MUST be before any early returns)
+    e.preventDefault();
+
     // Find the touch that matches our tracked identifier (multi-touch protection)
     const touch = Array.from(e.touches).find(t => t.identifier === touchIdentifier.current);
-    if (!touch) return; // Our tracked touch is gone, ignore
+    if (!touch) {
+      // Our tracked touch is gone but others remain - cancel swipe
+      // CRITICAL: Cancel RAF first to prevent stuck state
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
+      touchIdentifier.current = null;
+      resetSwipeState();
+      handlersRef.current.onSwipeEnd?.();
+      return;
+    }
 
     // Cancel previous RAF if still pending
     if (rafId.current) {
@@ -184,6 +201,11 @@ export const useSwipe = (handlers: SwipeHandlers) => {
 
     // Use RAF to throttle state updates for smoother performance
     rafId.current = requestAnimationFrame(() => {
+      // Guard: Exit if swipe was cancelled while RAF was pending
+      if (touchIdentifier.current === null) {
+        return;
+      }
+
       const distanceX = touchCurrentX.current - touchStartX.current;
       const distanceY = touchCurrentY.current - touchStartY.current;
       const absDistanceX = Math.abs(distanceX);
@@ -204,9 +226,15 @@ export const useSwipe = (handlers: SwipeHandlers) => {
         absoluteDistance: absDistanceX > absDistanceY ? absDistanceX : absDistanceY,
       });
     });
-  }, [swipeState.isSwiping]);
+  }, [swipeState.isSwiping, resetSwipeState]);
 
-  const handleTouchEnd = useCallback(() => {
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    // Only process if this is our tracked touch (multi-touch protection)
+    const wasOurTouch = touchIdentifier.current !== null && 
+      Array.from(e.changedTouches).some(t => t.identifier === touchIdentifier.current);
+    
+    if (!wasOurTouch) return;
+
     // Cancel any pending RAF to prevent stuck card position
     if (rafId.current !== null) {
       cancelAnimationFrame(rafId.current);
