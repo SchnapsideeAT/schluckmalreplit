@@ -13,8 +13,12 @@ const Home = () => {
   const { settings } = useSettings();
   const { insets } = useSafeAreaInsets();
   const [hasSavedGame, setHasSavedGame] = useState(false);
-  const [logoPhase, setLogoPhase] = useState<'center' | 'sliding' | 'final'>('final');
-  const [showButtons, setShowButtons] = useState(true);
+  
+  const hasAnimated = sessionStorage.getItem('home-animation-played');
+  const [logoPhase, setLogoPhase] = useState<'center' | 'sliding' | 'final'>(
+    hasAnimated ? 'final' : 'center'
+  );
+  const [showButtons, setShowButtons] = useState(!!hasAnimated);
   
   useEffect(() => {
     const savedState = loadGameState();
@@ -25,8 +29,6 @@ const Home = () => {
     
     if (!hasAnimated) {
       // First time loading the app - play animation
-      setLogoPhase('center');
-      setShowButtons(false);
       sessionStorage.setItem('home-animation-played', 'true');
 
       // Animation sequence
