@@ -83,11 +83,11 @@ export const useSafeAreaInsets = () => {
         cssBottom !== '';
 
       // Check if running in Capacitor native app
-      // Capacitor adjusts the viewport automatically by subtracting safe areas,
-      // so we don't need to add bottom padding (it would be duplicate)
+      // In Capacitor native, ALWAYS use bottom=0 because the viewport is already adjusted
+      // This applies whether keyboard is open or closed - the viewport automatically shrinks for keyboard
       const isCapacitorNative = Capacitor.isNativePlatform();
       const heightDiff = screenHeight - windowHeight;
-      const capacitorManagedBottom = isCapacitorNative && heightDiff > 10;
+      const capacitorManagedBottom = isCapacitorNative; // Always true in Capacitor, regardless of heightDiff
 
       let calculatedInsets: SafeAreaInsets;
 
