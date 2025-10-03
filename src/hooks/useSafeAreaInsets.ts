@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Capacitor } from '@capacitor/core';
 
 interface SafeAreaInsets {
   top: string;
@@ -78,13 +79,20 @@ export const useSafeAreaInsets = () => {
         cssTop !== '' && 
         cssBottom !== '';
 
+      // Check if running in Capacitor native app
+      // Capacitor adjusts the viewport automatically by subtracting safe areas,
+      // so we don't need to add bottom padding (it would be duplicate)
+      const isCapacitorNative = Capacitor.isNativePlatform();
+      const heightDiff = screenHeight - windowHeight;
+      const capacitorManagedBottom = isCapacitorNative && heightDiff > 10;
+
       let calculatedInsets: SafeAreaInsets;
 
       if (hasCSSValues) {
-        // Use CSS values
+        // Use CSS values, but check if bottom is already managed by Capacitor
         calculatedInsets = {
           top: `max(1rem, ${cssTop})`,
-          bottom: `max(1rem, ${cssBottom})`,
+          bottom: capacitorManagedBottom ? '0px' : `max(1rem, ${cssBottom})`,
           left: `max(1rem, ${cssLeft})`,
           right: `max(1rem, ${cssRight})`,
         };
@@ -97,15 +105,15 @@ export const useSafeAreaInsets = () => {
           // iPhone X and newer have notch/dynamic island and home indicator
           if (isPortrait) {
             topInset = 'max(1rem, 44px)';
-            bottomInset = 'max(1rem, 34px)';
+            bottomInset = capacitorManagedBottom ? '0px' : 'max(1rem, 34px)';
           } else {
             topInset = 'max(1rem, 32px)';
-            bottomInset = 'max(1rem, 21px)';
+            bottomInset = capacitorManagedBottom ? '0px' : 'max(1rem, 21px)';
           }
         } else if (isIOS) {
           // Older iPhones without notch
           topInset = 'max(1rem, 20px)';
-          bottomInset = '1rem';
+          bottomInset = capacitorManagedBottom ? '0px' : '1rem';
         }
 
         calculatedInsets = {
