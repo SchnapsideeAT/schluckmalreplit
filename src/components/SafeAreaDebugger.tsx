@@ -33,12 +33,37 @@ export const SafeAreaDebugger = () => {
         </div>
       </div>
 
+      {/* CRITICAL: Capacitor Detection */}
+      <div className="mb-3 bg-red-500 text-white p-3 rounded border-4 border-black">
+        <div className="font-bold text-base mb-2">🚨 CAPACITOR DEBUG (KRITISCH!):</div>
+        <div className="space-y-1">
+          <div>
+            <span className="font-bold">Capacitor Native?</span>{' '}
+            <span className={`font-mono px-2 py-1 rounded ${debugInfo.isCapacitorNative ? 'bg-green-300 text-black' : 'bg-red-300 text-black'}`}>
+              {debugInfo.isCapacitorNative ? '✅ JA' : '❌ NEIN'}
+            </span>
+          </div>
+          <div>
+            <span className="font-bold">Höhen-Differenz:</span>{' '}
+            <span className="font-mono bg-yellow-300 text-black px-2 py-1 rounded">
+              {debugInfo.heightDiff}px
+            </span>
+          </div>
+          <div>
+            <span className="font-bold">Bottom von Capacitor verwaltet?</span>{' '}
+            <span className={`font-mono px-2 py-1 rounded ${debugInfo.capacitorManagedBottom ? 'bg-green-300 text-black' : 'bg-red-300 text-black'}`}>
+              {debugInfo.capacitorManagedBottom ? '✅ JA (bottom=0)' : '❌ NEIN (bottom=34px)'}
+            </span>
+          </div>
+        </div>
+      </div>
+
       {/* Calculated Insets */}
       <div className="mb-3 bg-white/80 p-2 rounded">
         <div className="font-bold mb-1">🎯 Berechnete Safe Area Insets:</div>
         <div className="grid grid-cols-2 gap-1">
           <div>Top: <span className="font-mono bg-green-200 px-1">{insets.top}</span></div>
-          <div>Bottom: <span className="font-mono bg-green-200 px-1">{insets.bottom}</span></div>
+          <div>Bottom: <span className={`font-mono px-1 ${insets.bottom === '0px' ? 'bg-red-300 font-bold' : 'bg-green-200'}`}>{insets.bottom}</span></div>
           <div>Left: <span className="font-mono bg-green-200 px-1">{insets.left}</span></div>
           <div>Right: <span className="font-mono bg-green-200 px-1">{insets.right}</span></div>
         </div>

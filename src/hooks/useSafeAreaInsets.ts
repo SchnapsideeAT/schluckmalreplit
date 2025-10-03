@@ -25,6 +25,9 @@ interface DebugInfo {
   screenWidth: number;
   userAgent: string;
   calculatedInsets: SafeAreaInsets;
+  isCapacitorNative: boolean;
+  heightDiff: number;
+  capacitorManagedBottom: boolean;
 }
 
 const DEFAULT_INSETS: SafeAreaInsets = {
@@ -142,6 +145,9 @@ export const useSafeAreaInsets = () => {
         screenWidth,
         userAgent,
         calculatedInsets,
+        isCapacitorNative,
+        heightDiff,
+        capacitorManagedBottom,
       });
 
       setInsets(calculatedInsets);
