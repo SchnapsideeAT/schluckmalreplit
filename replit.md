@@ -42,6 +42,20 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 3, 2025 - Portrait-Only Orientation Lock
+- **Requirement**: Game should only be playable in portrait mode, not landscape
+- **Solution**: Configured native iOS and Android projects to lock screen orientation
+- **iOS Configuration** (`ios/App/App/Info.plist`):
+  - Set `UISupportedInterfaceOrientations` to only include `UIInterfaceOrientationPortrait`
+  - Set `UISupportedInterfaceOrientations~ipad` to only include `UIInterfaceOrientationPortrait`
+  - Added `UIRequiresFullScreen: true` for iPad compatibility
+  - Removed all landscape orientation options
+- **Android Configuration** (`android/app/src/main/AndroidManifest.xml`):
+  - Added `android:screenOrientation="portrait"` to MainActivity
+- **Native Projects**: Generated iOS and Android projects using `npx cap add ios` and `npx cap add android`
+- **Files Changed**: `ios/App/App/Info.plist`, `android/app/src/main/AndroidManifest.xml`
+- **Status**: App now only runs in portrait orientation on both platforms
+
 ### Oct 3, 2025 - Production Cleanup (Debug Code Removal)
 - **Completed**: Full production-ready cleanup to remove all debug/development artifacts
 - **Deleted Files**:
