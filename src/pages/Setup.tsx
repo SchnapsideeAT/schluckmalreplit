@@ -9,7 +9,6 @@ import { playSound } from "@/utils/sounds";
 import { loadLastPlayers, loadLastCategories, hasShownInteractiveTutorial } from "@/utils/localStorage";
 import { useSettings } from "@/hooks/useSettings";
 import { ScrollableContainer } from "@/components/ScrollableContainer";
-import { SafeAreaDebugger } from "@/components/SafeAreaDebugger";
 
 const Setup = () => {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ const Setup = () => {
     "Duell",
     "Wildcard"
   ]);
-  const [showDebug, setShowDebug] = useState(false);
 
   // Load last players and categories on mount
   useEffect(() => {
@@ -40,25 +38,6 @@ const Setup = () => {
 
   return (
     <ScrollableContainer className="max-w-lg mx-auto">
-      {/* Debug Tool */}
-      {showDebug && <SafeAreaDebugger />}
-
-      {/* Debug Toggle Button */}
-      <button
-        onClick={() => {
-          setShowDebug(!showDebug);
-          if (!showDebug) {
-            document.body.classList.add('debug-mode');
-          } else {
-            document.body.classList.remove('debug-mode');
-          }
-        }}
-        className="fixed bottom-4 right-4 z-[10001] bg-yellow-500 text-black px-4 py-2 rounded-lg text-sm font-bold shadow-lg"
-        data-testid="button-debug-toggle"
-      >
-        🐛 {showDebug ? 'Hide' : 'Show'} Debug
-      </button>
-
       <div className="space-y-8 text-center slide-up py-6">
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 border border-primary/50 mb-4">
