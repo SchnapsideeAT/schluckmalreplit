@@ -47,25 +47,6 @@ const Home = () => {
     // If returning from another page, show everything immediately (already set in initial state)
   }, []);
 
-  // Toggle debug mode with keyboard shortcut
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'd' && e.shiftKey && e.ctrlKey) {
-        setShowDebug(prev => {
-          const newValue = !prev;
-          if (newValue) {
-            document.body.classList.add('debug-mode');
-          } else {
-            document.body.classList.remove('debug-mode');
-          }
-          return newValue;
-        });
-      }
-    };
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
-
   const handleStartGame = () => {
     playSound('success', settings.soundEnabled);
     navigate("/setup");
