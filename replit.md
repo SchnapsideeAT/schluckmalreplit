@@ -42,6 +42,24 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 3, 2025 - Swipe Gesture Robustness Improvements
+- **Problem**: Card swipe gestures had stability issues with multi-touch, stuck positions, and iOS Safari navigation conflicts
+- **Critical Fixes**:
+  - **Touch-ID Tracking**: Hook now locks onto first touch by identifier and ignores all other touches (multi-touch protection)
+  - **Handler Stabilization**: Using `handlersRef` pattern prevents event listener re-registration during RAF-driven updates
+  - **RAF Cleanup**: Added RAF cancellation + null-check guards in callback to prevent stuck card positions when tracked touch disappears mid-swipe
+  - **iOS Navigation Prevention**: 
+    - Added `touchAction: 'none'` to GameCard image element
+    - Positioned `preventDefault()` before all early returns in touchmove handler to consistently block iOS Safari back/forward gestures
+  - **Multi-touch End Handling**: Using `changedTouches` instead of `touches` in touchend handler for proper multi-touch detection
+  - **Unmount Cleanup**: All refs (touchIdentifier, isMouseDown, RAF) properly reset on component unmount
+- **Edge Cases Fixed**:
+  - User lifts tracked finger while second finger remains → swipe cancels cleanly without stuck state
+  - User swipes near screen edges on iOS → navigation gestures blocked
+  - Rapid multi-touch interactions → only first touch tracked, others ignored
+- **Files Changed**: `src/hooks/useSwipe.ts`, `src/components/GameCard.tsx`
+- **Status**: Production-ready, architect-reviewed
+
 ### Oct 3, 2025 - Portrait-Only Orientation Lock
 - **Requirement**: Game should only be playable in portrait mode, not landscape
 - **Solution**: Configured native iOS and Android projects to lock screen orientation
