@@ -10,7 +10,7 @@ import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 const Statistics = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const insets = useSafeAreaInsets();
+  const { insets } = useSafeAreaInsets();
   const state = location.state as { 
     players?: Player[];
     deck?: Card[];

@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 
 const NotFound = () => {
   const location = useLocation();
-  const insets = useSafeAreaInsets();
+  const { insets } = useSafeAreaInsets();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);

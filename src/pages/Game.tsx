@@ -39,7 +39,7 @@ const Game = () => {
   } | null;
   
   const { settings } = useSettings();
-  const insets = useSafeAreaInsets();
+  const { insets } = useSafeAreaInsets();
   const soundEnabled = settings.soundEnabled;
   const hapticEnabled = settings.hapticEnabled;
   

@@ -11,7 +11,7 @@ interface ScrollableContainerProps {
 export const ScrollableContainer = ({ children, className }: ScrollableContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const needsScroll = useScrollDetection({ containerRef });
-  const insets = useSafeAreaInsets();
+  const { insets } = useSafeAreaInsets();
 
   return (
     <div

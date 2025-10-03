@@ -1,7 +1,7 @@
 import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 
 const Index = () => {
-  const insets = useSafeAreaInsets();
+  const { insets } = useSafeAreaInsets();
 
   return (
     <div 

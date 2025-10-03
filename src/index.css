@@ -113,6 +113,23 @@ All colors MUST be HSL.
     box-sizing: border-box;
   }
 
+  /* DEBUG MODE - Visuelle Rahmen */
+  body.debug-mode #root {
+    outline: 3px solid red !important;
+  }
+
+  body.debug-mode .h-dvh,
+  body.debug-mode .min-h-dvh {
+    outline: 2px solid blue !important;
+  }
+
+  body.debug-mode .page-container,
+  body.debug-mode .content-container,
+  body.debug-mode .responsive-container,
+  body.debug-mode .scrollable-container {
+    outline: 1px solid green !important;
+  }
+
 }
 
 @layer utilities {

@@ -2,7 +2,7 @@ import { InteractiveTutorial } from "@/components/InteractiveTutorial";
 import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 
 const InteractiveTutorialPage = () => {
-  const insets = useSafeAreaInsets();
+  const { insets } = useSafeAreaInsets();
 
   return (
     <div 
