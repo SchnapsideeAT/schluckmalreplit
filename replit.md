@@ -42,6 +42,20 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 3, 2025 - Production Cleanup (Debug Code Removal)
+- **Completed**: Full production-ready cleanup to remove all debug/development artifacts
+- **Deleted Files**:
+  - `src/components/SafeAreaDebugger.tsx` - Debug component for Safe Area testing
+  - `public/placeholder.svg` - Unused placeholder asset
+- **Removed Debug UI**:
+  - Debug toggle buttons from Home.tsx and Setup.tsx
+  - All SafeAreaDebugger imports and references
+  - Debug-related state variables
+- **Console Logs**: Kept console.error statements in catch blocks for production error tracking
+- **Status**: App is now production-ready, no debug code remains in UI layer
+- **Bundle Impact**: Cleaner codebase, removed ~3 components worth of debug code
+- **Files Changed**: `src/pages/Home.tsx`, `src/pages/Setup.tsx`
+
 ### Oct 3, 2025 - iOS Keyboard "Done" Button Fix
 - **Issue**: iOS keyboard was missing the "Fertig" (Done) button, showing only generic "return" key
 - **Root Cause**: Safari/iOS requires proper HTML structure to show custom return key labels
