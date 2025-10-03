@@ -350,7 +350,7 @@ const Game = () => {
 
   return (
     <div 
-      className="no-scroll h-dvh flex flex-col relative"
+      className="no-scroll h-screen flex flex-col relative"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,

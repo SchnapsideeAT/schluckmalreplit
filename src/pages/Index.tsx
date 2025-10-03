@@ -5,7 +5,7 @@ const Index = () => {
 
   return (
     <div 
-      className="flex h-dvh items-center justify-center bg-background"
+      className="flex h-screen items-center justify-center bg-background"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,

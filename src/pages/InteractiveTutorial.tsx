@@ -6,7 +6,7 @@ const InteractiveTutorialPage = () => {
 
   return (
     <div 
-      className="h-dvh w-full bg-background"
+      className="h-screen w-full bg-background"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,

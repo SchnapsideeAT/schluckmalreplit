@@ -101,7 +101,7 @@ export const SafeAreaDebugger = () => {
       <div className="mt-3 bg-red-500 text-white p-2 rounded">
         <div className="font-bold">🎨 Visuelle Markierungen aktiv:</div>
         <div>🔴 #root → roter Rahmen</div>
-        <div>🔵 .h-dvh / .min-h-dvh → blauer Rahmen</div>
+        <div>🔵 .h-screen / .min-h-screen → blauer Rahmen</div>
         <div>🟢 Container → grüner Rahmen</div>
       </div>
     </div>

@@ -12,7 +12,7 @@ const NotFound = () => {
 
   return (
     <div 
-      className="flex h-dvh items-center justify-center bg-gray-100"
+      className="flex h-screen items-center justify-center bg-gray-100"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,

@@ -83,7 +83,7 @@ All colors MUST be HSL.
     font-family: 'Quicksand', system-ui, sans-serif;
     font-weight: 700;
     background: hsl(0 0% 10%);
-    min-height: 100dvh;
+    min-height: 100vh;
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -107,7 +107,7 @@ All colors MUST be HSL.
   }
 
   #root {
-    min-height: 100dvh;
+    min-height: 100vh;
     background: hsl(0 0% 10%);
     overflow: hidden;
     box-sizing: border-box;
@@ -118,8 +118,8 @@ All colors MUST be HSL.
     outline: 3px solid red !important;
   }
 
-  body.debug-mode .h-dvh,
-  body.debug-mode .min-h-dvh {
+  body.debug-mode .h-screen,
+  body.debug-mode .min-h-screen {
     outline: 2px solid blue !important;
   }
 
@@ -133,20 +133,14 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  .min-h-dvh {
-    min-height: 100dvh;
-  }
-  
-  .h-dvh {
-    height: 100dvh;
-  }
+  /* Removed dvh utilities - using 100vh (h-screen) for Capacitor native app */
 }
 
 @layer components {
   /* Container System - Einheitliches Padding */
   .page-container {
     @apply px-4 py-6;
-    min-height: 100dvh;
+    min-height: 100vh;
   }
 
   .content-container {

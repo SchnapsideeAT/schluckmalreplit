@@ -86,7 +86,7 @@ const Statistics = () => {
 
   return (
     <div 
-      className="h-dvh flex flex-col overflow-y-auto"
+      className="h-screen flex flex-col overflow-y-auto"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,

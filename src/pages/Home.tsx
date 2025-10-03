@@ -78,7 +78,7 @@ const Home = () => {
 
   return (
       <div 
-        className="no-scroll h-dvh flex flex-col items-center justify-center relative"
+        className="no-scroll h-screen flex flex-col items-center justify-center relative"
         style={{
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
