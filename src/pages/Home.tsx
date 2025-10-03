@@ -74,7 +74,7 @@ const Home = () => {
 
   return (
       <div 
-        className="no-scroll min-h-dvh flex flex-col items-center justify-center relative"
+        className="no-scroll h-dvh flex flex-col items-center justify-center relative"
         style={{
           paddingTop: `max(1rem, env(safe-area-inset-top))`,
           paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,

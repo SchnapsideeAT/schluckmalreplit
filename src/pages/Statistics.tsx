@@ -84,7 +84,7 @@ const Statistics = () => {
 
   return (
     <div 
-      className="min-h-dvh flex flex-col"
+      className="h-dvh flex flex-col overflow-y-auto"
       style={{
         paddingTop: `max(1.5rem, env(safe-area-inset-top))`,
         paddingBottom: `max(1.5rem, env(safe-area-inset-bottom))`,

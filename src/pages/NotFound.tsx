@@ -10,7 +10,7 @@ const NotFound = () => {
 
   return (
     <div 
-      className="flex min-h-dvh items-center justify-center bg-gray-100"
+      className="flex h-dvh items-center justify-center bg-gray-100"
       style={{
         paddingTop: `max(1rem, env(safe-area-inset-top))`,
         paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,

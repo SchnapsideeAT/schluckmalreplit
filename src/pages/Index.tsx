@@ -3,7 +3,7 @@
 const Index = () => {
   return (
     <div 
-      className="flex min-h-dvh items-center justify-center bg-background"
+      className="flex h-dvh items-center justify-center bg-background"
       style={{
         paddingTop: `max(1rem, env(safe-area-inset-top))`,
         paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
