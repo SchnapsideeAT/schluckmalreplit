@@ -13,6 +13,7 @@ import { saveGameState, loadGameState, clearGameState } from "@/utils/localStora
 import { triggerHaptic } from "@/utils/haptics";
 import { playSound, soundManager } from "@/utils/sounds";
 import { useSettings } from "@/hooks/useSettings";
+import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 import { 
   AlertDialog, 
   AlertDialogAction, 
@@ -38,6 +39,7 @@ const Game = () => {
   } | null;
   
   const { settings } = useSettings();
+  const insets = useSafeAreaInsets();
   const soundEnabled = settings.soundEnabled;
   const hapticEnabled = settings.hapticEnabled;
   
@@ -350,10 +352,10 @@ const Game = () => {
     <div 
       className="no-scroll min-h-dvh h-dvh flex flex-col relative"
       style={{
-        paddingTop: `max(0.5rem, env(safe-area-inset-top))`,
-        paddingBottom: `max(0.5rem, env(safe-area-inset-bottom))`,
-        paddingLeft: '1rem',
-        paddingRight: '1rem',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
       }}
     >
       {/* Header */}

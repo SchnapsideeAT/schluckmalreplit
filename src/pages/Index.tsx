@@ -1,14 +1,16 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 
 const Index = () => {
+  const insets = useSafeAreaInsets();
+
   return (
     <div 
       className="flex h-dvh items-center justify-center bg-background"
       style={{
-        paddingTop: `max(1rem, env(safe-area-inset-top))`,
-        paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
-        paddingLeft: '1rem',
-        paddingRight: '1rem',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
       }}
     >
       <div className="text-center">

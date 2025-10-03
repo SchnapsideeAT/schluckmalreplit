@@ -5,10 +5,12 @@ import { Player, Card, CardCategory } from "@/types/card";
 import { ArrowLeft, Trophy, Beer, Crown, Medal, RotateCcw } from "lucide-react";
 import { Confetti } from "@/components/Confetti";
 import { saveLastPlayers, saveLastCategories, clearGameState } from "@/utils/localStorage";
+import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 
 const Statistics = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const insets = useSafeAreaInsets();
   const state = location.state as { 
     players?: Player[];
     deck?: Card[];
@@ -86,10 +88,10 @@ const Statistics = () => {
     <div 
       className="h-dvh flex flex-col overflow-y-auto"
       style={{
-        paddingTop: `max(1.5rem, env(safe-area-inset-top))`,
-        paddingBottom: `max(1.5rem, env(safe-area-inset-bottom))`,
-        paddingLeft: '1.5rem',
-        paddingRight: '1.5rem',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
       }}
     >
       {/* Confetti Effect */}

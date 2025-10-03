@@ -1,8 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 
 const NotFound = () => {
   const location = useLocation();
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
@@ -12,10 +14,10 @@ const NotFound = () => {
     <div 
       className="flex h-dvh items-center justify-center bg-gray-100"
       style={{
-        paddingTop: `max(1rem, env(safe-area-inset-top))`,
-        paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
-        paddingLeft: '1rem',
-        paddingRight: '1rem',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
       }}
     >
       <div className="text-center">

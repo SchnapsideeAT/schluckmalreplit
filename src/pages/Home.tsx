@@ -6,11 +6,13 @@ import { playSound } from "@/utils/sounds";
 import { loadGameState } from "@/utils/localStorage";
 import { useState, useEffect } from "react";
 import { useSettings } from "@/hooks/useSettings";
+import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
 import { SafeAreaDebugger } from "@/components/SafeAreaDebugger";
 
 const Home = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
+  const insets = useSafeAreaInsets();
   const [hasSavedGame, setHasSavedGame] = useState(false);
   const [logoPhase, setLogoPhase] = useState<'center' | 'sliding' | 'final'>('final');
   const [showButtons, setShowButtons] = useState(true);
@@ -97,10 +99,10 @@ const Home = () => {
       <div 
         className="no-scroll h-dvh flex flex-col items-center justify-center relative"
         style={{
-          paddingTop: `max(1rem, env(safe-area-inset-top))`,
-          paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
-          paddingLeft: '1rem',
-          paddingRight: '1rem',
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
         }}
       >
         {showDebug && <SafeAreaDebugger />}
