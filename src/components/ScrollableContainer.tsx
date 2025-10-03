@@ -1,5 +1,6 @@
 import { ReactNode, useRef } from 'react';
 import { useScrollDetection } from '@/hooks/useScrollDetection';
+import { useSafeAreaInsets } from '@/hooks/useSafeAreaInsets';
 import { cn } from '@/lib/utils';
 
 interface ScrollableContainerProps {
@@ -10,6 +11,7 @@ interface ScrollableContainerProps {
 export const ScrollableContainer = ({ children, className }: ScrollableContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const needsScroll = useScrollDetection({ containerRef });
+  const insets = useSafeAreaInsets();
 
   return (
     <div
@@ -20,10 +22,10 @@ export const ScrollableContainer = ({ children, className }: ScrollableContainer
         className
       )}
       style={{
-        paddingTop: `max(1rem, env(safe-area-inset-top))`,
-        paddingBottom: `max(1rem, env(safe-area-inset-bottom))`,
-        paddingLeft: '1rem',
-        paddingRight: '1rem',
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
       }}
     >
       {children}
