@@ -420,3 +420,15 @@ All colors MUST be HSL.
   transform-origin: 70% 70%;
   display: inline-block;
 }
+
+@keyframes cardGlowPulse {
+  0%, 100% {
+    opacity: 0.25;
+  }
+  25%, 75% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
