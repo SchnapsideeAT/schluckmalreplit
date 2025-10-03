@@ -9,12 +9,14 @@ import { playSound } from "@/utils/sounds";
 import { loadLastPlayers, loadLastCategories, hasShownInteractiveTutorial } from "@/utils/localStorage";
 import { useSettings } from "@/hooks/useSettings";
 import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
+import { useSmartHeight } from "@/hooks/useSmartHeight";
 import { SafeAreaDebugger } from "@/components/SafeAreaDebugger";
 
 const Setup = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
   const { insets } = useSafeAreaInsets();
+  const smartHeight = useSmartHeight();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<CardCategory[]>([
     "Wahrheit",
@@ -43,7 +45,7 @@ const Setup = () => {
     <div
       className="flex flex-col overflow-y-auto bg-background"
       style={{
-        height: `${window.screen.height}px`,
+        height: `${smartHeight}px`,
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
