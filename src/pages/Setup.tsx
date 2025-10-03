@@ -8,15 +8,12 @@ import { Player, CardCategory } from "@/types/card";
 import { playSound } from "@/utils/sounds";
 import { loadLastPlayers, loadLastCategories, hasShownInteractiveTutorial } from "@/utils/localStorage";
 import { useSettings } from "@/hooks/useSettings";
-import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
-import { useSmartHeight } from "@/hooks/useSmartHeight";
+import { ScrollableContainer } from "@/components/ScrollableContainer";
 import { SafeAreaDebugger } from "@/components/SafeAreaDebugger";
 
 const Setup = () => {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  const { insets } = useSafeAreaInsets();
-  const smartHeight = useSmartHeight();
   const [players, setPlayers] = useState<Player[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<CardCategory[]>([
     "Wahrheit",
@@ -42,17 +39,7 @@ const Setup = () => {
   }, []);
 
   return (
-    <div
-      className="flex flex-col overflow-y-auto bg-background"
-      style={{
-        height: `${smartHeight}px`,
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        boxSizing: 'border-box',
-      }}
-    >
+    <ScrollableContainer>
       {/* Debug Tool */}
       {showDebug && <SafeAreaDebugger />}
 
@@ -125,7 +112,7 @@ const Setup = () => {
             Zurück
           </Button>
       </div>
-    </div>
+    </ScrollableContainer>
   );
 };
 
