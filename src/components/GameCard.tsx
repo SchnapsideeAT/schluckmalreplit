@@ -24,12 +24,6 @@ import { useFeatureFlags } from "@/utils/featureFlags";
 interface GameCardProps {
   card: Card;
   horizontalDistance?: number;
-  onTouchStart?: (e: React.TouchEvent) => void;
-  onTouchMove?: (e: React.TouchEvent) => void;
-  onTouchEnd?: (e: React.TouchEvent) => void;
-  onMouseDown?: (e: React.MouseEvent) => void;
-  onMouseMove?: (e: React.MouseEvent) => void;
-  onMouseUp?: (e: React.MouseEvent) => void;
 }
 
 const categoryColorMap: Record<CardCategory, string> = {
@@ -43,12 +37,6 @@ const categoryColorMap: Record<CardCategory, string> = {
 export const GameCard = memo(({ 
   card, 
   horizontalDistance = 0,
-  onTouchStart,
-  onTouchMove,
-  onTouchEnd,
-  onMouseDown,
-  onMouseMove,
-  onMouseUp,
 }: GameCardProps) => {
   const cardImageSrc = getCardImage(card.category, card.id);
   const categoryColor = categoryColorMap[card.category];
@@ -110,7 +98,6 @@ export const GameCard = memo(({
           : 'translateZ(0)',
         opacity: horizontalDistance !== 0 ? opacity : undefined,
         backfaceVisibility: 'hidden',
-        transition: horizontalDistance !== 0 ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease-out',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
       }}
     >
@@ -133,18 +120,7 @@ export const GameCard = memo(({
         style={{
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
         }}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
         onContextMenu={(e) => e.preventDefault()}
-        onPointerDown={(e) => {
-          if (e.pointerType === 'touch') {
-            e.preventDefault();
-          }
-        }}
         onError={(e) => {
           console.error(`Failed to load ${card.category} card ${card.id}:`, cardImageSrc);
           console.error('Image element:', e.currentTarget);

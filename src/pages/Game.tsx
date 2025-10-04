@@ -8,7 +8,7 @@ import { PlayerTransition } from "@/components/PlayerTransition";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
 import { ArrowRight, Beer, Check, Home, Settings } from "lucide-react";
-import { useSwipe } from "@/hooks/useSwipe";
+import { useSwing } from "@/hooks/useSwing";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
 import { playSound, soundManager } from "@/utils/sounds";
@@ -268,8 +268,11 @@ const Game = () => {
     });
   };
 
-  // Swipe gesture handlers for card (left/right only)
-  const { swipeState: cardSwipeState, swipeHandlers: cardSwipeHandlers, resetSwipeState } = useSwipe({
+  // Swing stack ref for DOM binding
+  const stackRef = useRef<HTMLDivElement>(null);
+
+  // Swing gesture handlers (replaces useSwipe)
+  const { swingState, resetSwingState } = useSwing(stackRef.current, {
     onSwipeLeft: () => {
       // Swipe left = drink (skip task)
       if (currentIndex >= 0) {
@@ -287,14 +290,14 @@ const Game = () => {
   const handlePlayerTransitionTap = useCallback(() => {
     setShowPlayerTransition(false);
     setCurrentPlayerIndex(nextPlayerIndex);
-    resetSwipeState(); // Reset swipe state BEFORE drawing card
+    resetSwingState(); // Reset swing state BEFORE drawing card
     setShowCard(true);
     drawCard();
-  }, [nextPlayerIndex, drawCard, resetSwipeState]);
+  }, [nextPlayerIndex, drawCard, resetSwingState]);
 
   const handleInitialTransitionTap = useCallback(() => {
     setShowInitialTransition(false);
-    resetSwipeState(); // Reset swipe state BEFORE showing card
+    resetSwingState(); // Reset swing state BEFORE showing card
     setShowCard(true);
     
     // If we're loading a saved game (currentIndex >= 0), show current card
@@ -304,7 +307,7 @@ const Game = () => {
     } else {
       drawCard();
     }
-  }, [currentIndex, drawCard, showCurrentCard, resetSwipeState]);
+  }, [currentIndex, drawCard, showCurrentCard, resetSwingState]);
 
   const currentCard = useMemo(() => deck[currentIndex], [deck, currentIndex]);
   const cardsRemaining = useMemo(() => deck.length - currentIndex - 1, [deck.length, currentIndex]);
@@ -400,15 +403,31 @@ const Game = () => {
           </div>
         ) : currentCard && showCard ? (
           <>
-            <GameCard 
-              card={currentCard}
-              horizontalDistance={cardSwipeState.horizontalDistance}
-              {...cardSwipeHandlers}
-            />
+            {/* Swing Stack Container */}
+            <div 
+              ref={stackRef} 
+              className="swing-stack" 
+              style={{ 
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                pointerEvents: 'auto'
+              }}
+            >
+              <div className="swing-card">
+                <GameCard 
+                  card={currentCard}
+                  horizontalDistance={swingState.horizontalDistance}
+                />
+              </div>
+            </div>
             <SwipeOverlay 
-              horizontalDistance={cardSwipeState.horizontalDistance}
-              swipeDirection={cardSwipeState.swipeDirection}
-              isSwiping={cardSwipeState.isSwiping}
+              horizontalDistance={swingState.horizontalDistance}
+              swipeDirection={swingState.swipeDirection}
+              isSwiping={swingState.isSwiping}
             />
           </>
         ) : null}
