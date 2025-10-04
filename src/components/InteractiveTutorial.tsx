@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, ArrowUp, Check } from "lucide-react";
@@ -76,8 +76,8 @@ export const InteractiveTutorial = () => {
     cardMaxWidth = Math.min(width * 0.50, 400); // Max 400px on large screens
   }
 
-  // Swipe handling for tutorial
-  const handleSwipe = (direction: 'left' | 'right' | 'up') => {
+  // Swipe handling for tutorial - MEMOIZED with useCallback
+  const handleSwipe = useCallback((direction: 'left' | 'right' | 'up') => {
     if (currentStep === 0) {
       // First step: accept any swipe to proceed
       triggerHaptic('light', settings.hapticEnabled);
@@ -96,13 +96,13 @@ export const InteractiveTutorial = () => {
       triggerHaptic('light', settings.hapticEnabled);
       playSound('buttonClick', settings.soundEnabled);
     }
-  };
+  }, [currentStep, step, settings.hapticEnabled, settings.soundEnabled]);
 
   // Swing gesture handlers - MEMOIZED to prevent re-creation
   const swingHandlers = useMemo(() => ({
     onSwipeLeft: () => handleSwipe('left'),
     onSwipeRight: () => handleSwipe('right'),
-  }), [currentStep, settings]);
+  }), [handleSwipe]);
 
   const { swingState, resetSwingState } = useSwing(stackRef.current, swingHandlers);
 

@@ -42,6 +42,23 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 4, 2025 - InteractiveTutorial Swing Migration (Build Fix)
+- **Critical Fix**: Migrated `InteractiveTutorial.tsx` from deleted `useSwipe` to `useSwing` hook
+- **Problem**: Build failed with "Could not load useSwipe" error - file was deleted during Game.tsx migration
+- **Solution**: Complete Swing integration matching Game.tsx pattern
+- **Changes**:
+  - Updated imports: `useSwipe` → `useSwing`, added `useRef`, `useMemo`
+  - Added `stackRef` for Swing DOM binding
+  - Created memoized `swingHandlers` with `useMemo` (dependencies: `currentStep`, `settings`)
+  - Replaced `useSwipe` with `useSwing(stackRef.current, swingHandlers)`
+  - Updated DOM structure: wrapped tutorial card in `.swing-stack` > `.swing-card`
+  - Removed `swipeHandlers` props from img element (Swing handles directly)
+  - Changed all `swipeState` → `swingState` references (8 occurrences)
+  - Changed `resetSwipeState` → `resetSwingState` (2 occurrences)
+- **Testing**: `npm run build` successful ✅ - no errors, ready for Xcode deployment
+- **Files Changed**: `src/components/InteractiveTutorial.tsx`
+- **Status**: Build now works, ready for iOS testing with `npx cap sync ios && npx cap open ios`
+
 ### Oct 4, 2025 - Swing Library Integration (Swipe System Replacement)
 - **Migration**: Replaced custom buggy swipe system with battle-tested **Swing library** (used by Tinder/Jelly)
 - **Dependencies**: 
