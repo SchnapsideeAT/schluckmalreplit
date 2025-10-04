@@ -43,6 +43,14 @@ export const useSwing = (
   const swingStack = useRef<any>(null);
   const initialized = useRef(false);
   const cardElement = useRef<any>(null);
+  
+  // Store handlers in ref to avoid re-init when handlers change
+  const handlersRef = useRef(handlers);
+  
+  // Update handlers ref on every render (but don't trigger re-init)
+  useEffect(() => {
+    handlersRef.current = handlers;
+  }, [handlers]);
 
   // Initialize Swing Stack
   useEffect(() => {
@@ -118,10 +126,11 @@ export const useSwing = (
       });
 
       // Direction check with Swing.Direction enum (from README: e.direction, NOT e.throwDirection!)
+      // Use handlersRef.current to avoid re-init when handlers change
       if (e.direction === Swing.Direction.LEFT) {
-        handlers.onSwipeLeft?.();
+        handlersRef.current.onSwipeLeft?.();
       } else if (e.direction === Swing.Direction.RIGHT) {
-        handlers.onSwipeRight?.();
+        handlersRef.current.onSwipeRight?.();
       }
     });
 
@@ -139,17 +148,22 @@ export const useSwing = (
     // Cleanup
     return () => {
       try {
-        cardElement.current?.destroy();
-        swingStack.current?.destroy();
+        // Defensive cleanup - Swing may throw if element is already removed
+        if (cardElement.current && typeof cardElement.current.destroy === 'function') {
+          cardElement.current.destroy();
+        }
+        if (swingStack.current && typeof swingStack.current.destroy === 'function') {
+          swingStack.current.destroy();
+        }
       } catch (err) {
-        console.error('useSwing: Cleanup error', err);
+        // Silent catch - Swing throws when DOM element is already removed (expected behavior)
       } finally {
         swingStack.current = null;
         cardElement.current = null;
         initialized.current = false;
       }
     };
-  }, [stackElement, handlers]);
+  }, [stackElement]); // Only stackElement - handlers are tracked via ref
 
   // Reset function for manual reset
   const resetSwingState = useCallback(() => {

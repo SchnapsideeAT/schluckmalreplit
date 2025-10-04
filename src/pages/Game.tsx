@@ -61,6 +61,7 @@ const Game = () => {
   const currentIndexRef = useRef(currentIndex);
   const currentPlayerIndexRef = useRef(currentPlayerIndex);
   const cardAcceptedRef = useRef(cardAccepted);
+  const stackRef = useRef<HTMLDivElement>(null); // Swing stack ref for DOM binding
 
   // Update refs when values change
   useEffect(() => {
@@ -268,11 +269,8 @@ const Game = () => {
     });
   };
 
-  // Swing stack ref for DOM binding
-  const stackRef = useRef<HTMLDivElement>(null);
-
-  // Swing gesture handlers (replaces useSwipe)
-  const { swingState, resetSwingState } = useSwing(stackRef.current, {
+  // Swing gesture handlers (replaces useSwipe) - MEMOIZED to prevent re-creation
+  const swingHandlers = useMemo(() => ({
     onSwipeLeft: () => {
       // Swipe left = drink (skip task)
       if (currentIndex >= 0) {
@@ -285,7 +283,9 @@ const Game = () => {
         handleComplete();
       }
     },
-  });
+  }), [currentIndex, handleDrink, handleComplete]);
+
+  const { swingState, resetSwingState } = useSwing(stackRef.current, swingHandlers);
 
   const handlePlayerTransitionTap = useCallback(() => {
     setShowPlayerTransition(false);
@@ -404,19 +404,7 @@ const Game = () => {
         ) : currentCard && showCard ? (
           <>
             {/* Swing Stack Container */}
-            <div 
-              ref={stackRef} 
-              className="swing-stack" 
-              style={{ 
-                position: 'relative',
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                pointerEvents: 'auto'
-              }}
-            >
+            <div ref={stackRef} className="swing-stack">
               <div className="swing-card">
                 <GameCard 
                   card={currentCard}
