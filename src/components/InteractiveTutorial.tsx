@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, ArrowUp, Check } from "lucide-react";
-import { useSwipe } from "@/hooks/useSwipe";
+import { useSwing } from "@/hooks/useSwing";
 import { SwipeOverlay } from "@/components/SwipeOverlay";
 import { PlayerTransition } from "@/components/PlayerTransition";
 import { triggerHaptic } from "@/utils/haptics";
