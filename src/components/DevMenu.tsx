@@ -52,7 +52,7 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   const topInsetPx = parseCSSValue(insets.top);
   const bottomInsetPx = parseCSSValue(insets.bottom);
   const topConsumed = topInsetPx + headerHeight;
-  const bottomConsumed = bottomInsetPx + (topInsetPx * 0.5);
+  const bottomConsumed = topInsetPx + headerHeight; // Match top for perfect centering
   const availableHeight = viewport.height - topConsumed - bottomConsumed;
   const totalConsumed = topConsumed + bottomConsumed;
 
@@ -101,9 +101,9 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
               <div className="ml-4">Header: {headerHeight}px</div>
               <div className="ml-4 font-bold">= Gesamt: {topConsumed.toFixed(1)}px</div>
               
-              <div className="text-yellow-500 mt-2">Unten:</div>
-              <div className="ml-4">Safe Area Bottom: {bottomInsetPx}px</div>
-              <div className="ml-4">Ausgleich (top * 0.5): {(topInsetPx * 0.5).toFixed(1)}px</div>
+              <div className="text-yellow-500 mt-2">Unten (für Zentrierung):</div>
+              <div className="ml-4">= Safe Area Top + Header</div>
+              <div className="ml-4">= {topInsetPx}px + {headerHeight}px</div>
               <div className="ml-4 font-bold">= Gesamt: {bottomConsumed.toFixed(1)}px</div>
               
               <div className="text-green-500 mt-2">Verfügbar:</div>

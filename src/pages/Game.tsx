@@ -399,9 +399,9 @@ const Game = () => {
     <div 
       className="no-scroll h-screen flex flex-col relative"
       style={{
-        paddingTop: `${topInsetPx}px`,
-        paddingLeft: `${leftInsetPx}px`,
-        paddingRight: `${rightInsetPx}px`,
+        paddingTop: insets.top,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
         boxSizing: 'border-box',
       }}
       onClick={handleTripleTap}
@@ -440,7 +440,7 @@ const Game = () => {
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
         style={{
-          paddingBottom: `${bottomInsetPx + (topInsetPx * 0.5)}px`
+          paddingBottom: `${topInsetPx + 48}px`
         }}
       >
         {currentIndex === -1 ? (
