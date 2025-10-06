@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, ArrowUp, Check } from "lucide-react";
-import { useSwing } from "@/hooks/useSwing";
+import { useSwipe } from "@/hooks/useSwipe";
 import { SwipeOverlay } from "@/components/SwipeOverlay";
 import { PlayerTransition } from "@/components/PlayerTransition";
 import { triggerHaptic } from "@/utils/haptics";
@@ -47,9 +47,6 @@ export const InteractiveTutorial = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showPlayerTransition, setShowPlayerTransition] = useState(false);
   const [canProceed, setCanProceed] = useState(false);
-  
-  // Swing stack: use state to trigger useSwing when DOM mounts
-  const [stackElement, setStackElement] = useState<HTMLDivElement | null>(null);
 
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
@@ -99,12 +96,10 @@ export const InteractiveTutorial = () => {
   }, [currentStep, step, settings.hapticEnabled, settings.soundEnabled]);
 
   // Swing gesture handlers - MEMOIZED to prevent re-creation
-  const swingHandlers = useMemo(() => ({
+  const { swipeState, swipeHandlers, resetSwipeState } = useSwipe({
     onSwipeLeft: () => handleSwipe('left'),
     onSwipeRight: () => handleSwipe('right'),
-  }), [handleSwipe]);
-
-  const { swingState, resetSwingState } = useSwing(stackElement, swingHandlers);
+  });
 
   const handleNext = () => {
     if (!canProceed && currentStep > 0) return;
@@ -142,8 +137,8 @@ export const InteractiveTutorial = () => {
 
   // Reset swing state when tutorial step changes
   useEffect(() => {
-    resetSwingState();
-  }, [currentStep, resetSwingState]);
+    resetSwipeState();
+  }, [currentStep, resetSwipeState]);
 
   // Auto-proceed after correct swipe
   useEffect(() => {
@@ -184,41 +179,37 @@ export const InteractiveTutorial = () => {
           </div>
         )}
 
-        {/* Tutorial card for left/right swipe steps - Swing-based structure */}
+        {/* Tutorial card for left/right swipe steps */}
         {step.requiredSwipe && (
           <div className="w-full flex flex-col items-center gap-4 sm:gap-6">
-            {/* Card with Swing */}
-            <div className="w-full flex items-center justify-center">
-              <div 
-                ref={setStackElement}
-                className="swing-stack relative"
+            {/* Card with swipe handlers */}
+            <div 
+              className="w-full flex items-center justify-center relative"
+              style={{
+                width: `${cardMaxWidth}px`,
+                maxHeight: `${cardMaxHeight}px`,
+              }}
+            >
+              <img 
+                src={cardBackSvg} 
+                alt="Tutorial Card" 
+                className="w-full h-auto object-contain rounded-2xl block"
+                draggable={false}
                 style={{
-                  width: `${cardMaxWidth}px`,
-                  maxHeight: `${cardMaxHeight}px`,
+                  transform: `translateX(${swipeState.horizontalDistance}px) rotate(${swipeState.horizontalDistance * 0.1}deg)`,
+                  transition: swipeState.isSwiping ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                 }}
-              >
-                <div className="swing-card">
-                  <img 
-                    src={cardBackSvg} 
-                    alt="Tutorial Card" 
-                    className="w-full h-auto object-contain rounded-2xl block"
-                    draggable={false}
-                    style={{
-                      transform: `translateX(${swingState.horizontalDistance}px) rotate(${swingState.horizontalDistance * 0.1}deg)`,
-                      transition: swingState.isSwiping ? 'none' : 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    }}
-                  />
-                  
-                  {/* Success checkmark */}
-                  {canProceed && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="bg-green-500 rounded-full p-4 animate-scale-in">
-                        <Check className="w-12 h-12 text-white" />
-                      </div>
-                    </div>
-                  )}
+                {...swipeHandlers}
+              />
+              
+              {/* Success checkmark */}
+              {canProceed && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="bg-green-500 rounded-full p-4 animate-scale-in">
+                    <Check className="w-12 h-12 text-white" />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Direction icon hint below card with text */}
@@ -246,11 +237,11 @@ export const InteractiveTutorial = () => {
         )}
 
         {/* Swipe overlay for visual feedback - only for horizontal swipes */}
-        {step.requiredSwipe && step.requiredSwipe !== 'up' && swingState.isSwiping && Math.abs(swingState.horizontalDistance) > 20 && (
+        {step.requiredSwipe && step.requiredSwipe !== 'up' && swipeState.isSwiping && Math.abs(swipeState.horizontalDistance) > 20 && (
           <SwipeOverlay
-            horizontalDistance={swingState.horizontalDistance}
-            swipeDirection={swingState.swipeDirection}
-            isSwiping={swingState.isSwiping}
+            horizontalDistance={swipeState.horizontalDistance}
+            swipeDirection={swipeState.swipeDirection}
+            isSwiping={swipeState.isSwiping}
           />
         )}
 
