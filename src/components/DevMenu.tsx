@@ -8,6 +8,27 @@ interface DevMenuProps {
   onClose: () => void;
 }
 
+// Helper to parse CSS values like "max(1rem, 59px)" or "34px" to numbers
+const parseCSSValue = (cssValue: string): number => {
+  // Extract all pixel values from the string
+  const pxMatches = cssValue.match(/(\d+(?:\.\d+)?)px/g);
+  if (pxMatches && pxMatches.length > 0) {
+    // Get the last (largest) pixel value from max() function
+    const values = pxMatches.map(m => parseFloat(m));
+    return Math.max(...values);
+  }
+  
+  // Check for rem values (1rem = 16px typically)
+  const remMatch = cssValue.match(/(\d+(?:\.\d+)?)rem/);
+  if (remMatch) {
+    return parseFloat(remMatch[1]) * 16;
+  }
+  
+  // Try direct number parsing as fallback
+  const num = parseFloat(cssValue);
+  return isNaN(num) ? 0 : num;
+};
+
 export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   const { insets } = useSafeAreaInsets();
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
@@ -28,8 +49,10 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   if (!isOpen) return null;
 
   const headerHeight = 48; // 0.5rem padding + 40px button
-  const topConsumed = Number(insets.top) + headerHeight;
-  const bottomConsumed = Number(insets.bottom) + (Number(insets.top) * 0.5);
+  const topInsetPx = parseCSSValue(insets.top);
+  const bottomInsetPx = parseCSSValue(insets.bottom);
+  const topConsumed = topInsetPx + headerHeight;
+  const bottomConsumed = bottomInsetPx + (topInsetPx * 0.5);
   const availableHeight = viewport.height - topConsumed - bottomConsumed;
   const totalConsumed = topConsumed + bottomConsumed;
 
@@ -74,20 +97,20 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
             <h3 className="font-semibold mb-2 text-primary">📐 Layout Berechnungen</h3>
             <div className="space-y-1 font-mono">
               <div className="text-yellow-500">Oben:</div>
-              <div className="ml-4">Safe Area Top: {insets.top}px</div>
+              <div className="ml-4">Safe Area Top: {topInsetPx}px</div>
               <div className="ml-4">Header: {headerHeight}px</div>
-              <div className="ml-4 font-bold">= Gesamt: {topConsumed}px</div>
+              <div className="ml-4 font-bold">= Gesamt: {topConsumed.toFixed(1)}px</div>
               
               <div className="text-yellow-500 mt-2">Unten:</div>
-              <div className="ml-4">Safe Area Bottom: {insets.bottom}px</div>
-              <div className="ml-4">Ausgleich (top * 0.5): {Number(insets.top) * 0.5}px</div>
-              <div className="ml-4 font-bold">= Gesamt: {bottomConsumed}px</div>
+              <div className="ml-4">Safe Area Bottom: {bottomInsetPx}px</div>
+              <div className="ml-4">Ausgleich (top * 0.5): {(topInsetPx * 0.5).toFixed(1)}px</div>
+              <div className="ml-4 font-bold">= Gesamt: {bottomConsumed.toFixed(1)}px</div>
               
               <div className="text-green-500 mt-2">Verfügbar:</div>
-              <div className="ml-4 font-bold">{availableHeight}px</div>
+              <div className="ml-4 font-bold">{availableHeight.toFixed(1)}px</div>
               
-              <div className="text-red-500 mt-2">Differenz:</div>
-              <div className="ml-4 font-bold">{topConsumed - bottomConsumed}px</div>
+              <div className="text-red-500 mt-2">Differenz (Oben - Unten):</div>
+              <div className="ml-4 font-bold">{(topConsumed - bottomConsumed).toFixed(1)}px</div>
             </div>
           </div>
 

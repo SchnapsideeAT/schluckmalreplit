@@ -26,6 +26,21 @@ import {
   AlertDialogTitle 
 } from "@/components/ui/alert-dialog";
 
+// Helper to parse CSS values like "max(1rem, 59px)" or "34px" to numbers
+const parseCSSValue = (cssValue: string): number => {
+  const pxMatches = cssValue.match(/(\d+(?:\.\d+)?)px/g);
+  if (pxMatches && pxMatches.length > 0) {
+    const values = pxMatches.map(m => parseFloat(m));
+    return Math.max(...values);
+  }
+  const remMatch = cssValue.match(/(\d+(?:\.\d+)?)rem/);
+  if (remMatch) {
+    return parseFloat(remMatch[1]) * 16;
+  }
+  const num = parseFloat(cssValue);
+  return isNaN(num) ? 0 : num;
+};
+
 const Game = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,6 +58,12 @@ const Game = () => {
   const { insets } = useSafeAreaInsets();
   const soundEnabled = settings.soundEnabled;
   const hapticEnabled = settings.hapticEnabled;
+  
+  // Parse CSS string values to numbers
+  const topInsetPx = parseCSSValue(insets.top);
+  const bottomInsetPx = parseCSSValue(insets.bottom);
+  const leftInsetPx = parseCSSValue(insets.left);
+  const rightInsetPx = parseCSSValue(insets.right);
   
   const [deck, setDeck] = useState<Card[]>(state?.deck || []);
   const [currentIndex, setCurrentIndex] = useState(state?.currentIndex ?? -1);
@@ -378,9 +399,9 @@ const Game = () => {
     <div 
       className="no-scroll h-screen flex flex-col relative"
       style={{
-        paddingTop: insets.top,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
+        paddingTop: `${topInsetPx}px`,
+        paddingLeft: `${leftInsetPx}px`,
+        paddingRight: `${rightInsetPx}px`,
         boxSizing: 'border-box',
       }}
       onClick={handleTripleTap}
@@ -419,7 +440,7 @@ const Game = () => {
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
         style={{
-          paddingBottom: `calc(${insets.bottom}px + ${insets.top}px * 0.5)`
+          paddingBottom: `${bottomInsetPx + (topInsetPx * 0.5)}px`
         }}
       >
         {currentIndex === -1 ? (
