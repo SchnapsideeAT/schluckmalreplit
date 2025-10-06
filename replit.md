@@ -54,15 +54,20 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
   - Uninstalled dependencies: `swing`, `hammerjs`, `@types/hammerjs`
   - Removed Swing-specific CSS (.swing-stack, .swing-card) from `src/index.css`
   - Removed swing-stack/swing-card DOM wrappers from Game.tsx and InteractiveTutorial.tsx
+  - Fixed all `resetSwingState` references to `resetSwipeState` in Game.tsx
+- **GameCard Integration**:
+  - Extended `GameCardProps` to accept Touch/Mouse event handlers (onTouchStart, onTouchMove, onTouchEnd, onMouseDown, onMouseMove, onMouseUp)
+  - Applied swipeHandlers directly to card img element
+  - Maintains pointer-events-auto on interactive element
 - **Current Architecture**: 
   - Custom useSwipe hook with direct Touch/Mouse events (300 lines, proven to work)
   - Touch/Mouse support with RAF optimization
   - Haptic feedback integration
   - 100px minimum swipe distance threshold
   - Direct swipeHandlers spread on GameCard component
-- **Files Changed**: `src/pages/Game.tsx`, `src/components/InteractiveTutorial.tsx`, `src/index.css`, `package.json`
+- **Files Changed**: `src/pages/Game.tsx`, `src/components/InteractiveTutorial.tsx`, `src/components/GameCard.tsx`, `src/index.css`, `package.json`
 - **Files Deleted**: `src/hooks/useSwing.ts`
-- **Status**: ✅ Reverted to stable, working solution - app runs without errors
+- **Status**: ✅ Fully functional - swipe gestures work correctly on cards
 
 ### Oct 3, 2025 - Portrait-Only Orientation Lock
 - **Requirement**: Game should only be playable in portrait mode, not landscape

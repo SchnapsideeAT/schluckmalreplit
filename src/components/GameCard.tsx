@@ -24,6 +24,12 @@ import { useFeatureFlags } from "@/utils/featureFlags";
 interface GameCardProps {
   card: Card;
   horizontalDistance?: number;
+  onTouchStart?: (e: React.TouchEvent<HTMLImageElement>) => void;
+  onTouchMove?: (e: React.TouchEvent<HTMLImageElement>) => void;
+  onTouchEnd?: (e: React.TouchEvent<HTMLImageElement>) => void;
+  onMouseDown?: (e: React.MouseEvent<HTMLImageElement>) => void;
+  onMouseMove?: (e: React.MouseEvent<HTMLImageElement>) => void;
+  onMouseUp?: (e: React.MouseEvent<HTMLImageElement>) => void;
 }
 
 const categoryColorMap: Record<CardCategory, string> = {
@@ -37,6 +43,12 @@ const categoryColorMap: Record<CardCategory, string> = {
 export const GameCard = memo(({ 
   card, 
   horizontalDistance = 0,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  onMouseDown,
+  onMouseMove,
+  onMouseUp,
 }: GameCardProps) => {
   const cardImageSrc = getCardImage(card.category, card.id);
   const categoryColor = categoryColorMap[card.category];
@@ -121,6 +133,12 @@ export const GameCard = memo(({
           cursor: horizontalDistance !== 0 ? 'grabbing' : 'grab',
         }}
         onContextMenu={(e) => e.preventDefault()}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
         onError={(e) => {
           console.error(`Failed to load ${card.category} card ${card.id}:`, cardImageSrc);
           console.error('Image element:', e.currentTarget);
