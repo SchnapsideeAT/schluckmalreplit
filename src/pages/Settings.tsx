@@ -101,11 +101,6 @@ const Settings = () => {
           {/* Game Control */}
           {hasActiveGame && (
             <section className="bg-card border border-border/50 rounded-2xl p-6 space-y-6">
-              <h2 className="text-2xl font-bold text-primary flex items-center gap-3">
-                <RotateCcw className="w-7 h-7" />
-                Spiel
-              </h2>
-
               <div className="space-y-4">
                 <Button
                   onClick={handleRestart}
