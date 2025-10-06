@@ -83,7 +83,7 @@ export const PlayerSetup = ({
             disabled={players.length >= 10}
             data-testid="button-add-player"
           >
-            <PlusIcon className="w-5 h-5" />
+            <PlusIcon className="w-4 h-4" />
           </Button>
         </form>
       </div>
