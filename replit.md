@@ -42,6 +42,21 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
+### Oct 6, 2025 - Custom SVG Icons Integration
+- **Custom Branding**: Replaced all Lucide icons with custom-designed SVG icons for consistent brand identity
+- **Created Icon Components**:
+  - `HomeIcon.tsx` - House icon for home navigation (24×24px default)
+  - `SettingsIcon.tsx` - Gear/cog icon for settings access (24×24px default)
+  - `LoadGameIcon.tsx` - Circular reload arrow for load game button (24×24px default)
+  - `RulesIcon.tsx` - Exclamation mark document icon for rules button (24×24px default)
+- **Implementation**: All icons support `className` prop for flexible sizing and use `currentColor` for automatic theme color integration and hover effects
+- **Updated Components**:
+  - `Home.tsx` - All 4 custom icons (LoadGame, Rules, Settings)
+  - `Game.tsx` - Home and Settings navigation icons
+  - `GameSettings.tsx` - Settings sheet trigger icon
+- **Files Created**: `src/components/icons/HomeIcon.tsx`, `SettingsIcon.tsx`, `LoadGameIcon.tsx`, `RulesIcon.tsx`
+- **Status**: ✅ All custom icons integrated and functioning across the app
+
 ### Oct 6, 2025 - iOS Swipe Bug Fixes (Production-Ready)
 - **Critical iOS Fixes**: Resolved cards getting stuck in tilted position after touch interruptions
 - **onTouchCancel Handler**: Added to handle iOS system interruptions (calls, notifications, Control Center)
