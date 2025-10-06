@@ -452,13 +452,13 @@ All colors MUST be HSL.
 }
 
 @keyframes cardGlowPulse {
-  0% { opacity: 0.25; }
-  12.5% { opacity: 0.375; }
-  25% { opacity: 0.5; }
-  37.5% { opacity: 0.625; }
+  0% { opacity: 0.30; }
+  12.5% { opacity: 0.4125; }
+  25% { opacity: 0.525; }
+  37.5% { opacity: 0.6375; }
   50% { opacity: 0.75; }
-  62.5% { opacity: 0.625; }
-  75% { opacity: 0.5; }
-  87.5% { opacity: 0.375; }
-  100% { opacity: 0.25; }
+  62.5% { opacity: 0.6375; }
+  75% { opacity: 0.525; }
+  87.5% { opacity: 0.4125; }
+  100% { opacity: 0.30; }
 }
