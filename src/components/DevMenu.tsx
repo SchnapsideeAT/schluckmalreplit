@@ -49,11 +49,10 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   if (!isOpen) return null;
 
   const headerHeight = 48; // 0.5rem padding + 40px button
-  const cardAreaPadding = 8; // 0.5rem padding bottom on card area
   const topInsetPx = parseCSSValue(insets.top);
   const bottomInsetPx = parseCSSValue(insets.bottom);
   const topConsumed = topInsetPx + headerHeight;
-  const bottomConsumed = bottomInsetPx + cardAreaPadding; // Safe Area + Card Area padding
+  const bottomConsumed = topInsetPx + headerHeight; // Match top for screen-center
   const availableHeight = viewport.height - topConsumed - bottomConsumed;
   const totalConsumed = topConsumed + bottomConsumed;
 
@@ -102,9 +101,9 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
               <div className="ml-4">Header: {headerHeight}px</div>
               <div className="ml-4 font-bold">= Gesamt: {topConsumed.toFixed(1)}px</div>
               
-              <div className="text-yellow-500 mt-2">Unten:</div>
-              <div className="ml-4">Safe Area Bottom: {bottomInsetPx}px</div>
-              <div className="ml-4">Card Area Padding: {cardAreaPadding}px</div>
+              <div className="text-yellow-500 mt-2">Unten (Screen-Center):</div>
+              <div className="ml-4">= Safe Area Top + Header</div>
+              <div className="ml-4">= {topInsetPx}px + {headerHeight}px</div>
               <div className="ml-4 font-bold">= Gesamt: {bottomConsumed.toFixed(1)}px</div>
               
               <div className="text-green-500 mt-2">Verfügbar:</div>
@@ -129,9 +128,13 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
           <div className="bg-blue-500/20 border border-blue-500/50 p-3 rounded">
             <h3 className="font-semibold mb-2 text-blue-400">💡 Info</h3>
             <div className="text-xs space-y-1">
-              <div>Card Area: {availableHeight.toFixed(1)}px (Header-Ende bis Screen-Ende)</div>
-              <div>Karte wird automatisch mit justify-center in Card Area zentriert</div>
-              <div className="mt-2 text-muted-foreground">Kein zusätzliches paddingBottom - pure Flexbox-Zentrierung</div>
+              <div>Karte ist mittig vom ganzen Screen</div>
+              <div className="mt-2">Oben: {topConsumed.toFixed(1)}px, Unten: {bottomConsumed.toFixed(1)}px</div>
+              {Math.abs(topConsumed - bottomConsumed) < 1 ? (
+                <div className="text-green-400">✅ Perfekt zentriert (Differenz: {Math.abs(topConsumed - bottomConsumed).toFixed(1)}px)</div>
+              ) : (
+                <div className="text-yellow-400">⚠️ Asymmetrie: {Math.abs(topConsumed - bottomConsumed).toFixed(1)}px</div>
+              )}
             </div>
           </div>
         </div>
