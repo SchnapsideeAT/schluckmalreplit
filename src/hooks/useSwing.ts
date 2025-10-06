@@ -54,7 +54,10 @@ export const useSwing = (
 
   // Initialize Swing Stack
   useEffect(() => {
-    if (!stackElement) return;
+    if (!stackElement) {
+      console.log('🔄 useSwing: Waiting for stackElement...');
+      return;
+    }
     if (initialized.current) return; // Prevent double init
 
     // Swing Config
@@ -144,6 +147,7 @@ export const useSwing = (
     });
 
     initialized.current = true;
+    console.log('✅ useSwing: Swing stack initialized successfully!', { cards: cards.length });
 
     // Cleanup
     return () => {
