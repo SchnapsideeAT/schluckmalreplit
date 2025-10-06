@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Package } from "lucide-react";
+import { DeckIcon } from "@/components/icons/DeckIcon";
 import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ScrollableContainer } from "@/components/ScrollableContainer";
@@ -35,7 +35,7 @@ const Rules = () => {
               <AccordionItem value="standard-deck" className="bg-card border border-border/50 rounded-xl">
                 <AccordionTrigger className="hover:no-underline py-5 px-6 transition-all duration-1000">
                   <div className="flex items-center gap-3">
-                    <Package className="w-6 h-6 text-primary" />
+                    <DeckIcon className="w-6 h-6 text-primary" />
                     <span className="text-xl font-bold text-foreground">Standard Deck</span>
                   </div>
                 </AccordionTrigger>
