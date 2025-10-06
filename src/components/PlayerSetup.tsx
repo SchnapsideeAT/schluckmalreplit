@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Player } from "@/types/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,9 @@ export const PlayerSetup = ({
   const { settings } = useSettings();
   const [newPlayerName, setNewPlayerName] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState(AVATAR_OPTIONS[0]);
+  
+  // TEST FIX: Auto-scroll input into view when keyboard appears
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const addPlayer = () => {
     if (!newPlayerName.trim()) {
@@ -48,6 +51,17 @@ export const PlayerSetup = ({
     onPlayersChange(updatedPlayers);
   };
 
+  // TEST FIX: Handle keyboard appearing - scroll input into view
+  const handleInputFocus = () => {
+    setTimeout(() => {
+      inputRef.current?.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
+    }, 300);
+  };
+
   return <div className="space-y-8">
       {/* Add Player Section */}
       <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
@@ -66,6 +80,8 @@ export const PlayerSetup = ({
         {/* Name Input */}
         <form onSubmit={(e) => { e.preventDefault(); addPlayer(); }} action="#" className="flex gap-2">
           <Input 
+            ref={inputRef}
+            onFocus={handleInputFocus}
             placeholder="Spielername..." 
             value={newPlayerName} 
             onChange={e => setNewPlayerName(e.target.value.toUpperCase())} 
