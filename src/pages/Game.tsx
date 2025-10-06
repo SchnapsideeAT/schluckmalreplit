@@ -350,6 +350,7 @@ const Game = () => {
     <div 
       className="no-scroll h-screen flex flex-col relative"
       style={{
+        paddingTop: insets.top,
         paddingLeft: insets.left,
         paddingRight: insets.right,
         boxSizing: 'border-box',
@@ -360,7 +361,7 @@ const Game = () => {
         <div 
           className="flex items-center justify-between"
           style={{ 
-            paddingTop: `calc(${insets.top}px + 0.5rem)`,
+            paddingTop: '0.5rem',
           }}
         >
           <Button
@@ -389,7 +390,7 @@ const Game = () => {
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
         style={{
-          paddingBottom: insets.bottom
+          paddingBottom: `calc(${insets.bottom}px + ${insets.top}px * 0.5)`
         }}
       >
         {currentIndex === -1 ? (
