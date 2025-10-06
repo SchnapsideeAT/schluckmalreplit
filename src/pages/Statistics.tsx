@@ -103,7 +103,7 @@ const Statistics = () => {
         <h1 className="text-2xl font-bold text-foreground">Statistiken</h1>
       </div>
 
-      <div className="max-w-2xl mx-auto w-full space-y-6 slide-up">
+      <div className="max-w-2xl mx-auto w-full space-y-6 slide-up pb-6">
         {/* Trophy Header */}
         <div className="text-center space-y-4">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 border border-primary/50 pulse-glow">
