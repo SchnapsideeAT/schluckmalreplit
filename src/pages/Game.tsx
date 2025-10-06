@@ -439,9 +439,6 @@ const Game = () => {
       {/* Card display area */}
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
-        style={{
-          paddingBottom: `${Math.max(bottomInsetPx, topInsetPx + 48 - bottomInsetPx)}px`
-        }}
       >
         {currentIndex === -1 ? (
           <div 
