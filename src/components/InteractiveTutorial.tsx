@@ -27,13 +27,13 @@ const tutorialSteps: TutorialStep[] = [
   },
   {
     title: "Swipe nach rechts",
-    description: "Wische die Karte nach rechts, um die Aufgabe zu erfüllen.",
+    description: "Wische nach rechts, wenn du's durchgezogen hast.",
     requiredSwipe: 'right',
     icon: <ArrowRight className="w-16 h-16 text-green-500" />,
   },
   {
     title: "Swipe nach links",
-    description: "Wische die Karte nach links, wenn du die Aufgabe trinkst oder überspringst.",
+    description: "Wische nach links, wenn du lieber trinkst.",
     requiredSwipe: 'left',
     icon: <ArrowLeft className="w-16 h-16 text-red-500" />,
   },
