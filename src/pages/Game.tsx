@@ -350,8 +350,6 @@ const Game = () => {
     <div 
       className="no-scroll h-screen flex flex-col relative"
       style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
         boxSizing: 'border-box',
@@ -359,7 +357,12 @@ const Game = () => {
     >
       {/* Header - verstecke Buttons während Zwischenbildschirm */}
       {!showPlayerTransition && !showInitialTransition && (
-        <div className="flex items-center justify-between">
+        <div 
+          className="flex items-center justify-between"
+          style={{ 
+            paddingTop: `calc(${insets.top}px + 0.5rem)`,
+          }}
+        >
           <Button
             onClick={handleExitGame}
             variant="ghost"
@@ -383,7 +386,12 @@ const Game = () => {
       )}
 
       {/* Card display area */}
-      <div className="flex-1 flex items-center justify-center pointer-events-none">
+      <div 
+        className="flex-1 flex items-center justify-center pointer-events-none"
+        style={{
+          paddingBottom: insets.bottom
+        }}
+      >
         {currentIndex === -1 ? (
           <div 
             className="text-center space-y-6 slide-up cursor-pointer pointer-events-auto"
