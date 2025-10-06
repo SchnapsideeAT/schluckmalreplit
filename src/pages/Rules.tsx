@@ -20,7 +20,7 @@ const Rules = () => {
           <div className="flex items-center gap-4 mb-6 sm:mb-8">
             <button
               onClick={() => navigate("/")}
-              className="group flex items-center justify-center hover:bg-muted/50 h-10 w-10 rounded-md transition-transform active:scale-95"
+              className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
             >
               <ArrowLeft className="w-7 h-7 group-hover:text-primary transition-colors" />
             </button>
