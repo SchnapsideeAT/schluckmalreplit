@@ -482,9 +482,8 @@ const Game = () => {
               playSound('buttonClick', soundEnabled);
               showStatistics();
             }}
-            variant="outline"
             size="sm"
-            className="border-primary/50 hover:bg-primary/10 hover:border-primary transition-all"
+            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
             data-testid="button-statistics"
           >
             <BarChart3 className="w-4 h-4 mr-2" />
