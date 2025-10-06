@@ -52,7 +52,7 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   const topInsetPx = parseCSSValue(insets.top);
   const bottomInsetPx = parseCSSValue(insets.bottom);
   const topConsumed = topInsetPx + headerHeight;
-  const bottomConsumed = topInsetPx + headerHeight; // Match top for perfect centering
+  const bottomConsumed = bottomInsetPx; // Only Safe Area Bottom
   const availableHeight = viewport.height - topConsumed - bottomConsumed;
   const totalConsumed = topConsumed + bottomConsumed;
 
@@ -101,9 +101,8 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
               <div className="ml-4">Header: {headerHeight}px</div>
               <div className="ml-4 font-bold">= Gesamt: {topConsumed.toFixed(1)}px</div>
               
-              <div className="text-yellow-500 mt-2">Unten (für Zentrierung):</div>
-              <div className="ml-4">= Safe Area Top + Header</div>
-              <div className="ml-4">= {topInsetPx}px + {headerHeight}px</div>
+              <div className="text-yellow-500 mt-2">Unten:</div>
+              <div className="ml-4">Safe Area Bottom: {bottomInsetPx}px</div>
               <div className="ml-4 font-bold">= Gesamt: {bottomConsumed.toFixed(1)}px</div>
               
               <div className="text-green-500 mt-2">Verfügbar:</div>
@@ -128,13 +127,9 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
           <div className="bg-blue-500/20 border border-blue-500/50 p-3 rounded">
             <h3 className="font-semibold mb-2 text-blue-400">💡 Info</h3>
             <div className="text-xs space-y-1">
-              <div>Für perfekte Zentrierung sollte Oben = Unten sein</div>
-              <div className="mt-2">Aktuell: Oben {topConsumed}px, Unten {bottomConsumed}px</div>
-              {topConsumed !== bottomConsumed && (
-                <div className="text-yellow-400 mt-2">
-                  ⚠️ Asymmetrie von {Math.abs(topConsumed - bottomConsumed)}px
-                </div>
-              )}
+              <div>Karte wird zentriert zwischen Header-Ende und Screen-Ende</div>
+              <div className="mt-2">Card Area (flex-1): {availableHeight.toFixed(1)}px</div>
+              <div>Die Karte ist automatisch mittig in diesem Bereich ✅</div>
             </div>
           </div>
         </div>

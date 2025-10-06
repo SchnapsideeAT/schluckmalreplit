@@ -440,7 +440,7 @@ const Game = () => {
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
         style={{
-          paddingBottom: `${topInsetPx + 48}px`
+          paddingBottom: `${bottomInsetPx}px`
         }}
       >
         {currentIndex === -1 ? (
