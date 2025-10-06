@@ -86,7 +86,7 @@ const Statistics = () => {
 
   return (
     <div 
-      className="no-scroll h-screen flex flex-col overflow-y-auto"
+      className="hide-scrollbar h-screen flex flex-col overflow-y-auto"
       style={{
         paddingTop: insets.top,
         paddingBottom: insets.bottom,
