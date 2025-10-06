@@ -104,7 +104,7 @@ const Home = () => {
                 <Button 
                   onClick={handleLoadGame} 
                   size="lg" 
-                  className="buttons-hidden buttons-appear button-stagger-1 w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-accent hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation"
+                  className="buttons-hidden buttons-appear button-stagger-1 w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-accent hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation"
                 >
                   <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                   Spiel laden
@@ -114,7 +114,7 @@ const Home = () => {
               <Button 
                 onClick={handleStartGame} 
                 size="lg" 
-                className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-2' : 'button-stagger-1'} w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation`}
+                className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-2' : 'button-stagger-1'} w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation`}
               >
                 <Play className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                 Spiel starten
