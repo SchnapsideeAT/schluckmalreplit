@@ -93,7 +93,7 @@ const Settings = () => {
               size="icon"
               className="hover:bg-muted/50"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-6 h-6" />
             </Button>
             <h1 className="text-3xl sm:text-4xl font-bold">Einstellungen</h1>
           </div>
