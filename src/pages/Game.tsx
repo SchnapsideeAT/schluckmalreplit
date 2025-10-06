@@ -8,7 +8,7 @@ import { PlayerTransition } from "@/components/PlayerTransition";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
 import { ArrowRight, Beer, Check, Home, Settings } from "lucide-react";
-import { useSwing } from "@/hooks/useSwing";
+import { useSwipe } from "@/hooks/useSwipe";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
 import { playSound, soundManager } from "@/utils/sounds";
@@ -61,9 +61,6 @@ const Game = () => {
   const currentIndexRef = useRef(currentIndex);
   const currentPlayerIndexRef = useRef(currentPlayerIndex);
   const cardAcceptedRef = useRef(cardAccepted);
-  
-  // Swing stack: use state to trigger useSwing when DOM mounts
-  const [stackElement, setStackElement] = useState<HTMLDivElement | null>(null);
 
   // Update refs when values change
   useEffect(() => {
@@ -271,23 +268,19 @@ const Game = () => {
     });
   };
 
-  // Swing gesture handlers (replaces useSwipe) - MEMOIZED to prevent re-creation
-  const swingHandlers = useMemo(() => ({
+  // Swipe gesture handlers for card (left/right only)
+  const { swipeState: cardSwipeState, swipeHandlers: cardSwipeHandlers, resetSwipeState } = useSwipe({
     onSwipeLeft: () => {
-      // Swipe left = drink (skip task)
       if (currentIndex >= 0) {
         handleDrink();
       }
     },
     onSwipeRight: () => {
-      // Swipe right = complete task
       if (currentIndex >= 0) {
         handleComplete();
       }
     },
-  }), [currentIndex, handleDrink, handleComplete]);
-
-  const { swingState, resetSwingState } = useSwing(stackElement, swingHandlers);
+  });
 
   const handlePlayerTransitionTap = useCallback(() => {
     setShowPlayerTransition(false);
@@ -405,19 +398,15 @@ const Game = () => {
           </div>
         ) : currentCard && showCard ? (
           <>
-            {/* Swing Stack Container */}
-            <div ref={setStackElement} className="swing-stack">
-              <div className="swing-card">
-                <GameCard 
-                  card={currentCard}
-                  horizontalDistance={swingState.horizontalDistance}
-                />
-              </div>
-            </div>
-            <SwipeOverlay 
-              horizontalDistance={swingState.horizontalDistance}
-              swipeDirection={swingState.swipeDirection}
-              isSwiping={swingState.isSwiping}
+            <GameCard
+              card={currentCard}
+              horizontalDistance={cardSwipeState.horizontalDistance}
+              {...cardSwipeHandlers}
+            />
+            <SwipeOverlay
+              horizontalDistance={cardSwipeState.horizontalDistance}
+              swipeDirection={cardSwipeState.swipeDirection}
+              isSwiping={cardSwipeState.isSwiping}
             />
           </>
         ) : null}
