@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { PlayerSetup } from "@/components/PlayerSetup";
 import { CategorySelector } from "@/components/CategorySelector";
 import { Player, CardCategory } from "@/types/card";
@@ -80,7 +80,6 @@ const Setup = () => {
             className="w-full h-16 text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
           >
             Los geht's!
-            <ArrowRight className="w-6 h-6 ml-3" />
           </Button>
 
           <Button
