@@ -357,28 +357,30 @@ const Game = () => {
         boxSizing: 'border-box',
       }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6" style={{ paddingTop: '0.5rem' }}>
-        <Button
-          onClick={handleExitGame}
-          variant="ghost"
-          className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95"
-        >
-          <Home className="!w-5 !h-5 group-hover:text-primary transition-colors" />
-        </Button>
-        
-        <Button
-          onClick={() => {
-            triggerHaptic('light', hapticEnabled);
-            playSound('buttonClick', soundEnabled);
-            navigateToSettings();
-          }}
-          variant="ghost"
-          className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95"
-        >
-          <Settings className="!w-5 !h-5 group-hover:text-primary transition-colors" />
-        </Button>
-      </div>
+      {/* Header - verstecke Buttons während Zwischenbildschirm */}
+      {!showPlayerTransition && !showInitialTransition && (
+        <div className="flex items-center justify-between mb-4 sm:mb-6" style={{ paddingTop: '0.5rem' }}>
+          <Button
+            onClick={handleExitGame}
+            variant="ghost"
+            className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95"
+          >
+            <Home className="!w-5 !h-5 group-hover:text-primary transition-colors" />
+          </Button>
+          
+          <Button
+            onClick={() => {
+              triggerHaptic('light', hapticEnabled);
+              playSound('buttonClick', soundEnabled);
+              navigateToSettings();
+            }}
+            variant="ghost"
+            className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95"
+          >
+            <Settings className="!w-5 !h-5 group-hover:text-primary transition-colors" />
+          </Button>
+        </div>
+      )}
 
       {/* Card display area */}
       <div className="flex-1 flex items-center justify-center pointer-events-none">
