@@ -21,10 +21,9 @@ const Rules = () => {
             <Button
               onClick={() => navigate("/")}
               variant="ghost"
-              size="icon"
-              className="hover:bg-muted/50"
+              className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-7 h-7 group-hover:text-primary transition-colors" />
             </Button>
             <h1 className="text-3xl sm:text-4xl font-bold">Spielregeln</h1>
           </div>
