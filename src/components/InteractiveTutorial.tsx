@@ -47,6 +47,7 @@ export const InteractiveTutorial = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showPlayerTransition, setShowPlayerTransition] = useState(false);
   const [canProceed, setCanProceed] = useState(false);
+  const [stackElement, setStackElement] = useState<HTMLDivElement | null>(null);
 
   // Ref for Swing stack
   const stackRef = useRef<HTMLDivElement>(null);
@@ -104,7 +105,12 @@ export const InteractiveTutorial = () => {
     onSwipeRight: () => handleSwipe('right'),
   }), [handleSwipe]);
 
-  const { swingState, resetSwingState } = useSwing(stackRef.current, swingHandlers);
+  const { swingState, resetSwingState } = useSwing(stackElement, swingHandlers);
+
+  // Set stackElement from ref to trigger useSwing initialization
+  useEffect(() => {
+    setStackElement(stackRef.current);
+  }, [currentStep]);
 
   const handleNext = () => {
     if (!canProceed && currentStep > 0) return;
