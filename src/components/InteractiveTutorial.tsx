@@ -47,9 +47,9 @@ export const InteractiveTutorial = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showPlayerTransition, setShowPlayerTransition] = useState(false);
   const [canProceed, setCanProceed] = useState(false);
-
-  // Ref for Swing stack
-  const stackRef = useRef<HTMLDivElement>(null);
+  
+  // Swing stack: use state to trigger useSwing when DOM mounts
+  const [stackElement, setStackElement] = useState<HTMLDivElement | null>(null);
 
   const step = tutorialSteps[currentStep];
   const isLastStep = currentStep === tutorialSteps.length - 1;
@@ -104,7 +104,7 @@ export const InteractiveTutorial = () => {
     onSwipeRight: () => handleSwipe('right'),
   }), [handleSwipe]);
 
-  const { swingState, resetSwingState } = useSwing(stackRef.current, swingHandlers);
+  const { swingState, resetSwingState } = useSwing(stackElement, swingHandlers);
 
   const handleNext = () => {
     if (!canProceed && currentStep > 0) return;
@@ -190,7 +190,7 @@ export const InteractiveTutorial = () => {
             {/* Card with Swing */}
             <div className="w-full flex items-center justify-center">
               <div 
-                ref={stackRef}
+                ref={setStackElement}
                 className="swing-stack relative"
                 style={{
                   width: `${cardMaxWidth}px`,
