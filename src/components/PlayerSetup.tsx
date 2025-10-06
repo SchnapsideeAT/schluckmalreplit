@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Player } from "@/types/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus } from "lucide-react";
+import { PlusIcon } from "@/components/icons/PlusIcon";
 import { playSound } from "@/utils/sounds";
 import { useSettings } from "@/hooks/useSettings";
 
@@ -83,7 +83,7 @@ export const PlayerSetup = ({
             disabled={players.length >= 10}
             data-testid="button-add-player"
           >
-            <Plus className="w-5 h-5" />
+            <PlusIcon className="w-5 h-5" />
           </Button>
         </form>
       </div>
