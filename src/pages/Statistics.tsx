@@ -69,9 +69,13 @@ const Statistics = () => {
   };
 
   const handleNewGame = () => {
-    // Save players and categories for the next round
+    // Reset player drink counts before saving for next round
     if (state?.players) {
-      saveLastPlayers(state.players);
+      const resetPlayers = state.players.map(player => ({
+        ...player,
+        totalDrinks: 0
+      }));
+      saveLastPlayers(resetPlayers);
     }
     if (state?.selectedCategories) {
       saveLastCategories(state.selectedCategories);
@@ -98,10 +102,7 @@ const Statistics = () => {
       {/* Confetti Effect */}
       <Confetti trigger={sortedPlayers.length > 0 && sortedPlayers[0].totalDrinks > 0} />
       
-      {/* Header */}
-      <div className="flex items-center justify-center mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Statistiken</h1>
-      </div>
+      {/* Header removed per user request */}
 
       <div className="max-w-2xl mx-auto w-full space-y-6 slide-up pb-6">
         {/* Trophy Header */}
