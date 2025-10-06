@@ -121,7 +121,7 @@ export const GameCard = memo(({
         className="absolute inset-0 rounded-2xl pointer-events-none"
         style={{
           boxShadow: `0 0 20px hsl(${categoryColor} / 1), 0 0 40px hsl(${categoryColor} / 0.8)`,
-          animation: 'cardGlowPulse 3s linear infinite',
+          animation: 'cardGlowPulse 4.5s ease-in-out infinite',
           willChange: 'opacity',
         }}
       />
