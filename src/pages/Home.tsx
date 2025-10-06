@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PlayIcon } from "@/components/icons/PlayIcon";
 import { SettingsIcon } from "@/components/icons/SettingsIcon";
 import { LoadGameIcon } from "@/components/icons/LoadGameIcon";
-import { RulesIcon } from "@/components/icons/RulesIcon";
+import { DocumentIcon } from "@/components/icons/DocumentIcon";
 import logo from "@/assets/logo.svg";
 import { playSound } from "@/utils/sounds";
 import { loadGameState } from "@/utils/localStorage";
@@ -92,7 +92,7 @@ const Home = () => {
             size="lg" 
             className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-3' : 'button-stagger-2'} w-full min-h-[52px] sm:h-14 text-base sm:text-lg border-2 border-primary/50 hover:bg-primary/10 hover:border-primary hover:text-primary transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation`}
           >
-            <RulesIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
+            <DocumentIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
             Regeln
           </Button>
 
