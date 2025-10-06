@@ -253,12 +253,21 @@ const Game = () => {
     // Hide card before showing transition
     setShowCard(false);
     
-    // Show transition to next player
-    const nextIndex = (currentPlayerIndex + 1) % players.length;
-    setNextPlayerIndex(nextIndex);
-    setShowPlayerTransition(true);
-    playSound('playerChange', soundEnabled);
-  }, [currentPlayerIndex, players, soundEnabled]);
+    // Check if this is the last card
+    const isLastCard = currentIndex >= deck.length - 1;
+    
+    if (isLastCard) {
+      // Last card - increment index and let useEffect handle navigation to statistics
+      setCurrentIndex(prev => prev + 1);
+      playSound('cardDraw', soundEnabled);
+    } else {
+      // Not last card - show transition to next player
+      const nextIndex = (currentPlayerIndex + 1) % players.length;
+      setNextPlayerIndex(nextIndex);
+      setShowPlayerTransition(true);
+      playSound('playerChange', soundEnabled);
+    }
+  }, [currentIndex, deck.length, currentPlayerIndex, players, soundEnabled]);
 
   const handleDrink = useCallback(() => {
     const drinks = deck[currentIndex]?.drinks || 0;
@@ -276,10 +285,19 @@ const Game = () => {
     // Hide card before showing transition
     setShowCard(false);
     
-    // Show transition to next player
-    const nextIndex = (currentPlayerIndex + 1) % players.length;
-    setNextPlayerIndex(nextIndex);
-    setShowPlayerTransition(true);
+    // Check if this is the last card
+    const isLastCard = currentIndex >= deck.length - 1;
+    
+    if (isLastCard) {
+      // Last card - increment index and let useEffect handle navigation to statistics
+      setCurrentIndex(prev => prev + 1);
+      playSound('cardDraw', soundEnabled);
+    } else {
+      // Not last card - show transition to next player
+      const nextIndex = (currentPlayerIndex + 1) % players.length;
+      setNextPlayerIndex(nextIndex);
+      setShowPlayerTransition(true);
+    }
   }, [currentIndex, deck, currentPlayerIndex, players, soundEnabled]);
 
   const showStatistics = useCallback(() => {
