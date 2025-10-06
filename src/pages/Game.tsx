@@ -421,7 +421,7 @@ const Game = () => {
             size="sm"
             className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 px-3"
           >
-            <HomeIcon className="w-5 h-5" />
+            <HomeIcon className="w-6 h-6" />
           </Button>
           
           <Button
@@ -433,7 +433,7 @@ const Game = () => {
             size="sm"
             className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 px-3"
           >
-            <SettingsIcon className="w-5 h-5" />
+            <SettingsIcon className="w-6 h-6" />
           </Button>
         </div>
       )}
