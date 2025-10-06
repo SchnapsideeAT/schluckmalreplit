@@ -14,6 +14,7 @@ import { triggerHaptic } from "@/utils/haptics";
 import { playSound, soundManager } from "@/utils/sounds";
 import { useSettings } from "@/hooks/useSettings";
 import { useSafeAreaInsets } from "@/hooks/useSafeAreaInsets";
+import { DevMenu } from "@/components/DevMenu";
 import { 
   AlertDialog, 
   AlertDialogAction, 
@@ -54,6 +55,33 @@ const Game = () => {
   const [nextPlayerIndex, setNextPlayerIndex] = useState(0);
   const [showCard, setShowCard] = useState(true);
   const [showInitialTransition, setShowInitialTransition] = useState(false);
+  const [showDevMenu, setShowDevMenu] = useState(false);
+
+  // Triple-tap detection for dev menu
+  const tapCountRef = useRef(0);
+  const tapTimerRef = useRef<number | null>(null);
+
+  const handleTripleTap = () => {
+    tapCountRef.current += 1;
+    
+    if (tapCountRef.current === 3) {
+      setShowDevMenu(true);
+      tapCountRef.current = 0;
+      if (tapTimerRef.current) {
+        clearTimeout(tapTimerRef.current);
+        tapTimerRef.current = null;
+      }
+      return;
+    }
+
+    if (tapTimerRef.current) {
+      clearTimeout(tapTimerRef.current);
+    }
+
+    tapTimerRef.current = window.setTimeout(() => {
+      tapCountRef.current = 0;
+    }, 500);
+  };
 
   // Use refs to avoid unnecessary re-renders in auto-save
   const playersRef = useRef(players);
@@ -355,6 +383,7 @@ const Game = () => {
         paddingRight: insets.right,
         boxSizing: 'border-box',
       }}
+      onClick={handleTripleTap}
     >
       {/* Header - verstecke Buttons während Zwischenbildschirm */}
       {!showPlayerTransition && !showInitialTransition && (
@@ -458,6 +487,9 @@ const Game = () => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* Dev Menu */}
+      <DevMenu isOpen={showDevMenu} onClose={() => setShowDevMenu(false)} />
 
     </div>
   );
