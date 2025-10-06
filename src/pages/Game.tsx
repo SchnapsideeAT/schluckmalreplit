@@ -7,7 +7,9 @@ import { CardBack } from "@/components/CardBack";
 import { PlayerTransition } from "@/components/PlayerTransition";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
-import { ArrowRight, Beer, Check, Home, Settings, BarChart3 } from "lucide-react";
+import { ArrowRight, Beer, Check, BarChart3 } from "lucide-react";
+import { HomeIcon } from "@/components/icons/HomeIcon";
+import { SettingsIcon } from "@/components/icons/SettingsIcon";
 import { useSwipe } from "@/hooks/useSwipe";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
@@ -418,7 +420,7 @@ const Game = () => {
             onClick={handleExitGame}
             className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
           >
-            <Home className="w-6 h-6 group-hover:text-primary transition-colors" />
+            <HomeIcon className="w-6 h-6 group-hover:text-primary transition-colors" />
           </button>
           
           <button
@@ -429,7 +431,7 @@ const Game = () => {
             }}
             className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
           >
-            <Settings className="w-6 h-6 group-hover:text-primary transition-colors" />
+            <SettingsIcon className="w-6 h-6 group-hover:text-primary transition-colors" />
           </button>
         </div>
       )}

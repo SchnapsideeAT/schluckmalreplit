@@ -1,6 +1,7 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Settings, Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
+import { Volume2, VolumeX, Maximize, Minimize } from "lucide-react";
+import { SettingsIcon } from "@/components/icons/SettingsIcon";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useFullscreen } from "@/hooks/useFullscreen";
@@ -28,7 +29,7 @@ export const GameSettings = ({
           size="icon"
           className="hover:bg-muted/50"
         >
-          <Settings className="w-7 h-7" />
+          <SettingsIcon className="w-7 h-7" />
         </Button>
       </SheetTrigger>
       <SheetContent side="bottom" className="h-auto max-h-[90vh]">

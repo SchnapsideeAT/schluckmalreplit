@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Play, BookOpen, Settings, RotateCcw } from "lucide-react";
+import { Play, BookOpen, RotateCcw } from "lucide-react";
+import { SettingsIcon } from "@/components/icons/SettingsIcon";
 import logo from "@/assets/logo.svg";
 import { playSound } from "@/utils/sounds";
 import { loadGameState } from "@/utils/localStorage";
@@ -99,7 +100,7 @@ const Home = () => {
             size="lg" 
             className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-4' : 'button-stagger-3'} w-full min-h-[52px] sm:h-14 text-base sm:text-lg border-2 border-secondary/50 hover:bg-secondary/10 hover:border-secondary hover:text-foreground transition-all duration-300 hover:scale-[1.02] active:scale-95 touch-manipulation`}
           >
-            <Settings className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
+            <SettingsIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3" />
             Einstellungen
           </Button>
         </div>
