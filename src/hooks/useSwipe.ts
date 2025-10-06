@@ -44,7 +44,12 @@ export const useSwipe = (handlers: SwipeHandlers) => {
   const touchCurrentY = useRef<number>(0);
   const isMouseDown = useRef<boolean>(false);
   const rafId = useRef<number | null>(null);
-  const minSwipeDistance = 100;
+  const safetyTimeoutId = useRef<number | null>(null);
+  
+  const getMinSwipeDistance = () => {
+    const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 390;
+    return screenWidth * 0.4;
+  };
   const swipeThreshold = 30;
 
   useEffect(() => {
@@ -52,10 +57,21 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       if (rafId.current !== null) {
         cancelAnimationFrame(rafId.current);
       }
+      if (safetyTimeoutId.current !== null) {
+        clearTimeout(safetyTimeoutId.current);
+      }
     };
   }, []);
 
   const resetSwipeState = useCallback(() => {
+    if (safetyTimeoutId.current !== null) {
+      clearTimeout(safetyTimeoutId.current);
+      safetyTimeoutId.current = null;
+    }
+    if (rafId.current !== null) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
+    }
     setSwipeState({
       isSwiping: false,
       swipeDirection: null,
@@ -63,6 +79,29 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       absoluteDistance: 0
     });
   }, []);
+
+  const startSafetyTimeout = () => {
+    if (safetyTimeoutId.current !== null) {
+      clearTimeout(safetyTimeoutId.current);
+    }
+    safetyTimeoutId.current = window.setTimeout(() => {
+      if (safetyTimeoutId.current !== null) {
+        clearTimeout(safetyTimeoutId.current);
+        safetyTimeoutId.current = null;
+      }
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
+      setSwipeState({
+        isSwiping: false,
+        swipeDirection: null,
+        horizontalDistance: 0,
+        absoluteDistance: 0
+      });
+      handlers.onSwipeEnd?.();
+    }, 3000);
+  };
 
   useEffect(() => {
     const handleMouseMoveGlobal = (e: MouseEvent) => {
@@ -102,9 +141,10 @@ export const useSwipe = (handlers: SwipeHandlers) => {
 
       const distanceX = touchCurrentX.current - touchStartX.current;
       const distanceY = touchCurrentY.current - touchStartY.current;
+      const minDist = getMinSwipeDistance();
 
       if (Math.abs(distanceX) > Math.abs(distanceY)) {
-        if (Math.abs(distanceX) > minSwipeDistance) {
+        if (Math.abs(distanceX) > minDist) {
           if (distanceX > 0) {
             triggerHaptic('medium');
             handlers.onSwipeRight?.();
@@ -114,7 +154,7 @@ export const useSwipe = (handlers: SwipeHandlers) => {
           }
         }
       } else {
-        if (Math.abs(distanceY) > minSwipeDistance && distanceY < 0) {
+        if (Math.abs(distanceY) > minDist && distanceY < 0) {
           triggerHaptic('medium');
           handlers.onSwipeUp?.();
         }
@@ -145,6 +185,7 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       horizontalDistance: 0,
       absoluteDistance: 0
     });
+    startSafetyTimeout();
     handlers.onSwipeStart?.();
   }, [handlers]);
 
@@ -183,9 +224,10 @@ export const useSwipe = (handlers: SwipeHandlers) => {
   const handleTouchEnd = useCallback(() => {
     const distanceX = touchCurrentX.current - touchStartX.current;
     const distanceY = touchCurrentY.current - touchStartY.current;
+    const minDist = getMinSwipeDistance();
 
     if (Math.abs(distanceX) > Math.abs(distanceY)) {
-      if (Math.abs(distanceX) > minSwipeDistance) {
+      if (Math.abs(distanceX) > minDist) {
         if (distanceX > 0) {
           triggerHaptic('medium');
           handlers.onSwipeRight?.();
@@ -195,12 +237,17 @@ export const useSwipe = (handlers: SwipeHandlers) => {
         }
       }
     } else {
-      if (Math.abs(distanceY) > minSwipeDistance && distanceY < 0) {
+      if (Math.abs(distanceY) > minDist && distanceY < 0) {
         triggerHaptic('medium');
         handlers.onSwipeUp?.();
       }
     }
 
+    resetSwipeState();
+    handlers.onSwipeEnd?.();
+  }, [handlers, resetSwipeState]);
+
+  const handleTouchCancel = useCallback(() => {
     resetSwipeState();
     handlers.onSwipeEnd?.();
   }, [handlers, resetSwipeState]);
@@ -217,6 +264,7 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       horizontalDistance: 0,
       absoluteDistance: 0
     });
+    startSafetyTimeout();
     handlers.onSwipeStart?.();
   }, [handlers]);
 
@@ -226,6 +274,7 @@ export const useSwipe = (handlers: SwipeHandlers) => {
       onTouchStart: handleTouchStart,
       onTouchMove: handleTouchMove,
       onTouchEnd: handleTouchEnd,
+      onTouchCancel: handleTouchCancel,
       onMouseDown: handleMouseDown,
       onMouseMove: () => {},
       onMouseUp: () => {},

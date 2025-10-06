@@ -27,6 +27,7 @@ interface GameCardProps {
   onTouchStart?: (e: React.TouchEvent<HTMLImageElement>) => void;
   onTouchMove?: (e: React.TouchEvent<HTMLImageElement>) => void;
   onTouchEnd?: (e: React.TouchEvent<HTMLImageElement>) => void;
+  onTouchCancel?: (e: React.TouchEvent<HTMLImageElement>) => void;
   onMouseDown?: (e: React.MouseEvent<HTMLImageElement>) => void;
   onMouseMove?: (e: React.MouseEvent<HTMLImageElement>) => void;
   onMouseUp?: (e: React.MouseEvent<HTMLImageElement>) => void;
@@ -46,6 +47,7 @@ export const GameCard = memo(({
   onTouchStart,
   onTouchMove,
   onTouchEnd,
+  onTouchCancel,
   onMouseDown,
   onMouseMove,
   onMouseUp,
@@ -137,6 +139,7 @@ export const GameCard = memo(({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        onTouchCancel={onTouchCancel}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
