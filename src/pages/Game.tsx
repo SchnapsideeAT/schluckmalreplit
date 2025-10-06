@@ -285,14 +285,14 @@ const Game = () => {
   const handlePlayerTransitionTap = useCallback(() => {
     setShowPlayerTransition(false);
     setCurrentPlayerIndex(nextPlayerIndex);
-    resetSwingState(); // Reset swing state BEFORE drawing card
+    resetSwipeState();
     setShowCard(true);
     drawCard();
-  }, [nextPlayerIndex, drawCard, resetSwingState]);
+  }, [nextPlayerIndex, drawCard, resetSwipeState]);
 
   const handleInitialTransitionTap = useCallback(() => {
     setShowInitialTransition(false);
-    resetSwingState(); // Reset swing state BEFORE showing card
+    resetSwipeState();
     setShowCard(true);
     
     // If we're loading a saved game (currentIndex >= 0), show current card
@@ -302,7 +302,7 @@ const Game = () => {
     } else {
       drawCard();
     }
-  }, [currentIndex, drawCard, showCurrentCard, resetSwingState]);
+  }, [currentIndex, drawCard, showCurrentCard, resetSwipeState]);
 
   const currentCard = useMemo(() => deck[currentIndex], [deck, currentIndex]);
   const cardsRemaining = useMemo(() => deck.length - currentIndex - 1, [deck.length, currentIndex]);
