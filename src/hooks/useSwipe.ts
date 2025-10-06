@@ -48,7 +48,7 @@ export const useSwipe = (handlers: SwipeHandlers) => {
   
   const getMinSwipeDistance = () => {
     const screenWidth = typeof window !== 'undefined' ? window.innerWidth : 390;
-    return screenWidth * 0.4;
+    return screenWidth * 0.25;
   };
   const swipeThreshold = 30;
 

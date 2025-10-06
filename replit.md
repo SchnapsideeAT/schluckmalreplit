@@ -46,13 +46,14 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - **Critical iOS Fixes**: Resolved cards getting stuck in tilted position after touch interruptions
 - **onTouchCancel Handler**: Added to handle iOS system interruptions (calls, notifications, Control Center)
 - **Safety-Timeout System**: 3-second auto-reset prevents cards from hanging forever if touch events are lost
-- **Dynamic Swipe-Threshold**: Changed from fixed 100px to 40% viewport width (~150px on iPhone, scales with device)
+- **Dynamic Swipe-Threshold**: Changed from fixed 100px to 25% viewport width (~97px on iPhone, scales with device)
 - **React Hook Order Fix**: Changed `minSwipeDistance` from variable to `getMinSwipeDistance()` function to prevent hook order violations
 - **Implementation Details**:
   - `onTouchCancel` clears RAF handles, safety timeout, and notifies `onSwipeEnd`
   - Safety timeout starts on swipe initiation, cleared on normal completion
   - All cleanup logic guards against lingering timers or RAF callbacks
   - No hook-order warnings or console errors
+- **UX Improvement**: Reduced swipe threshold to 25% for easier card interactions (was 40%, too difficult)
 - **Files Changed**: `src/hooks/useSwipe.ts`, `src/components/GameCard.tsx`, `src/pages/Game.tsx`
 - **Testing Notes**: Requires iOS device testing for real-world interruption scenarios (long-press >3s to test auto-reset)
 - **Status**: ✅ Production-ready - touch lifecycle complete with proper error recovery
