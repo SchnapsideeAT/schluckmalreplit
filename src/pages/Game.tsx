@@ -383,7 +383,12 @@ const Game = () => {
       )}
 
       {/* Card display area */}
-      <div className="flex-1 flex items-center justify-center pointer-events-none">
+      <div 
+        className="flex-1 flex items-center justify-center pointer-events-none"
+        style={{
+          marginBottom: `${Number(insets.bottom) * 0.5}px`
+        }}
+      >
         {currentIndex === -1 ? (
           <div 
             className="text-center space-y-6 slide-up cursor-pointer pointer-events-auto"
