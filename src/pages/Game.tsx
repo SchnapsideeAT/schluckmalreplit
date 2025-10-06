@@ -7,9 +7,10 @@ import { CardBack } from "@/components/CardBack";
 import { PlayerTransition } from "@/components/PlayerTransition";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
-import { ArrowRight, Beer, Check, BarChart3 } from "lucide-react";
+import { ArrowRight, Beer, Check } from "lucide-react";
 import { HomeIcon } from "@/components/icons/HomeIcon";
 import { SettingsIcon } from "@/components/icons/SettingsIcon";
+import { StatsIcon } from "@/components/icons/StatsIcon";
 import { useSwipe } from "@/hooks/useSwipe";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
@@ -490,7 +491,7 @@ const Game = () => {
             className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
             data-testid="button-statistics"
           >
-            <BarChart3 className="w-4 h-4 mr-2" />
+            <StatsIcon className="w-4 h-4 mr-2" />
             Spielstatistik
           </Button>
         </div>
