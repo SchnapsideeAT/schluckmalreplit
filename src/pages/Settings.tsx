@@ -90,9 +90,9 @@ const Settings = () => {
           <div className="flex items-center gap-4 mb-6 sm:mb-8">
             <button
               onClick={goBack}
-              className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
+              className="group flex items-center justify-center h-8 w-8 rounded-md transition-transform active:scale-95"
             >
-              <ArrowLeftIcon className="w-6 h-6 group-hover:text-primary transition-colors" />
+              <ArrowLeftIcon className="w-5 h-5 group-hover:text-primary transition-colors" />
             </button>
             <h1 className="text-3xl sm:text-4xl font-bold">Einstellungen</h1>
           </div>
