@@ -1,10 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Player } from "@/types/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PlusIcon } from "@/components/icons/PlusIcon";
 import { playSound } from "@/utils/sounds";
 import { useSettings } from "@/hooks/useSettings";
+import { Keyboard } from "@capacitor/keyboard";
 
 interface PlayerSetupProps {
   players: Player[];
@@ -23,6 +24,7 @@ export const PlayerSetup = ({
   
   // TEST FIX: Auto-scroll input into view when keyboard appears
   const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const addPlayer = () => {
     if (!newPlayerName.trim()) {
@@ -52,7 +54,45 @@ export const PlayerSetup = ({
   };
 
   // TEST FIX: Handle keyboard appearing - scroll input into view
+  useEffect(() => {
+    let listener: any;
+    
+    const setupListener = async () => {
+      listener = await Keyboard.addListener('keyboardWillShow', (info) => {
+        // Scroll input into view with extra offset for keyboard
+        setTimeout(() => {
+          if (inputRef.current && containerRef.current) {
+            const inputRect = inputRef.current.getBoundingClientRect();
+            const scrollableParent = containerRef.current.closest('.overflow-y-auto');
+            
+            if (scrollableParent) {
+              // Calculate how much to scroll to center the input above keyboard
+              const viewportHeight = window.innerHeight;
+              const keyboardHeight = info.keyboardHeight;
+              const availableHeight = viewportHeight - keyboardHeight;
+              const targetPosition = inputRect.top - (availableHeight / 2) + (inputRect.height / 2);
+              
+              scrollableParent.scrollBy({
+                top: targetPosition,
+                behavior: 'smooth'
+              });
+            }
+          }
+        }, 100);
+      });
+    };
+    
+    setupListener();
+
+    return () => {
+      if (listener) {
+        listener.remove();
+      }
+    };
+  }, []);
+
   const handleInputFocus = () => {
+    // Fallback for web
     setTimeout(() => {
       inputRef.current?.scrollIntoView({ 
         behavior: 'smooth', 
@@ -62,7 +102,7 @@ export const PlayerSetup = ({
     }, 300);
   };
 
-  return <div className="space-y-8">
+  return <div ref={containerRef} className="space-y-8">
       {/* Add Player Section */}
       <div className="bg-card border border-border/50 rounded-2xl p-6 space-y-4">
         <h3 className="text-lg font-semibold text-foreground">Spieler hinzufügen</h3>
