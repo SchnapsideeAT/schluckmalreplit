@@ -476,9 +476,9 @@ const Game = () => {
       {/* Statistics Button - unter der Karte */}
       {!showPlayerTransition && !showInitialTransition && currentIndex !== -1 && (
         <div 
-          className="flex justify-center pb-4"
+          className="flex justify-center pb-8"
           style={{
-            paddingBottom: insets.bottom || '1rem'
+            paddingBottom: `calc(${insets.bottom || '1rem'} + 2rem)`
           }}
         >
           <Button
