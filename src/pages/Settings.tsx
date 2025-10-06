@@ -90,9 +90,9 @@ const Settings = () => {
             <Button
               onClick={goBack}
               variant="ghost"
-              className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95"
+              className="group hover:bg-muted/50 h-10 w-10 p-0 transition-transform active:scale-95 [&>svg]:w-7 [&>svg]:h-7"
             >
-              <ArrowLeft className="w-7 h-7 group-hover:text-primary transition-colors" />
+              <ArrowLeft className="group-hover:text-primary transition-colors" />
             </Button>
             <h1 className="text-3xl sm:text-4xl font-bold">Einstellungen</h1>
           </div>
