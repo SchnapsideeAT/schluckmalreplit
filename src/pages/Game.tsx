@@ -480,7 +480,7 @@ const Game = () => {
             onClick={() => {
               triggerHaptic('light', hapticEnabled);
               playSound('buttonClick', soundEnabled);
-              navigate("/statistics");
+              showStatistics();
             }}
             variant="outline"
             size="sm"
