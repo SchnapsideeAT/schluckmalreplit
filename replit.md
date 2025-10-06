@@ -42,63 +42,27 @@ This is a React-based card game application called "Schluck Mal" (German drinkin
 - `/public` - Static assets
 
 ## Recent Changes
-### Oct 4, 2025 - InteractiveTutorial Swing Migration (Build Fix)
-- **Critical Fix**: Migrated `InteractiveTutorial.tsx` from deleted `useSwipe` to `useSwing` hook
-- **Problem**: Build failed with "Could not load useSwipe" error - file was deleted during Game.tsx migration
-- **Solution**: Complete Swing integration matching Game.tsx pattern
-- **Changes**:
-  - Updated imports: `useSwipe` → `useSwing`, added `useRef`, `useMemo`
-  - Added `stackRef` for Swing DOM binding
-  - Created memoized `swingHandlers` with `useMemo` (dependencies: `currentStep`, `settings`)
-  - Replaced `useSwipe` with `useSwing(stackRef.current, swingHandlers)`
-  - Updated DOM structure: wrapped tutorial card in `.swing-stack` > `.swing-card`
-  - Removed `swipeHandlers` props from img element (Swing handles directly)
-  - Changed all `swipeState` → `swingState` references (8 occurrences)
-  - Changed `resetSwipeState` → `resetSwingState` (2 occurrences)
-- **Testing**: `npm run build` successful ✅ - no errors, ready for Xcode deployment
-- **Files Changed**: `src/components/InteractiveTutorial.tsx`
-- **Status**: Build now works, ready for iOS testing with `npx cap sync ios && npx cap open ios`
-
-### Oct 4, 2025 - Swing Library Integration (Swipe System Replacement)
-- **Migration**: Replaced custom buggy swipe system with battle-tested **Swing library** (used by Tinder/Jelly)
-- **Dependencies**: 
-  - Installed `swing` library for physics-based card animations
-  - Installed `hammerjs` for robust touch/mouse event handling
-  - Installed `@types/hammerjs` for TypeScript support
-- **New Hook**: Created `src/hooks/useSwing.ts` replacing old `useSwipe.ts`
-  - Swing Stack with proper config (allowedDirections: LEFT/RIGHT only)
-  - Responsive throwOutConfidence (60% of card width for all screens)
-  - Re-init protection with flags to prevent double initialization
-  - Defensive checks for null elements and edge cases
-  - Proper cleanup with destroy() to prevent memory leaks
-- **Event System**:
-  - `dragmove` event → real-time horizontalDistance for glow effect
-  - `throwout` event → card thrown (LEFT/RIGHT with Direction enum)
-  - `throwin` event → card snapped back (reset glow)
-  - Haptic feedback on throwout via triggerHaptic('medium')
-- **CSS Updates** (`src/index.css`):
-  - Added `.swing-stack` and `.swing-card` classes with proper positioning
-  - iOS/Android touch-fix: `overscroll-behavior: none` + `touch-action: manipulation` on html/body
-  - touch-action: none on Swing containers to prevent iOS scroll interference
-- **GameCard.tsx Changes**:
-  - Removed all Touch/Mouse event handlers (Swing handles directly)
-  - Removed CSS transition on transform (prevented Swing animations)
-  - Kept horizontalDistance prop for rotation/opacity visual feedback
-  - Kept Glow animation (cardGlowPulse) - no conflicts
-- **Game.tsx Changes**:
-  - Replaced useSwipe with useSwing hook
-  - Added stackRef for Swing DOM binding
-  - Wrapped GameCard in `.swing-stack` > `.swing-card` DOM structure
-  - SwipeOverlay receives state from Swing (horizontalDistance, swipeDirection, isSwiping)
-- **Benefits**:
-  - Stable, bug-free swipe detection (no more erratic behavior)
-  - Physics-based smooth animations
-  - Better iOS/Android touch compatibility
-  - Memory leak safe with proper cleanup
-  - Glow effect preserved exactly as before
-- **Files Changed**: `src/hooks/useSwing.ts` (new), `src/index.css`, `src/components/GameCard.tsx`, `src/pages/Game.tsx`
-- **Files Deleted**: `src/hooks/useSwipe.ts` (old buggy hook)
-- **Status**: Swing integration complete, tested on dev, ready for iOS/Android testing
+### Oct 6, 2025 - Reverted to Original useSwipe System
+- **Decision**: Abandoned Swing library integration after multiple failed attempts - proved unreliable and overly complex
+- **Problems with Swing**: Cards not removed after swipe, no color overlays, container sizing issues, cards stuck in position
+- **Solution**: Restored original working swipe system from GitHub repo (schluckmallovable)
+- **Restored Files**:
+  - `src/hooks/useSwipe.ts` - Custom Touch/Mouse event handling with RequestAnimationFrame optimization
+  - Original structure in `Game.tsx` and `InteractiveTutorial.tsx`
+- **Cleanup**:
+  - Deleted `src/hooks/useSwing.ts` (unreliable Swing implementation)
+  - Uninstalled dependencies: `swing`, `hammerjs`, `@types/hammerjs`
+  - Removed Swing-specific CSS (.swing-stack, .swing-card) from `src/index.css`
+  - Removed swing-stack/swing-card DOM wrappers from Game.tsx and InteractiveTutorial.tsx
+- **Current Architecture**: 
+  - Custom useSwipe hook with direct Touch/Mouse events (300 lines, proven to work)
+  - Touch/Mouse support with RAF optimization
+  - Haptic feedback integration
+  - 100px minimum swipe distance threshold
+  - Direct swipeHandlers spread on GameCard component
+- **Files Changed**: `src/pages/Game.tsx`, `src/components/InteractiveTutorial.tsx`, `src/index.css`, `package.json`
+- **Files Deleted**: `src/hooks/useSwing.ts`
+- **Status**: ✅ Reverted to stable, working solution - app runs without errors
 
 ### Oct 3, 2025 - Portrait-Only Orientation Lock
 - **Requirement**: Game should only be playable in portrait mode, not landscape

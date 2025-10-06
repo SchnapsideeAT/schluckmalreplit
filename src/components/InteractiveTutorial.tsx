@@ -95,7 +95,6 @@ export const InteractiveTutorial = () => {
     }
   }, [currentStep, step, settings.hapticEnabled, settings.soundEnabled]);
 
-  // Swing gesture handlers - MEMOIZED to prevent re-creation
   const { swipeState, swipeHandlers, resetSwipeState } = useSwipe({
     onSwipeLeft: () => handleSwipe('left'),
     onSwipeRight: () => handleSwipe('right'),
