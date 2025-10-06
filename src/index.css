@@ -235,39 +235,42 @@ All colors MUST be HSL.
   .logo-final-position {
     position: relative;
     transform: translate(0, 0) scale(1);
-    opacity: 1;
+    opacity: 0;
+    animation: logoFadeIn 1.2s ease-out forwards;
+    will-change: transform, opacity;
   }
 
   /* Button Animations - Staggered */
   .buttons-hidden {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
 
   .buttons-appear {
-    animation: buttonsSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: buttonsSlideUp 1s ease-out forwards;
     will-change: transform, opacity;
   }
 
   .button-stagger-1 {
-    animation-delay: 0s;
-  }
-
-  .button-stagger-2 {
-    animation-delay: 0.1s;
-  }
-
-  .button-stagger-3 {
     animation-delay: 0.2s;
   }
 
+  .button-stagger-2 {
+    animation-delay: 0.35s;
+  }
+
+  .button-stagger-3 {
+    animation-delay: 0.5s;
+  }
+
   .button-stagger-4 {
-    animation-delay: 0.3s;
+    animation-delay: 0.65s;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .logo-start-center,
     .logo-slide-to-position,
+    .logo-final-position,
     .buttons-appear {
       animation: none;
       transform: none;
@@ -358,9 +361,20 @@ All colors MUST be HSL.
   }
 }
 
+@keyframes logoFadeIn {
+  0% {
+    transform: translate(0, 0) scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
 @keyframes buttonsSlideUp {
   0% {
-    transform: translateY(30px);
+    transform: translateY(20px);
     opacity: 0;
   }
   100% {
