@@ -411,28 +411,32 @@ const Game = () => {
       {/* Header - verstecke Buttons während Zwischenbildschirm */}
       {!showPlayerTransition && !showInitialTransition && (
         <div 
-          className="flex items-center justify-between px-2"
+          className="flex items-center justify-between gap-2 px-2"
           style={{ 
             paddingTop: '0.5rem',
           }}
         >
-          <button
+          <Button
             onClick={handleExitGame}
-            className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
+            size="sm"
+            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
           >
-            <HomeIcon className="w-6 h-6 group-hover:text-primary transition-colors" />
-          </button>
+            <HomeIcon className="w-4 h-4 mr-2" />
+            Home
+          </Button>
           
-          <button
+          <Button
             onClick={() => {
               triggerHaptic('light', hapticEnabled);
               playSound('buttonClick', soundEnabled);
               navigateToSettings();
             }}
-            className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
+            size="sm"
+            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
           >
-            <SettingsIcon className="w-6 h-6 group-hover:text-primary transition-colors" />
-          </button>
+            <SettingsIcon className="w-4 h-4 mr-2" />
+            Einstellungen
+          </Button>
         </div>
       )}
 
