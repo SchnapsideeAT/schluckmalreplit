@@ -65,8 +65,8 @@ export const useSwing = (
     const config = {
       allowedDirections: [Swing.Direction.LEFT, Swing.Direction.RIGHT],
       throwOutConfidence: (xOffset: number, yOffset: number, element: HTMLElement) => {
-        // Responsive: 60% of card width for throw
-        const limit = element.offsetWidth * 0.6;
+        // Responsive: 40% of card width for throw (easier to swipe)
+        const limit = element.offsetWidth * 0.4;
         const confidence = Math.min(Math.abs(xOffset) / limit, 1);
         return confidence;
       },
@@ -74,7 +74,7 @@ export const useSwing = (
         // Max throw distance based on screen width
         return Math.min(window.innerWidth * 0.6, 400);
       },
-      minThrowOutDistance: 120,
+      minThrowOutDistance: 80,
       maxThrowRotation: 25,
     };
 
@@ -128,14 +128,18 @@ export const useSwing = (
 
     // Event: throwout - card thrown (final swipe)
     const onThrowOut = (e: any) => {
+      console.log('🎯 throwout event fired!', { direction: e.direction, throwDirection: e.throwDirection });
+      
       const dir = e.direction;
       let side: 'left' | 'right' | null = null;
 
       // Only accept LEFT/RIGHT (ignore UP/DOWN)
       if (dir === Swing.Direction.LEFT) {
         side = 'left';
+        console.log('✅ Card swiped LEFT');
       } else if (dir === Swing.Direction.RIGHT) {
         side = 'right';
+        console.log('✅ Card swiped RIGHT');
       }
 
       // Reset visual state
@@ -147,9 +151,11 @@ export const useSwing = (
 
       // Call handler (if valid direction)
       if (side === 'left') {
+        console.log('📞 Calling onSwipeLeft handler');
         triggerHaptic('medium');
         handlersRef.current?.onSwipeLeft?.();
       } else if (side === 'right') {
+        console.log('📞 Calling onSwipeRight handler');
         triggerHaptic('medium');
         handlersRef.current?.onSwipeRight?.();
       }
@@ -157,6 +163,7 @@ export const useSwing = (
 
     // Event: throwin - card snapped back (cancelled swipe)
     const onThrowIn = () => {
+      console.log('↩️ throwin event - card snapped back');
       setSwingState({
         horizontalDistance: 0,
         swipeDirection: null,
