@@ -195,7 +195,6 @@ const Statistics = () => {
               size="lg"
               className="w-full h-14 text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300"
             >
-              <RotateCcw className="w-5 h-5 mr-2" />
               Neues Spiel starten
             </Button>
           )}

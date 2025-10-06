@@ -184,8 +184,8 @@ const Game = () => {
 
   // Check if game is finished
   useEffect(() => {
-    if (currentIndex >= 0 && currentIndex >= deck.length - 1) {
-      // Game is finished, navigate to statistics
+    if (currentIndex >= deck.length && deck.length > 0) {
+      // Game is finished (all cards played), navigate to statistics
       const timer = setTimeout(() => {
         navigate("/statistics", { 
           state: { 
@@ -198,21 +198,17 @@ const Game = () => {
             selectedCategories
           } 
         });
-      }, 1000); // Small delay to show the last card
+      }, 500); // Small delay for smooth transition
       return () => clearTimeout(timer);
     }
   }, [currentIndex, deck.length, navigate, players, currentPlayerIndex, cardAccepted, selectedCategories]);
 
   // Draw next card (increments index)
   const drawCard = useCallback(() => {
-    if (currentIndex >= deck.length - 1) {
-      return;
-    }
-    
     setCardAccepted(false);
     setCurrentIndex(currentIndex + 1);
     playSound('cardDraw', soundEnabled);
-  }, [currentIndex, deck, soundEnabled]);
+  }, [currentIndex, soundEnabled]);
 
   // Show current card without incrementing (for restore)
   const showCurrentCard = useCallback(() => {
