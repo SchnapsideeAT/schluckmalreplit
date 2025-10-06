@@ -1,22 +1,21 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import * as Swing from "swing";
 import { triggerHaptic } from "@/utils/haptics";
 
 /**
- * useSwing Hook
+ * useSwing Hook - Production-Ready Version
  * 
- * Swing-based swipe system using Hammer.js for physics-based card animations.
- * Replaces the custom useSwipe hook with battle-tested Tinder/Jelly swipe logic.
+ * Robust Swing-based swipe system with proper cleanup and mobile optimization.
  * 
  * Features:
- * - Robust touch handling via Hammer.js
- * - Physics-based animations
+ * - Single initialization (no re-init on re-renders)
  * - Proper cleanup to prevent memory leaks
- * - Re-init protection with flags
- * - iOS/Android compatible
+ * - Mobile-optimized touch handling
+ * - Only LEFT/RIGHT swipes supported
+ * - Stable handler references via useRef
  * 
- * @param handlers - Callbacks for swipe events
- * @returns Swing state and stack ref for DOM binding
+ * @param stackContainer - DOM element containing .swing-card elements
+ * @param handlers - Swipe event callbacks
  */
 
 interface SwingHandlers {
@@ -31,83 +30,93 @@ interface SwingState {
 }
 
 export const useSwing = (
-  stackElement: HTMLElement | null,
-  handlers: SwingHandlers
+  stackContainer: HTMLElement | null,
+  handlers?: SwingHandlers
 ) => {
+  const stackRef = useRef<any>(null);
+  const cardsRef = useRef<HTMLElement[]>([]);
+  const handlersRef = useRef<SwingHandlers | undefined>(handlers);
+  
+  // Keep handlers updated without re-init
+  handlersRef.current = handlers;
+
   const [swingState, setSwingState] = useState<SwingState>({
     horizontalDistance: 0,
     swipeDirection: null,
     isSwiping: false,
   });
 
-  const swingStack = useRef<any>(null);
-  const initialized = useRef(false);
-  const cardElement = useRef<any>(null);
-  
-  // Store handlers in ref to avoid re-init when handlers change
-  const handlersRef = useRef(handlers);
-  
-  // Update handlers ref on every render (but don't trigger re-init)
+  // Initialize Swing stack once when container is available
   useEffect(() => {
-    handlersRef.current = handlers;
-  }, [handlers]);
-
-  // Initialize Swing Stack
-  useEffect(() => {
-    if (!stackElement) {
-      console.log('🔄 useSwing: Waiting for stackElement...');
+    if (!stackContainer) {
+      console.log('🔄 useSwing: Waiting for stackContainer...');
       return;
     }
-    if (initialized.current) return; // Prevent double init
+    
+    // Prevent double initialization
+    if (stackRef.current) {
+      console.log('⚠️ useSwing: Already initialized, skipping');
+      return;
+    }
 
-    // Swing Config
+    console.log('🎯 useSwing: Initializing Swing stack...');
+
+    // Swing configuration
     const config = {
       allowedDirections: [Swing.Direction.LEFT, Swing.Direction.RIGHT],
       throwOutConfidence: (xOffset: number, yOffset: number, element: HTMLElement) => {
-        // Responsive: 60% of card width
+        // Responsive: 60% of card width for throw
         const limit = element.offsetWidth * 0.6;
-        return Math.min(Math.abs(xOffset) / limit, 1);
+        const confidence = Math.min(Math.abs(xOffset) / limit, 1);
+        return confidence;
       },
+      throwOutDistance: () => {
+        // Max throw distance based on screen width
+        return Math.min(window.innerWidth * 0.6, 400);
+      },
+      minThrowOutDistance: 120,
+      maxThrowRotation: 25,
     };
 
-    // Create Stack
     let stack: any = null;
+    
     try {
+      // Create Swing stack
       stack = Swing.Stack(config);
-      swingStack.current = stack;
+      stackRef.current = stack;
     } catch (err) {
-      console.error('useSwing: Failed to create Swing stack', err);
+      console.error('❌ useSwing: Failed to create Swing stack', err);
       return;
     }
 
-    // Find card element
-    const cards = stackElement.querySelectorAll('.swing-card');
+    // Find card elements
+    const cardElements = Array.from(
+      stackContainer.querySelectorAll<HTMLElement>('.swing-card')
+    );
     
-    // Defensive check
-    if (!cards.length) {
-      console.warn('useSwing: No .swing-card elements found');
+    if (!cardElements.length) {
+      console.warn('⚠️ useSwing: No .swing-card elements found');
       stack?.destroy();
+      stackRef.current = null;
       return;
     }
 
-    // Create card (only first one for now)
-    const cardEl = cards[0] as HTMLElement;
-    let card: any = null;
-    
-    try {
-      card = stack.createCard(cardEl);
-      cardElement.current = card;
-    } catch (err) {
-      console.error('useSwing: Failed to create card', err);
-      stack?.destroy();
-      return;
-    }
+    cardsRef.current = cardElements;
 
-    // dragmove Event - calculate horizontalDistance
-    stack.on('dragmove', (e: any) => {
+    // Create cards in Swing
+    cardElements.forEach((cardEl) => {
+      try {
+        stack.createCard(cardEl);
+      } catch (err) {
+        console.error('❌ useSwing: Failed to create card', err);
+      }
+    });
+
+    // Event: dragmove - update visual feedback while dragging
+    const onDragMove = (e: any) => {
       if (!e.target) return;
 
-      // Use raw Hammer.js deltaX for actual pixel offset (smooth glow)
+      // Use deltaX for real-time distance (smooth glow effect)
       const distance = e.deltaX || 0;
       
       setSwingState({
@@ -115,61 +124,94 @@ export const useSwing = (
         swipeDirection: distance < 0 ? 'left' : distance > 0 ? 'right' : null,
         isSwiping: true,
       });
-    });
+    };
 
-    // throwout Event - card thrown out
-    stack.on('throwout', (e: any) => {
-      triggerHaptic('medium');
-      
-      // Reset distance
-      setSwingState({
-        horizontalDistance: 0,
-        swipeDirection: null,
-        isSwiping: false,
-      });
+    // Event: throwout - card thrown (final swipe)
+    const onThrowOut = (e: any) => {
+      const dir = e.direction;
+      let side: 'left' | 'right' | null = null;
 
-      // Direction check with Swing.Direction enum (from README: e.direction, NOT e.throwDirection!)
-      // Use handlersRef.current to avoid re-init when handlers change
-      if (e.direction === Swing.Direction.LEFT) {
-        handlersRef.current.onSwipeLeft?.();
-      } else if (e.direction === Swing.Direction.RIGHT) {
-        handlersRef.current.onSwipeRight?.();
+      // Only accept LEFT/RIGHT (ignore UP/DOWN)
+      if (dir === Swing.Direction.LEFT) {
+        side = 'left';
+      } else if (dir === Swing.Direction.RIGHT) {
+        side = 'right';
       }
-    });
 
-    // throwin Event - card snapped back
-    stack.on('throwin', () => {
+      // Reset visual state
       setSwingState({
         horizontalDistance: 0,
-        swipeDirection: null,
+        swipeDirection: side,
         isSwiping: false,
       });
-    });
 
-    initialized.current = true;
-    console.log('✅ useSwing: Swing stack initialized successfully!', { cards: cards.length });
-
-    // Cleanup
-    return () => {
-      try {
-        // Defensive cleanup - Swing may throw if element is already removed
-        if (cardElement.current && typeof cardElement.current.destroy === 'function') {
-          cardElement.current.destroy();
-        }
-        if (swingStack.current && typeof swingStack.current.destroy === 'function') {
-          swingStack.current.destroy();
-        }
-      } catch (err) {
-        // Silent catch - Swing throws when DOM element is already removed (expected behavior)
-      } finally {
-        swingStack.current = null;
-        cardElement.current = null;
-        initialized.current = false;
+      // Call handler (if valid direction)
+      if (side === 'left') {
+        triggerHaptic('medium');
+        handlersRef.current?.onSwipeLeft?.();
+      } else if (side === 'right') {
+        triggerHaptic('medium');
+        handlersRef.current?.onSwipeRight?.();
       }
     };
-  }, [stackElement]); // Only stackElement - handlers are tracked via ref
 
-  // Reset function for manual reset
+    // Event: throwin - card snapped back (cancelled swipe)
+    const onThrowIn = () => {
+      setSwingState({
+        horizontalDistance: 0,
+        swipeDirection: null,
+        isSwiping: false,
+      });
+    };
+
+    // Attach event listeners
+    stack.on('dragmove', onDragMove);
+    stack.on('throwout', onThrowOut);
+    stack.on('throwin', onThrowIn);
+
+    console.log('✅ useSwing: Swing stack initialized successfully!', {
+      cards: cardElements.length,
+    });
+
+    // Cleanup function
+    return () => {
+      console.log('🧹 useSwing: Cleaning up...');
+      
+      try {
+        // Remove event listeners
+        if (stack) {
+          stack.off('dragmove', onDragMove);
+          stack.off('throwout', onThrowOut);
+          stack.off('throwin', onThrowIn);
+        }
+
+        // Destroy cards
+        cardsRef.current.forEach((cardEl) => {
+          try {
+            const card = stack?.getCard?.(cardEl);
+            if (card && typeof card.destroy === 'function') {
+              card.destroy();
+            }
+          } catch (err) {
+            // Ignore cleanup errors (card might be already removed)
+          }
+        });
+
+        // Destroy stack
+        if (stack && typeof stack.destroy === 'function') {
+          stack.destroy();
+        }
+      } catch (err) {
+        // Silent cleanup errors (expected on unmount)
+        console.warn('useSwing: Cleanup error (non-critical):', err);
+      } finally {
+        stackRef.current = null;
+        cardsRef.current = [];
+      }
+    };
+  }, [stackContainer]); // Only re-init if container element changes
+
+  // Manual reset function
   const resetSwingState = useCallback(() => {
     setSwingState({
       horizontalDistance: 0,
