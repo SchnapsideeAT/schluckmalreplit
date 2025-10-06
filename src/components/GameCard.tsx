@@ -111,6 +111,7 @@ export const GameCard = memo(({
         opacity: horizontalDistance !== 0 ? opacity : undefined,
         backfaceVisibility: 'hidden',
         willChange: horizontalDistance !== 0 ? 'transform, opacity' : 'auto',
+        transition: horizontalDistance === 0 ? 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
       }}
     >
       {/* Pulsating Glow Layer - positioned behind card */}
