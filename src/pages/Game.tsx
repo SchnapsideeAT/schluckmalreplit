@@ -54,7 +54,6 @@ const Game = () => {
   const [nextPlayerIndex, setNextPlayerIndex] = useState(0);
   const [showCard, setShowCard] = useState(true);
   const [showInitialTransition, setShowInitialTransition] = useState(false);
-  const [stackElement, setStackElement] = useState<HTMLDivElement | null>(null);
 
   // Use refs to avoid unnecessary re-renders in auto-save
   const playersRef = useRef(players);
@@ -286,7 +285,7 @@ const Game = () => {
     },
   }), [currentIndex, handleDrink, handleComplete]);
 
-  const { swingState, resetSwingState } = useSwing(stackElement, swingHandlers);
+  const { swingState, resetSwingState } = useSwing(stackRef.current, swingHandlers);
 
   const handlePlayerTransitionTap = useCallback(() => {
     setShowPlayerTransition(false);
@@ -323,11 +322,6 @@ const Game = () => {
       }
     }
   }, [currentIndex, deck]);
-
-  // Set stackElement from ref to trigger useSwing initialization (only once on mount)
-  useEffect(() => {
-    setStackElement(stackRef.current);
-  }, []);
 
   const handleExitGame = () => {
     triggerHaptic('light', hapticEnabled);
