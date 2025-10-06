@@ -400,7 +400,6 @@ const Game = () => {
       className="no-scroll h-screen flex flex-col relative"
       style={{
         paddingTop: insets.top,
-        paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
         boxSizing: 'border-box',
@@ -440,6 +439,9 @@ const Game = () => {
       {/* Card display area */}
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
+        style={{
+          paddingBottom: '0.5rem'
+        }}
       >
         {currentIndex === -1 ? (
           <div 

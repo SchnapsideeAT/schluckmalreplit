@@ -49,10 +49,11 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   if (!isOpen) return null;
 
   const headerHeight = 48; // 0.5rem padding + 40px button
+  const cardAreaPadding = 8; // 0.5rem padding bottom on card area
   const topInsetPx = parseCSSValue(insets.top);
   const bottomInsetPx = parseCSSValue(insets.bottom);
   const topConsumed = topInsetPx + headerHeight;
-  const bottomConsumed = bottomInsetPx; // Safe Area Bottom (home indicator)
+  const bottomConsumed = bottomInsetPx + cardAreaPadding; // Safe Area + Card Area padding
   const availableHeight = viewport.height - topConsumed - bottomConsumed;
   const totalConsumed = topConsumed + bottomConsumed;
 
@@ -103,6 +104,7 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
               
               <div className="text-yellow-500 mt-2">Unten:</div>
               <div className="ml-4">Safe Area Bottom: {bottomInsetPx}px</div>
+              <div className="ml-4">Card Area Padding: {cardAreaPadding}px</div>
               <div className="ml-4 font-bold">= Gesamt: {bottomConsumed.toFixed(1)}px</div>
               
               <div className="text-green-500 mt-2">Verfügbar:</div>
