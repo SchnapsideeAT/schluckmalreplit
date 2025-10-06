@@ -359,7 +359,7 @@ const Game = () => {
     >
       {/* Header - verstecke Buttons während Zwischenbildschirm */}
       {!showPlayerTransition && !showInitialTransition && (
-        <div className="flex items-center justify-between mb-4 sm:mb-6" style={{ paddingTop: '0.5rem' }}>
+        <div className="flex items-center justify-between" style={{ paddingTop: '0.5rem' }}>
           <Button
             onClick={handleExitGame}
             variant="ghost"
@@ -383,12 +383,7 @@ const Game = () => {
       )}
 
       {/* Card display area */}
-      <div 
-        className="flex-1 flex items-center justify-center pointer-events-none"
-        style={{
-          marginBottom: `${Number(insets.bottom) * 0.5}px`
-        }}
-      >
+      <div className="flex-1 flex items-center justify-center pointer-events-none">
         {currentIndex === -1 ? (
           <div 
             className="text-center space-y-6 slide-up cursor-pointer pointer-events-auto"
