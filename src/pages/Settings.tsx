@@ -84,7 +84,7 @@ const Settings = () => {
 
   return (
     <>
-      <ScrollableContainer className="max-w-2xl mx-auto">
+      <ScrollableContainer className="max-w-2xl mx-auto slide-up">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 sm:mb-8">
             <button
@@ -96,7 +96,7 @@ const Settings = () => {
             <h1 className="text-3xl sm:text-4xl font-bold">Einstellungen</h1>
           </div>
 
-          <div className="space-y-4 sm:space-y-6 slide-up">
+          <div className="space-y-4 sm:space-y-6">
           {/* Game Control */}
           {hasActiveGame && (
             <section className="bg-card border border-border/50 rounded-2xl p-6 space-y-6">
