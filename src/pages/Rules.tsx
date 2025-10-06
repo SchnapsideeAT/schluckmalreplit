@@ -14,7 +14,7 @@ const Rules = () => {
   const navigate = useNavigate();
 
   return (
-    <ScrollableContainer>
+    <ScrollableContainer className="slide-up">
       <div className="content-container">
           {/* Header */}
           <div className="flex items-center gap-4 mb-6 sm:mb-8">
@@ -27,7 +27,7 @@ const Rules = () => {
             <h1 className="text-3xl sm:text-4xl font-bold">Spielregeln</h1>
           </div>
 
-          <div className="space-y-6 sm:space-y-8 slide-up">
+          <div className="space-y-6 sm:space-y-8">
           {/* Categories */}
           <section className="space-y-4">
             <Accordion type="single" collapsible className="w-full">

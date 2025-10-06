@@ -37,8 +37,8 @@ const Setup = () => {
   }, []);
 
   return (
-    <ScrollableContainer className="max-w-lg mx-auto">
-      <div className="space-y-8 text-center slide-up py-6">
+    <ScrollableContainer className="max-w-lg mx-auto slide-up">
+      <div className="space-y-8 text-center py-6">
           <div className="space-y-4">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/20 border border-primary/50 mb-4">
               <Users className="w-10 h-10 text-primary" />
