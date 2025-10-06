@@ -400,6 +400,7 @@ const Game = () => {
       className="no-scroll h-screen flex flex-col relative"
       style={{
         paddingTop: insets.top,
+        paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
         boxSizing: 'border-box',

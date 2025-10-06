@@ -52,7 +52,7 @@ export const DevMenu = ({ isOpen, onClose }: DevMenuProps) => {
   const topInsetPx = parseCSSValue(insets.top);
   const bottomInsetPx = parseCSSValue(insets.bottom);
   const topConsumed = topInsetPx + headerHeight;
-  const bottomConsumed = bottomInsetPx; // No additional padding, pure Safe Area
+  const bottomConsumed = bottomInsetPx; // Safe Area Bottom (home indicator)
   const availableHeight = viewport.height - topConsumed - bottomConsumed;
   const totalConsumed = topConsumed + bottomConsumed;
 
