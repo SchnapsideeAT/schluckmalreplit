@@ -107,10 +107,10 @@ export const InteractiveTutorial = () => {
 
   const { swingState, resetSwingState } = useSwing(stackElement, swingHandlers);
 
-  // Set stackElement from ref to trigger useSwing initialization
+  // Set stackElement from ref to trigger useSwing initialization (only once on mount)
   useEffect(() => {
     setStackElement(stackRef.current);
-  }, [currentStep]);
+  }, []);
 
   const handleNext = () => {
     if (!canProceed && currentStep > 0) return;

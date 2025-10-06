@@ -1,0 +1,121 @@
+/usage:114 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-QA9q0YKBuYYJHsqy9FmBSWlT8eupHyH8S50I/kjUQcQ='), or a nonce ('nonce-...') is required to enable inline execution.
+
+/usage:144 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-Q2BC+6wvEMMGAG5ptiy0mdlUVz5ymLU+2wnaD11rhyc='), or a nonce ('nonce-...') is required to enable inline execution.
+
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-XYvVliZ7kJ9JIDhACMzGUvidf8E8T+euknSiwFmyDfg='), or a nonce ('nonce-...') is required to enable inline execution.
+
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-IrHluksFfO7Nhqd8XTw8/l/IvUjLP1eQirmG/H/REAA='), or a nonce ('nonce-...') is required to enable inline execution.
+
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-/jHy94eyFL8dTfREdmM+mpzO07r+XDqQPgiy6bP0ZUU='), or a nonce ('nonce-...') is required to enable inline execution.
+
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-07l5B4sWF6cor6yDQ+CQBYw+BXfYaB+C6wxFZmj0wqo='), or a nonce ('nonce-...') is required to enable inline execution.
+
+184[Report Only] Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+VM565 usage:4 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-zz80XAndAyM1oPNsmb2uH8dg0RoVaHOlKlypUR6sCl0='), or a nonce ('nonce-...') is required to enable inline execution.
+
+_app-70458b44fa919dbd.js:22 [Report Only] Refused to create a worker from 'https://replit.com/public/stallwart.build.js' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'worker-src' was not explicitly set, so 'script-src' is used as a fallback.
+
+10The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+10The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+10The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+_app-70458b44fa919dbd.js:34 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+/usage:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+/usage:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+/usage:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+4652-39e0d29f0747479d.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+
+4652-39e0d29f0747479d.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+
+464-32113c38ffbe81de.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+
+_app-70458b44fa919dbd.js:34 [LaunchDarkly] LaunchDarkly client initialized
+_app-70458b44fa919dbd.js:36 [Report Only] Refused to create a worker from 'https://replit.com/service-worker.js' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'worker-src' was not explicitly set, so 'script-src' is used as a fallback.
+
+/usage:1 Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.
+Element with focus: <a.NavItem_root__DZrwo css-1exxadz>
+Ancestor with aria-hidden: <div> <div aria-hidden=​"true" style=​"position:​ absolute;​ inset:​ 0px auto auto 0px;​ z-index:​ 1001;​ transform:​ translate(244px, 156px)​;​" data-popper-reference-hidden=​"false" data-popper-escaped=​"true" data-popper-placement=​"right-start">​…​</div>​
+framework-1545e74436ecbb25.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'ambient-light-sensor'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'battery'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'layout-animations'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'legacy-image-formats'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'navigation-override'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'oversized-images'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'publickey-credentials'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'speaker-selection'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'unoptimized-images'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'unsized-media'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'pointer-lock'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+_ @ framework-1545e74436ecbb25.js:1
+framework-1545e74436ecbb25.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+_ @ framework-1545e74436ecbb25.js:1
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'battery'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.html?initialPath=%2F&id=%3Ar2p%3A:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+gravatar.com/avatar/aa56c08506afd7c1683c37e77127182d?d=404:1  Failed to load resource: the server responded with a status of 404 ()
+Console.js:61 ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+Mt.forEach.n.<computed> @ Console.js:61
+Console.js:61 🎮 Feature Flags
+Console.js:61 Capabilities: Object
+Console.js:61 Flags: Object
+Console.js:61 Navigator: Object
+Console.js:61 🔊 Audio system preloaded successfully
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=629240809.1759347175&jid=907021879&gjid=1153892161&_gid=1067676685.1759765542&_u=SCCAgEAjQAAAAGgCIAD~&z=498527094:1  Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=629240809.1759347175&jid=996922542&gjid=1556592316&_gid=1067676685.1759765542&_u=SCCAgEAjQAAAAGgCIAD~&z=896649325:1  Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=629240809.1759347175&jid=898684619&gjid=1888415032&_gid=1067676685.1759765542&_u=SCCAgEAjQAAAAGgCIAD~&z=2045902175:1  Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+gravatar.com/avatar/aa56c08506afd7c1683c37e77127182d?d=404:1  Failed to load resource: the server responded with a status of 404 ()
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=629240809.1759347175&jid=1501978719&gjid=667296193&_gid=1067676685.1759765542&_u=SCCAgEAjQAAAAGgCIAD~&z=2073881849:1  Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+gravatar.com/avatar/aa56c08506afd7c1683c37e77127182d?d=404:1  Failed to load resource: the server responded with a status of 404 ()
+gravatar.com/avatar/aa56c08506afd7c1683c37e77127182d?d=404:1  Failed to load resource: the server responded with a status of 404 ()
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=629240809.1759347175&jid=1152522461&gjid=64413322&_gid=1067676685.1759765542&_u=SCCAgEAjQAAAAGgCIAD~&z=1634778604:1  Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+stats.g.doubleclick.net/j/collect?t=dc&aip=1&_r=3&v=1&_v=j102&tid=UA-25629695-1&cid=629240809.1759347175&jid=1964039042&gjid=1403083591&_gid=1067676685.1759765542&_u=SCCAgEAjQAAAAGgCIAD~&z=1347213645:1  Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+gravatar.com/avatar/aa56c08506afd7c1683c37e77127182d?d=404:1  Failed to load resource: the server responded with a status of 404 ()
+gravatar.com/avatar/aa56c08506afd7c1683c37e77127182d?d=404:1  Failed to load resource: the server responded with a status of 404 ()
+Console.js:61 🔄 useSwing: Waiting for stackElement...
+Console.js:61 ✅ useSwing: Swing stack initialized successfully! {cards: 1}

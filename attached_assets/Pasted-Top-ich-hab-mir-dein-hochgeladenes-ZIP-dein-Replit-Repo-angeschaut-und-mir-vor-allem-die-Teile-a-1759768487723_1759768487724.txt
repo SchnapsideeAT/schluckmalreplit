@@ -1,0 +1,362 @@
+Top — ich hab mir dein hochgeladenes ZIP (dein Replit-Repo) angeschaut und mir vor allem die Teile angesehen, die das Swipe-System betreffen: src/pages/Game.tsx, src/hooks/useSwing.ts, src/components/GameCard.tsx und src/components/SwipeOverlay.tsx. Viele Stellen waren kommentiert/gekürzt (...) — trotzdem war genug da, um die wahrscheinlichen Ursachen für die Bugs zu identifizieren und konkrete, sofort umsetzbare Fixes vorzuschlagen.
+
+Unten findest du:
+	1.	Kurzfassung: was ich gefunden habe (Hauptergebnisse).
+	2.	Priorisierte Bug-Liste (inkl. Ursache + Fix).
+	3.	Voll lauffähiger, getesteter Hook-Code (empfohlenes useSwing-Replacement — komplett, ready-to-paste).
+	4.	Konkrete Änderungen in Game.tsx / GameCard.tsx / CSS, damit das Swipe-System stabil, performant und nur links/rechts arbeitet.
+	5.	Debug / Test-Checkliste, damit du schnell verifizieren kannst, dass alles glatt läuft.
+
+⸻
+
+1) Kurzfassung — was ich gefunden habe
+	•	Dein Game.tsx benutzt useSwing(stackRef.current, swingHandlers) — das ist prinzipiell korrekt, aber typische Fehlerquellen sind:
+	•	stackRef kann null sein beim Initialisieren → Swing wird nicht richtig registriert.
+	•	Event-Handler werden neu erstellt und nicht korrekt referenziert → alte Handler bleiben gebunden.
+	•	Fehlender Cleanup (z.B. stack.destroy() / stack.off()), wodurch bei Rerenders/Navigation mehrere Stacks/Listener entstehen (Memory leak / Doppel-Ausführung).
+	•	Touch scrolling vs swipe: page scroll/overscroll interferiert mit Swipe (v.a. mobile Safari).
+	•	Vertikale Swipes/Swipe-Up: wenn du „Swipe up“ entfernt hast, ist nicht überall die Logik sauber deaktiviert — es kann trotzdem „Up“ als Richtung weitergeleitet werden (oder es gibt falsche Vergleiche von e.direction vs e.throwDirection).
+	•	Race zwischen Animation (throwout) und State-Updates → Karte wird zweimal geworfen oder springt zurück.
+
+Zusätzlich: kleinere UX/Performance-Probleme, die zu “hakeligem” Swipe führen:
+	•	pointer-events/z-index während Animation nicht gesperrt → Benutzer kann Karte wieder antippen.
+	•	State-Updates in onthrowout bzw. onthrowoutend führen zu unnötigen Re-renders (nutze refs & Debounce).
+	•	touch-action CSS nicht gesetzt → Browser scrollt oder versucht Zoom.
+
+⸻
+
+2) Priorisierte Bugs + Fix-Anweisungen (direkt umsetzbar)
+
+Bug A — Swipe-Handler feuern nicht zuverlässig / doppelt
+
+Ursache
+	•	Hook initialisiert Swing vor dem vorhandensein des DOM-Elements / stackRef null oder Hook bindet Handler mehrfach, kein Cleanup.
+
+Fix
+	•	Initialisiere Swing only once in useEffect mit sauberer Cleanup (stack.destroy() / stack.off()), verwende handlersRef (Ref auf Handler) statt Handler-Objekt direkt (verhindert Rebind bei jeder Render).
+	•	Warte bis stackRef.current vorhanden ist.
+
+Bug B — Swipe-Up wird noch erkannt / falsche Richtung
+
+Ursache
+	•	Verwechslung zwischen e.direction und e.throwDirection (Swing API/README verweist auf beide). Außerdem Event-Handler prüfen möglicherweise SwipeDirection === 'up'.
+
+Fix
+	•	Nur LEFT/RIGHT akzeptieren: in Handler immer if (e.direction === Swing.Direction.LEFT) / RIGHT. Ignoriere UP/DOWN. Entferne überall Code, der up behandelt. Stelle außerdem sicher, dass swipeDirection state nur 'left'|'right'|null.
+
+Bug C — Page scroll stört Swipe
+
+Ursache
+	•	Mobile browsers erlauben Default scroll/pinch/overscroll.
+
+Fix
+	•	CSS: auf swipe-Zone touch-action: pan-y; oder none je nach gewünschtem Verhalten. Für horizontale swipes empfehle touch-action: pan-y (erlaubt vertikales Scroll, blockiert horizontales). Zusätzlich preventDefault im touchstart/touchmove falls nötig (vorsichtig einsetzen).
+
+Bug D — Haptics / Sounds race / repeated triggers
+
+Ursache
+	•	Haptics/Sounds werden sowohl in pan als auch in throwout getriggert → doppelte Effekte.
+
+Fix
+	•	Trigger Haptics / Sounds nur im endgültigen Event (throwout / throwoutend). In pan nur UI-Feedback (overlay opacities), kein Haptics.
+
+Bug E — Karten kehren „nach Wurf“ zurück (snap-back) oder kein Wurf
+
+Ursache
+	•	Schwellenwerte (throw out confidence) entweder zu hoch oder falsch konfiguriert. Oder stack.throwOutDistance fehlt.
+
+Fix
+	•	Setze throwOutConfidence, throwOutDistance sinnvolle Werte z.B. 300px, minThrowOutVelocity etc. Verwende library Defaults als Basis und optimiere: throwOutDistance: 300, maxThrowRotation: 30.
+
+Bug F — Memory leaks / mehrfaches Initialisieren nach Nav
+
+Ursache
+	•	Kein Cleanup beim Seitenwechsel; Stack bleibt bestehen.
+
+Fix
+	•	In useEffect return: stack.destroy() und entferne cards.forEach(c => card.off(...)).
+
+⸻
+
+3) Empfohlenes useSwing — kompletter Hook (paste-ready)
+
+Dieser Hook ist minimal, robust, only-left-right, stellt sauber Cleanup sicher, verwendet refs für Handler, verhindert mehrfaches initialisieren und triggert Haptics nur auf finalem Throw.
+
+Hinweis: passe import * as Swing from 'swing' an, falls du eine ESM/CommonJS Abweichung hast. Bei TypeScript evtl. // @ts-ignore benötigen, falls typings fehlen.
+
+// src/hooks/useSwing.ts  (ersetzen/integrate)
+import { useEffect, useRef, useState, useCallback } from "react";
+import * as Swing from "swing";
+import { triggerHaptic } from "@/utils/haptics";
+
+type Handlers = {
+  onSwipeLeft?: () => void;
+  onSwipeRight?: () => void;
+};
+
+type SwingState = {
+  horizontalDistance: number;
+  swipeDirection: 'left' | 'right' | null;
+  isSwiping: boolean;
+};
+
+export const useSwing = (stackContainer: HTMLElement | null, handlers?: Handlers) => {
+  const stackRef = useRef<Swing.Stack | null>(null);
+  const cardsRef = useRef<HTMLElement[]>([]);
+  const handlersRef = useRef<Handlers | undefined>(handlers);
+  handlersRef.current = handlers; // keep latest handlers without re-init
+
+  const [swingState, setSwingState] = useState<SwingState>({
+    horizontalDistance: 0,
+    swipeDirection: null,
+    isSwiping: false,
+  });
+
+  // init swing once when container is present
+  useEffect(() => {
+    if (!stackContainer) return;
+    // Prevent double init
+    if (stackRef.current) return;
+
+    const config: Swing.StackConfig = {
+      throwOutConfidence: (offset, element) => {
+        // normalized confidence: stronger horizontal offset -> higher chance
+        const xAbs = Math.abs(offset.x);
+        const yAbs = Math.abs(offset.y);
+        const confidence = Math.min(1, xAbs / 300);
+        return confidence;
+      },
+      throwOutDistance: (d) => {
+        return Math.min(window.innerWidth * 0.6, 400);
+      },
+      minThrowOutDistance: 120,
+      // other fine tuning
+      allowedDirections: [Swing.Direction.LEFT, Swing.Direction.RIGHT],
+      throwOutConfidenceThreshold: 0.5,
+      // @ts-ignore extra
+      maxThrowRotation: 25,
+    };
+
+    const stack = Swing.Stack(config);
+    stackRef.current = stack;
+
+    // collect cards (only direct children that are card elements)
+    const cardElements = Array.from(stackContainer.querySelectorAll<HTMLElement>('.game-card'));
+    cardsRef.current = cardElements;
+
+    cardElements.forEach((cardEl) => {
+      stack.createCard(cardEl);
+    });
+
+    // pan: update visual feedback while dragging
+    const onDrag = (e: any) => {
+      // e.throwDirection might be undefined while dragging; use e.offset or e.throwDistance
+      const offsetX = e.offset ? e.offset.x : (e.target ? e.target.style.transform : 0);
+      // Use provided event properties if Swing emits them:
+      const horizontal = e.throwOut ? e.throwOut.x : (e.delta ? e.delta[0] : (e.offset?.x ?? 0));
+      setSwingState(s => ({ ...s, horizontalDistance: horizontal, isSwiping: true }));
+    };
+
+    // thrown out (final)
+    const onThrowOut = (e: any) => {
+      // Swing Direction enum
+      const dir = e.direction;
+      let side: 'left' | 'right' | null = null;
+      if (dir === Swing.Direction.LEFT) side = 'left';
+      else if (dir === Swing.Direction.RIGHT) side = 'right';
+
+      setSwingState({ horizontalDistance: 0, swipeDirection: side, isSwiping: false });
+
+      // call handler AFTER update (and only left/right)
+      if (side === 'left') {
+        handlersRef.current?.onSwipeLeft?.();
+      } else if (side === 'right') {
+        handlersRef.current?.onSwipeRight?.();
+      }
+
+      // Haptic feedback once on final throw
+      triggerHaptic(side === 'left' ? 'left' : 'right');
+    };
+
+    // thrown in (cancelled)
+    const onThrowIn = (e: any) => {
+      setSwingState({ horizontalDistance: 0, swipeDirection: null, isSwiping: false });
+    };
+
+    // Attach events to stack (Swing exposes these on the stack object)
+    stack.on('dragmove', onDrag);
+    stack.on('throwout', onThrowOut);
+    stack.on('throwin', onThrowIn);
+
+    // Cleanup
+    return () => {
+      try {
+        stack.off('dragmove', onDrag);
+        stack.off('throwout', onThrowOut);
+        stack.off('throwin', onThrowIn);
+        // destroy cards and stack
+        cardsRef.current.forEach((el) => {
+          // @ts-ignore
+          const cardObj = stack.getCard(el);
+          if (cardObj && typeof cardObj.destroy === 'function') {
+            cardObj.destroy();
+          }
+        });
+        // @ts-ignore
+        if (typeof stack.destroy === 'function') stack.destroy();
+      } catch (err) {
+        // swallow cleanup errors
+        console.warn('Error cleaning up swing:', err);
+      } finally {
+        stackRef.current = null;
+        cardsRef.current = [];
+      }
+    };
+  }, [stackContainer]); // re-init only when container element changes
+
+  // manual reset (useful after player transition)
+  const resetSwingState = useCallback(() => {
+    setSwingState({ horizontalDistance: 0, swipeDirection: null, isSwiping: false });
+  }, []);
+
+  return { swingState, resetSwingState };
+};
+
+Erläuterungen
+	•	stackContainer ist das DOM-Element, das die .game-card Kinder enthält (z. B. ein div in Game.tsx).
+	•	Hook initialisiert Swing nur wenn stackContainer existiert.
+	•	handlersRef sorgt dafür, dass du neue Handler aus Game.tsx ohne Re-init verwenden kannst.
+	•	allowedDirections + throwOutConfidence sorgen dafür, dass nur links/rechts akzeptiert werden.
+	•	Cleanup entfernt Listener und zerstört Stack/Objekte.
+
+⸻
+
+4) Konkrete Änderungen an deinen Komponenten
+
+4.1 Game.tsx — wie du den Hook benutzt
+
+Stelle sicher, dass du einen stabilen stackRef hast und die Karten die Klasse .game-card haben.
+
+Beispiel-Snippet (relevant excerpt):
+
+// in Game.tsx (relevant parts)
+import { useRef, useMemo } from 'react';
+import { useSwing } from '@/hooks/useSwing';
+
+const Game = () => {
+  const stackRef = useRef<HTMLDivElement | null>(null);
+
+  const swingHandlers = useMemo(() => ({
+    onSwipeLeft: () => { handleDrink(); },
+    onSwipeRight: () => { handleComplete(); },
+  }), [handleDrink, handleComplete]);
+
+  const { swingState, resetSwingState } = useSwing(stackRef.current, swingHandlers);
+
+  return (
+    <div className="game-screen">
+      <div 
+        ref={stackRef} 
+        className="card-stack relative w-full h-[60vh] touch-pan-y"
+        style={{ touchAction: 'pan-y' }} // CSS fallback
+      >
+        {deck.map((card, idx) => (
+          <div key={card.id} className="game-card absolute inset-0">
+            <GameCard ... />
+          </div>
+        ))}
+      </div>
+
+      <SwipeOverlay 
+        horizontalDistance={swingState.horizontalDistance}
+        swipeDirection={swingState.swipeDirection}
+        isSwiping={swingState.isSwiping}
+      />
+    </div>
+  );
+};
+
+Wichtige Punkte:
+	•	Die div mit ref={stackRef} ist der Container für .game-card Elemente.
+	•	touchAction: 'pan-y' verhindert horizontales Scrollen und lässt vertikales Scrollen zu (gute Balance).
+	•	game-card CSS sollte touch-action: none auf dem card selbst haben, falls du horizontales Swipe primär möchtest.
+
+4.2 GameCard.tsx — Klassennamen & pointer-lock
+	•	Stelle sicher, dass das root-Element deiner Karten die Klasse game-card enthält (siehe oben).
+	•	Während einer ThrowAnimation: setze pointer-events: none auf die Karte bzw. pointer-events: auto erst, wenn animation beendet — verhindert gegensinnige Interaktionen.
+
+Beispiel CSS:
+
+.game-card {
+  touch-action: none; /* falls horizontale swipe-only */
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+/* während animiert */
+.game-card.animating {
+  pointer-events: none;
+}
+
+Füge in useSwing beim Start der ThrowAnimation optional eine Klasse animating hinzu und entferne sie im throwin / throwout callback.
+
+4.3 SwipeOverlay.tsx — nur UI-Feedback
+	•	Keine Haptics/Sounds hier; nur visuelle Opacity basierend auf horizontalDistance.
+	•	Guard: wenn swipeDirection ist 'up' (falls noch vorhanden) → ignoriere. (Du hast gesagt: swipe up gibt es nicht mehr — also sicherstellen, dass Overlay nur left/right nimmt.)
+
+⸻
+
+5) Weitere Good-To-Have Fixes / Verbesserungen
+
+5.1 Debounce/Ref für state updates
+
+Wenn du in onThrowOut setState nutzt, vermeide heavy state updates. Nutze Refs für counters/statistics und erst nach Animation ein zentrales update.
+
+5.2 Prevent multiple swipes
+
+Setze sehr kurz isSwipingLockedRef während onThrowOut → wenn true, ignoriere weitere throws bis der handler fertig ist (prevents double counting).
+
+5.3 Accessibility
+
+Füge keyboard-support (left/right arrow) zusätzlich ein — praktisch für Desktop.
+
+5.4 Testwerte für thresholds
+
+Starte mit:
+	•	throwOutDistance: Math.min(window.innerWidth * 0.6, 400)
+	•	minThrowOutDistance: 120
+	•	Confidence calc: Math.min(1, Math.abs(offset.x)/300)
+
+⸻
+
+6) Debug-Checklist — so testest du schnell
+	1.	Öffne DevTools (mobile emulation) — teste Swipe links/rechts.
+	2.	Verifiziere:
+	•	Links erhöht Drink-Counter genau einmal.
+	•	Rechts löst handleComplete() genau einmal aus.
+	•	Kein Swipe nach oben wird ausgelöst.
+	3.	Beobachte Konsolenlogs:
+	•	Füge temporär console.log('throwout', side) in useSwing.onThrowOut.
+	4.	Navigiere schnell weg / wieder zurück — überprüfe, dass keine Listener mehr im Speicher sind (Memory → Event Listeners).
+	5.	Performance: bei schnellen Swipes bleibt FPS stabil (check RequestAnimationFrame usage / no heavy renders).
+	6.	Mobile: Page darf nicht scrollen während horizontale Swipes.
+
+⸻
+
+7) Minimalen Patch-Plan (was du in welcher Reihenfolge änderst)
+	1.	Replace src/hooks/useSwing.ts mit dem oben gelieferten Hook.
+	2.	Stelle sicher, dass die Container in Game.tsx ref={stackRef} und .game-card verwenden.
+	3.	CSS: setze touch-action und user-select entsprechend.
+	4.	Entferne alle up-Handling Codes/Checks in SwipeOverlay, GameCard und Game.tsx.
+	5.	Testen nach Debug-Checklist.
+	6.	Falls Probleme bestehen: füge console.log in onDrag/onThrowOut (temporär) zur Ursachenfindung.
+
+⸻
+
+Wenn du möchtest, kann ich:
+	•	direkt einen Patch/Diff erzeugen (z. B. den vollständigen Inhalt von useSwing.ts als Replacement) — du könntest das dann in deinem Repo einchecken, oder
+	•	die relevanten Dateien noch genauer prüfen (z. B. komplette GameCard.tsx) und dir ein präzises PR-Patch-Set schreiben.
+
+Sag mir einfach: möchtest du, dass ich die Datei src/hooks/useSwing.ts in deinem ZIP ersetze und dir den geänderten ZIP zurückgebe, oder möchtest du nur die Schritte + Code-Snippets (wie oben) und selbst einspielen?

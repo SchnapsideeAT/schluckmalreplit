@@ -324,10 +324,10 @@ const Game = () => {
     }
   }, [currentIndex, deck]);
 
-  // Set stackElement from ref to trigger useSwing initialization
+  // Set stackElement from ref to trigger useSwing initialization (only once on mount)
   useEffect(() => {
     setStackElement(stackRef.current);
-  }, [deck, currentIndex]);
+  }, []);
 
   const handleExitGame = () => {
     triggerHaptic('light', hapticEnabled);

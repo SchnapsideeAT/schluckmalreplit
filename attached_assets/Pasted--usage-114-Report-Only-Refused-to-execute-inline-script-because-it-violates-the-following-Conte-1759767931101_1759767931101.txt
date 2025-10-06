@@ -1,0 +1,69 @@
+
+﻿
+/usage:114 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-QA9q0YKBuYYJHsqy9FmBSWlT8eupHyH8S50I/kjUQcQ='), or a nonce ('nonce-...') is required to enable inline execution.
+/usage:144 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-Q2BC+6wvEMMGAG5ptiy0mdlUVz5ymLU+2wnaD11rhyc='), or a nonce ('nonce-...') is required to enable inline execution.
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-XYvVliZ7kJ9JIDhACMzGUvidf8E8T+euknSiwFmyDfg='), or a nonce ('nonce-...') is required to enable inline execution.
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-IrHluksFfO7Nhqd8XTw8/l/IvUjLP1eQirmG/H/REAA='), or a nonce ('nonce-...') is required to enable inline execution.
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-/jHy94eyFL8dTfREdmM+mpzO07r+XDqQPgiy6bP0ZUU='), or a nonce ('nonce-...') is required to enable inline execution.
+/usage:147 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-07l5B4sWF6cor6yDQ+CQBYw+BXfYaB+C6wxFZmj0wqo='), or a nonce ('nonce-...') is required to enable inline execution.
+184
+[Report Only] Refused to load the script '<URL>' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+VM565 usage:4 [Report Only] Refused to execute inline script because it violates the following Content Security Policy directive: "script-src 'none'". Either the 'unsafe-inline' keyword, a hash ('sha256-zz80XAndAyM1oPNsmb2uH8dg0RoVaHOlKlypUR6sCl0='), or a nonce ('nonce-...') is required to enable inline execution.
+_app-70458b44fa919dbd.js:22 [Report Only] Refused to create a worker from 'https://replit.com/public/stallwart.build.js' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'worker-src' was not explicitly set, so 'script-src' is used as a fallback.
+10
+The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+10
+The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+10
+The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+_app-70458b44fa919dbd.js:34 
+      /////////////////////
+   ///////////////////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////        Curious and driven?
+  ///////////////@@@@@@@///////        Work with us!
+  ///////////////@@@@@@@///////
+  ///////////////@@@@@@@///////        https://join.replit.com/hack.with.us
+  ////////@@@@@@@//////////////
+  ////////@@@@@@@//////////////
+  ////////@@@@@@#//////////////
+   ///////////////////////////
+      /////////////////////
+      
+/usage:1 The source list for the Content Security Policy directive 'default-src' contains an invalid source: ''unsafe-dynamic''. It will be ignored.
+/usage:1 The Content-Security-Policy directive 'default-src' contains 'report-uri' as a source expression. Did you want to add it as a directive and forget a semicolon?
+/usage:1 The source list for Content Security Policy directive 'default-src' contains a source with an invalid path: '/api/4509669501698048/security/?sentry_key=7eb3d90eb4660416caf507087367e67e'. The query component, including the '?', will be ignored.
+4652-39e0d29f0747479d.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+4652-39e0d29f0747479d.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+464-32113c38ffbe81de.js:1 [Report Only] Refused to evaluate a string as JavaScript because 'unsafe-eval' is not an allowed source of script in the following Content Security Policy directive: "script-src 'none'".
+_app-70458b44fa919dbd.js:34 [LaunchDarkly] LaunchDarkly client initialized
+_app-70458b44fa919dbd.js:36 [Report Only] Refused to create a worker from 'https://replit.com/service-worker.js' because it violates the following Content Security Policy directive: "script-src 'none'". Note that 'worker-src' was not explicitly set, so 'script-src' is used as a fallback.
+/usage:1 Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.
+Element with focus: <a.NavItem_root__DZrwo css-1exxadz>
+Ancestor with aria-hidden: <div> 
+framework-1545e74436ecbb25.js:1 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'ambient-light-sensor'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'battery'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'execution-while-not-rendered'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'execution-while-out-of-viewport'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'layout-animations'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'legacy-image-formats'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'navigation-override'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'oversized-images'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'publickey-credentials'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'speaker-selection'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'unoptimized-images'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'unsized-media'.
+framework-1545e74436ecbb25.js:1 Unrecognized feature: 'pointer-lock'.
+framework-1545e74436ecbb25.js:1 Allow attribute will take precedence over 'allowfullscreen'.
+framework-1545e74436ecbb25.js:1 Allow attribute will take precedence over 'allowpaymentrequest'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'battery'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.htm…%2F&id=%3Ar2p%3A:32 Unrecognized feature: 'navigation-override'.
+﻿
