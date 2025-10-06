@@ -419,10 +419,9 @@ const Game = () => {
           <Button
             onClick={handleExitGame}
             size="sm"
-            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
+            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 px-3"
           >
-            <HomeIcon className="w-4 h-4 mr-2" />
-            Home
+            <HomeIcon className="w-5 h-5" />
           </Button>
           
           <Button
@@ -432,10 +431,9 @@ const Game = () => {
               navigateToSettings();
             }}
             size="sm"
-            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105"
+            className="bg-primary text-black hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 px-3"
           >
-            <SettingsIcon className="w-4 h-4 mr-2" />
-            Einstellungen
+            <SettingsIcon className="w-5 h-5" />
           </Button>
         </div>
       )}
