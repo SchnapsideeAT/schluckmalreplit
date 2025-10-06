@@ -7,7 +7,7 @@ import { CardBack } from "@/components/CardBack";
 import { PlayerTransition } from "@/components/PlayerTransition";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { Card, Player, CardCategory } from "@/types/card";
-import { ArrowRight, Beer, Check, Home, Settings } from "lucide-react";
+import { ArrowRight, Beer, Check, Home, Settings, BarChart3 } from "lucide-react";
 import { useSwipe } from "@/hooks/useSwipe";
 import { saveGameState, loadGameState, clearGameState } from "@/utils/localStorage";
 import { triggerHaptic } from "@/utils/haptics";
@@ -409,7 +409,7 @@ const Game = () => {
       {/* Header - verstecke Buttons während Zwischenbildschirm */}
       {!showPlayerTransition && !showInitialTransition && (
         <div 
-          className="flex items-center justify-between"
+          className="flex items-center justify-between px-2"
           style={{ 
             paddingTop: '0.5rem',
           }}
@@ -437,9 +437,6 @@ const Game = () => {
       {/* Card display area */}
       <div 
         className="flex-1 flex items-center justify-center pointer-events-none"
-        style={{
-          paddingBottom: `${topInsetPx + 48}px`
-        }}
       >
         {currentIndex === -1 ? (
           <div 
@@ -470,6 +467,31 @@ const Game = () => {
           </>
         ) : null}
       </div>
+
+      {/* Statistics Button - unter der Karte */}
+      {!showPlayerTransition && !showInitialTransition && currentIndex !== -1 && (
+        <div 
+          className="flex justify-center pb-4"
+          style={{
+            paddingBottom: insets.bottom || '1rem'
+          }}
+        >
+          <Button
+            onClick={() => {
+              triggerHaptic('light', hapticEnabled);
+              playSound('buttonClick', soundEnabled);
+              navigate("/statistics");
+            }}
+            variant="outline"
+            size="sm"
+            className="border-primary/50 hover:bg-primary/10 hover:border-primary transition-all"
+            data-testid="button-statistics"
+          >
+            <BarChart3 className="w-4 h-4 mr-2" />
+            Spielstatistik
+          </Button>
+        </div>
+      )}
 
       {/* Player Transition Screen */}
       {showPlayerTransition && players.length > 0 && currentCard && (
