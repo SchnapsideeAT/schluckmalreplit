@@ -359,7 +359,7 @@ const Game = () => {
     >
       {/* Header - verstecke Buttons während Zwischenbildschirm */}
       {!showPlayerTransition && !showInitialTransition && (
-        <div className="flex items-center justify-between" style={{ paddingTop: '0.5rem' }}>
+        <div className="flex items-center justify-between">
           <Button
             onClick={handleExitGame}
             variant="ghost"
