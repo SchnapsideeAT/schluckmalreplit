@@ -23,7 +23,7 @@ const Rules = () => {
               onClick={() => navigate("/")}
               className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
             >
-              <ArrowLeftIcon className="w-7 h-7 group-hover:text-primary transition-colors" />
+              <ArrowLeftIcon className="w-6 h-6 group-hover:text-primary transition-colors" />
             </button>
             <h1 className="text-3xl sm:text-4xl font-bold">Spielregeln</h1>
           </div>
