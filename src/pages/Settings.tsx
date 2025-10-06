@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, Volume2, VolumeX, Globe, RotateCcw, Smartphone, GraduationCap } from "lucide-react";
+import { Volume2, VolumeX, Globe, RotateCcw, Smartphone, GraduationCap } from "lucide-react";
+import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { loadGameState, clearGameState } from "@/utils/localStorage";
 import { shuffleDeck } from "@/utils/cardUtils";
 import { useSettings } from "@/hooks/useSettings";
@@ -91,7 +92,7 @@ const Settings = () => {
               onClick={goBack}
               className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
             >
-              <ArrowLeft className="w-7 h-7 group-hover:text-primary transition-colors" />
+              <ArrowLeftIcon className="w-7 h-7 group-hover:text-primary transition-colors" />
             </button>
             <h1 className="text-3xl sm:text-4xl font-bold">Einstellungen</h1>
           </div>

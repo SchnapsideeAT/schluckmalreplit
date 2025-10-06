@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Package } from "lucide-react";
+import { Package } from "lucide-react";
+import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ScrollableContainer } from "@/components/ScrollableContainer";
 import {
@@ -22,7 +23,7 @@ const Rules = () => {
               onClick={() => navigate("/")}
               className="group flex items-center justify-center h-10 w-10 rounded-md transition-transform active:scale-95"
             >
-              <ArrowLeft className="w-7 h-7 group-hover:text-primary transition-colors" />
+              <ArrowLeftIcon className="w-7 h-7 group-hover:text-primary transition-colors" />
             </button>
             <h1 className="text-3xl sm:text-4xl font-bold">Spielregeln</h1>
           </div>

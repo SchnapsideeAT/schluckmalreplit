@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ArrowLeft, ArrowUp, Check } from "lucide-react";
+import { ArrowRight, ArrowUp, Check } from "lucide-react";
+import { ArrowLeftIcon } from "@/components/icons/ArrowLeftIcon";
 import { useSwipe } from "@/hooks/useSwipe";
 import { SwipeOverlay } from "@/components/SwipeOverlay";
 import { PlayerTransition } from "@/components/PlayerTransition";
@@ -35,7 +36,7 @@ const tutorialSteps: TutorialStep[] = [
     title: "Swipe nach links",
     description: "Wische nach links, wenn du lieber trinkst.",
     requiredSwipe: 'left',
-    icon: <ArrowLeft className="w-16 h-16 text-red-500" />,
+    icon: <ArrowLeftIcon className="w-16 h-16 text-red-500" />,
   },
 ];
 
@@ -224,7 +225,7 @@ export const InteractiveTutorial = () => {
               )}
               {step.requiredSwipe === 'left' && (
                 <>
-                  <ArrowLeft className="w-16 h-16 sm:w-20 sm:h-20 text-red-500 animate-bounce-left" />
+                  <ArrowLeftIcon className="w-16 h-16 sm:w-20 sm:h-20 text-red-500 animate-bounce-left" />
                   <div className="text-center space-y-2">
                     <h3 className="text-xl sm:text-2xl font-bold text-foreground">{step.title}</h3>
                     <p className="text-sm sm:text-base text-muted-foreground max-w-md">{step.description}</p>

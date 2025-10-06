@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Play } from "lucide-react";
+import { PlayIcon } from "@/components/icons/PlayIcon";
 import { SettingsIcon } from "@/components/icons/SettingsIcon";
 import { LoadGameIcon } from "@/components/icons/LoadGameIcon";
 import { RulesIcon } from "@/components/icons/RulesIcon";
@@ -82,7 +82,7 @@ const Home = () => {
             size="lg" 
             className={`buttons-hidden buttons-appear ${hasSavedGame ? 'button-stagger-2' : 'button-stagger-1'} w-full min-h-[56px] sm:h-16 text-base sm:text-lg bg-primary hover:shadow-[var(--shadow-button)] transition-all duration-300 hover:scale-105 touch-manipulation`}
           >
-            <Play className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
+            <PlayIcon className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
             Spiel starten
           </Button>
 
